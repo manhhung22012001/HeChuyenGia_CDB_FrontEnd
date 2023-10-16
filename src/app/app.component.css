@@ -1,35 +1,7 @@
 #background {
-    background-image: url(./img/ICON.png);
-    background-size: 50% 80%;
-    height: 100vh;
-    overflow: auto;
+  background-image: url(./img/hero-bg.png);
+  background-size: 100% 100%;
+  height: 100vh;
+  overflow: auto;
 }
 
-#header {
-    width: 100%;
-    height: 100px;
-    background-color: lightblue;
-    display: flex;
-}
-
-#logo {
-    height: 150px;
-    width: 15%;
-    background-color: darkorange;
-    cursor: pointer;
-}
-
-#slogan {
-    display: flex;
-    height: 150px;
-    width: 85%;
-    background-color: darkorange;
-    user-select: none;
-}
-
-#slogan h1 {
-    margin: auto;
-    font-size: 70px;
-    color: rgb(226, 226, 226);
-    font-family:  "Poppins", sans-serif;
-}
