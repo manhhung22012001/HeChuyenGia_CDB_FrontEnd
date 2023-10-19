@@ -11,10 +11,12 @@ export class AuthService {
   ID_USER = 'id_user';
   public username: string | undefined;
   public password: string | undefined;
-  
+  public userRole: number;
   public id: any;
   results: string[] | undefined;
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    this.userRole=1;
+   }
   login(username: string, password: string) {
     var params = new HttpParams()
       .set('username', username)
@@ -22,7 +24,7 @@ export class AuthService {
      
     return this.http.post<Response>(this.BASE_PATH + "/auth/login", params, { observe: 'response' });
   }
-  register(user: string, pass: string, fullname: string, phonenumber: number, role: string) {
+  register(fullname: string, phonenumber: number, user: string, pass: string, role: number) {
     return this.http.post<Response>(this.BASE_PATH + "/auth/register", { username: user, password: pass, fullname: fullname, phonenumber: phonenumber, role: role }, { observe: 'response' });
   }
   createBasicAuthToken() {
@@ -55,9 +57,11 @@ export class AuthService {
     if (id === null) return '';
     return id;
   }
-  getMoney() {
-    const moneyobj = localStorage.getItem('user');
-    let abc = JSON.parse(moneyobj || '{}').wallet;
-    return abc.money;
+  setUserRole(role: number) {
+    this.userRole = role;
+  }
+
+  getUserRole(): number {
+    return this.userRole;
   }
 }

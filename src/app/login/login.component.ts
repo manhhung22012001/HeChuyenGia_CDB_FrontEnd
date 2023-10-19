@@ -13,17 +13,21 @@ export class LoginComponent implements OnInit {
   successMessage: string | undefined;
   invalidLogin = false;
   loginSuccess = false;
+  userRole: number;
   loginForm: any = this.fb.group({
       username: [''],
       password: [''],
       
   });
-  constructor(private fb: FormBuilder, private router: Router, private authService: AuthService) { }
+  constructor(private fb: FormBuilder, private router: Router, private authService: AuthService) { 
+    this.userRole=1;
+  }
   
   ngOnInit(): void {
   }
 
   login() {
+    
     this.authService.login(this.loginForm.value.username, this.loginForm.value.password).subscribe((response: any) => {
       var code = response.status;
       console.log("status code:" + code);
@@ -38,11 +42,30 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('userId', response.body['id_user']);
         localStorage.setItem('user', JSON.stringify(response.body)); // lấy toàn bộ thông tin user         
         //this.router.navigate(['/index']);
+        if (response.body.hasOwnProperty('role')) {
+          this.onLoginSuccess(response.body.role);
+        }
+       
       }
     }, () => {
       this.invalidLogin = true;
       this.loginSuccess = false;
     });
+   
   }
-
+  onLoginSuccess(role: number) {
+    this.userRole = role;
+    if (this.userRole==1)
+    {
+      this.router.navigate(['/taskbar-cg'])
+    }
+    else if (this.userRole==2)
+    {
+      this.router.navigate(['/taskbar-ks'])
+    }
+    else 
+    {
+      this.router.navigate(['/taskbar-qtv'])
+    }
+}
 }
