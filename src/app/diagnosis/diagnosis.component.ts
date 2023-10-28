@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService} from '../data.service';
-
+import { DiagnosticService } from '../diagnostic.service';
 @Component({
   selector: 'app-diagnosis',
   templateUrl: './diagnosis.component.html',
@@ -13,9 +13,9 @@ export class DiagnosisComponent implements OnInit{
   diagnosisResult: string = '';
   trieuChungList: any[] = [];
 
-  constructor(private dataService: DataService) { }
+  constructor(private DiagnosticService: DiagnosticService) { }
   ngOnInit(): void {
-    this.dataService.getTrieuChungWithCountGreaterThanSix().subscribe(
+    this.DiagnosticService.getTrieuChungWithCountGreaterThanSix().subscribe(
       data => {
         this.trieuChungList = data;
       },
@@ -26,21 +26,5 @@ export class DiagnosisComponent implements OnInit{
   }
 
 
-  loadBasicSymptoms() {
-    this.dataService.getBasicSymptoms().subscribe(data => {
-      this.basicSymptoms = data;
-    });
-  }
-
-  loadDetailSymptoms() {
-    this.dataService.getDetailSymptoms(this.basicSymptoms).subscribe(data => {
-      this.detailSymptoms = data;
-    });
-  }
-
-  diagnoseDisease() {
-    this.dataService.diagnoseDisease(this.basicSymptoms, this.detailSymptoms).subscribe(data => {
-      this.diagnosisResult = data;
-    });
-  }
+ 
 }

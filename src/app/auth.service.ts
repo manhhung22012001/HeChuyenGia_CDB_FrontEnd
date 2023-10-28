@@ -64,4 +64,5 @@ export class AuthService {
   getUserRole(): number {
     return this.userRole;
   }
+  
 }

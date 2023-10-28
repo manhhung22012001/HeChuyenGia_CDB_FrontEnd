@@ -18,8 +18,8 @@ export interface DetailSymptom{
     providedIn: 'root'
   })
 export class DataService {
-  private apiUrl = 'http://localhost:8080/auth/trieu-chung/count-greater-than-six';
-//   private baseUrl = 'http://localhost:8080/api'; // Đổi thành URL của API backend của bạn
+  //private apiUrl = 'http://localhost:8080/auth/trieu-chung/count-greater-than-six';
+   private baseUrl = 'http://localhost:8080'; // Đổi thành URL của API backend của bạn
   rootURL = environment.baseUrl;
   constructor(private http: HttpClient, private authService: AuthService) { }
 
@@ -34,10 +34,5 @@ export class DataService {
   diagnoseDisease(basicSymptoms: string[], detailSymptoms: string[]): Observable<any> {
     return this.http.post(`${this.rootURL}/diagnose`, { basicSymptoms, detailSymptoms });
   }
-  getTrieuChungWithCountGreaterThanSix(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl);
-  }
-  getTrieuChungList(): Observable<any[]> {
-    return this.http.post<any[]>(this.apiUrl, {});
-  }
+ 
 }
