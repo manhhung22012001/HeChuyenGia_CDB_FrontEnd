@@ -1,1 +1,27 @@
-<p>diagnosis works!</p>
+<div>
+    <h2>Bước 1: Chọn Triệu Chứng Cơ Bản</h2>
+    <div *ngIf="trieuChungList">
+      <h2>Trieu Chung List</h2>
+      <ul>
+        <li *ngFor="let trieuChung of trieuChungList">
+          {{ trieuChung[0] }} - Số lần xuất hiện: {{ trieuChung[1] }}
+        </li>
+      </ul>
+    </div>
+    
+    <button (click)="loadDetailSymptoms()">Tiếp Theo</button>
+  </div>
+  
+  <div *ngIf="basicSymptoms.length > 0">
+    <h2>Bước 2: Chọn Triệu Chứng Chi Tiết</h2>
+    <div *ngFor="let symptom of detailSymptoms">
+      <!-- <label><input type="checkbox" [(ngModel)]="symptom.isSelected"> {{ symptom.name}}</label> -->
+    </div>
+    <button (click)="diagnoseDisease()">Chuẩn Đoán Bệnh</button>
+  </div>
+  
+  <div *ngIf="diagnosisResult">
+    <h2>Bước 3: Kết Quả Chuẩn Đoán</h2>
+    <p>{{ diagnosisResult }}</p>
+  </div>
+  

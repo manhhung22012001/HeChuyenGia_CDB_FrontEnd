@@ -27,7 +27,8 @@ const appRoutes: Routes = [
   { path: 'taskbar-qtv', component: TaskbarQtvComponent },
   { path: 'taskbar-cg', component: TaskbarCgComponent },
   { path: 'taskbar-ks', component: TaskbarKsComponent },
-  { path: 'homepage', component:HomepageComponent }
+  { path: 'homepage', component:HomepageComponent },
+  { path: 'diagnosis', component:DiagnosisComponent }
 ]
 @NgModule({
   declarations: [
