@@ -10,7 +10,7 @@ body, h1, h2, p, ul, li {
   }
   
   .container {
-    max-width: 600px;
+    max-width: 100%;
     margin: 0 auto;
     padding: 20px;
     background-color: #fff;
@@ -29,8 +29,10 @@ body, h1, h2, p, ul, li {
   }
   
   .checkbox-group {
-    margin-bottom: 10px;
+    column-count: 3; /* Số lượng cột bạn muốn hiển thị */
+    column-gap: 20px; /* Khoảng cách giữa các cột */
   }
+  
   
   .checkbox-group label {
     display: block;
@@ -42,23 +44,51 @@ body, h1, h2, p, ul, li {
   }
   
   .button-container {
-    margin-top: 20px;
+    margin-top: 50px;
   }
   
-  .button-container button {
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    border-radius: 5px;
-    cursor: pointer;
-  }
+
   
   .button-container button:hover {
     background-color: #45a049;
   }
+
+
+/* CSS cho tiêu đề */
+h2 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* CSS cho checkbox và nhãn */
+
+
+.checkbox-group label {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.checkbox-group input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+/* CSS cho nút */
+button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
   

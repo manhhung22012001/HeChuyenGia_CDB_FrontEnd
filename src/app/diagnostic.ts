@@ -1,17 +1,21 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
+
 @Injectable({
   providedIn: 'root'
 })
-export class DiagnosticService {
+export class DiagnosisService {
+
   private apiUrl = 'http://localhost:8080/auth/diagnostic';
+
   constructor(private http: HttpClient) { }
+
   getTrieuChungList(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl);
   }
   getTrieuChungWithCountGreaterThanSix(): Observable<any[]> {
-    return this.http.post<any[]>(this.apiUrl, {});
+    return this.http.get<any[]>(this.apiUrl);
+  
   }
 }
