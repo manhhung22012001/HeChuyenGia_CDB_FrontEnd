@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService} from '../data.service';
 import { DiagnosticService } from '../diagnostic.service';
+import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-diagnosis',
   templateUrl: './diagnosis.component.html',
@@ -14,39 +15,46 @@ export class DiagnosisComponent implements OnInit{
   showStep2: boolean = false; // Biến để kiểm soát việc hiển thị bước 2
   showStep3: boolean = false;
   trieuChungList: any[] = [];
+  basicSymptomsInitial: any[] = [];
 
-  constructor(private DiagnosticService: DiagnosticService, private DataService: DataService) { }
-  ngOnInit(): void {
-    this.DiagnosticService.getTrieuChungWithCountGreaterThanSix().subscribe(
-      data => {
-        this.trieuChungList = data;
-      },
-      error => {
-        console.error('Error loading trieu chung data: ', error);
-      }
-    );
-  }
+  constructor(
+    private DiagnosticService: DiagnosticService,
+     private DataService: DataService,
+     private http: HttpClient // Inject HttpClient service
+     ) { }
+     ngOnInit(): void {
+      this.DiagnosticService.getTrieuChungWithCountGreaterThanSix().subscribe(
+        data => {
+          this.trieuChungList = data;
+          this.basicSymptomsInitial = [...this.trieuChungList];
+        },
+        error => {
+          console.error('Error loading trieu chung data: ', error);
+        }
+      );
+    }
+    
   
-  loadBasicSymptoms() {
-    this.DataService.getBasicSymptoms().subscribe(data => {
-      this.basicSymptoms = data;
-    });
-  }
 
-  loadDetailSymptoms() {
-    this.DataService.getDetailSymptoms(this.basicSymptoms).subscribe(data => {
-      this.detailSymptoms = data;
-      // Biến để kiểm soát việc hiển thị bước 2
-     
-    });
-    this.showStep2 = true;
-  }
+    loadDetailSymptoms() {
+      const selectedSymptomCodes = this.trieuChungList
+        .filter(trieuChung => trieuChung.isSelected)
+        .map(trieuChung => trieuChung[0]);
+    
+      this.DiagnosticService.searchDiagnosis(selectedSymptomCodes).subscribe(
+        data => {
+          this.detailSymptoms = data;
+        },
+        error => {
+          console.error('Error loading detail symptoms: ', error);
+        }
+      );
+    
+      this.showStep2 = true;
+    }
+    
 
   diagnoseDisease() {
-    this.DataService.diagnoseDisease(this.basicSymptoms, this.detailSymptoms).subscribe(data => {
-      this.diagnosisResult = data;
-      
-    });
     this.showStep3=true;
   }
 }

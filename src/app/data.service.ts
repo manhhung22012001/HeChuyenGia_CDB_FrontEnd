@@ -23,10 +23,7 @@ export class DataService {
   rootURL = environment.baseUrl;
   constructor(private http: HttpClient, private authService: AuthService) { }
 
-  getBasicSymptoms(): Observable<any> {
-    return this.http.get(`${this.rootURL}/basic-symptoms`);
-  }
-
+ 
   getDetailSymptoms(basicSymptoms: string[]): Observable<any> {
     return this.http.post(`${this.rootURL}/detail-symptoms`, basicSymptoms);
   }
@@ -34,5 +31,5 @@ export class DataService {
   diagnoseDisease(basicSymptoms: string[], detailSymptoms: string[]): Observable<any> {
     return this.http.post(`${this.rootURL}/diagnose`, { basicSymptoms, detailSymptoms });
   }
- 
+  
 }
