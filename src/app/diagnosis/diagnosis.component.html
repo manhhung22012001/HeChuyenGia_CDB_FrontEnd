@@ -22,10 +22,18 @@
 </div>
     
 <div *ngIf="showStep3">
-      <h2>Bước 3: Kết Quả Chuẩn Đoán</h2>
-      <p>{{ diagnosisResult }}</p>
+  <h2>Bước 3: Kết Quả Chuẩn Đoán</h2>
+  <div *ngIf="ketqua && ketqua.length > 0">
+    <ul>
+      <li *ngFor="let benh of ketqua">
+        {{ benh.ten_benh }}
+      </li>
+    </ul>
   </div>
-    
+  <div *ngIf="ketqua && ketqua.length === 0">
+    <p>Không có kết quả chuẩn đoán.</p>
+  </div>
+</div>
     
  
   

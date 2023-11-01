@@ -18,6 +18,7 @@ export class DiagnosisComponent implements OnInit{
   trieuChungList: any[] = [];
   basicSymptomsInitial: any[] = [];
   danh_sach_tc: string[] = [];
+  ketqua: any[] = [];
 
 
   constructor(
@@ -74,7 +75,7 @@ export class DiagnosisComponent implements OnInit{
     console.log("Danh sach gui di la "+ this.danh_sach_tc)
     this.DiagnosticService.KQ_cdb(this.danh_sach_tc).subscribe(
       data => {
-        this.detailSymptoms = data;
+        this.ketqua = data;
         this.showStep3=true;
       },
       error => {
