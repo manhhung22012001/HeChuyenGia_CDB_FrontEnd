@@ -26,7 +26,16 @@ export class DiagnosticService {
         })
       );
   }
-  
+  KQ_cdb(danh_sach_tc: string[]): Observable<any[]> {
+    return this.http.post<any[]>(this.BASE_PATH + "/diagnosis/ketqua", danh_sach_tc)
+      .pipe(
+        tap(data => console.log("Data from server:", data)),
+        catchError(error => {
+          console.error("Error from server:", error);
+          throw error;
+        })
+      );
+  }
   
   
 }
