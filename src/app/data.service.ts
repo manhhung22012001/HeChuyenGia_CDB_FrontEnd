@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+
 import { environment } from 'src/environments/environment';
 import { AuthService } from './auth.service';
+import { Observable, catchError, tap } from 'rxjs';
 
 
 export interface BasicSymptom {
@@ -31,5 +32,14 @@ export class DataService {
   diagnoseDisease(basicSymptoms: string[], detailSymptoms: string[]): Observable<any> {
     return this.http.post(`${this.rootURL}/diagnose`, { basicSymptoms, detailSymptoms });
   }
-  
+  getUsers(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.rootURL}/taskbar-qtv/getall`)
+    .pipe(
+      tap(data => console.log("Data from server:", data)),
+      catchError(error => {
+        console.error("Error from server:", error);
+        throw error;
+      })
+    );
+  }
 }

@@ -122,3 +122,20 @@ input[type="submit"]:hover {
     font-size: 1.8rem;
     margin-right: 8px;
 }
+/* CSS */
+table {
+    width: 100%;
+    border-collapse: collapse; /* Loại bỏ khoảng cách giữa các ô */
+    border: 1px solid #ddd; /* Viền bảng */
+  }
+  
+  th, td {
+    border: 1px solid #ddd; /* Viền cho các ô trong bảng */
+    padding: 8px; /* Khoảng cách giữa nội dung và viền */
+    text-align: center; /* Căn lề nội dung trong ô */
+  }
+  
+  th {
+    background-color: #f2f2f2; /* Màu nền cho dòng tiêu đề */
+  }
+  
