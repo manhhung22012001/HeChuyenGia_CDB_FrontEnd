@@ -9,6 +9,7 @@ export class AuthService {
   BASE_PATH = environment.baseUrl;
   USER_NAME_SESSION = 'username_session';
   ID_USER = 'id_user';
+  
   public username: string | undefined;
   public password: string | undefined;
   public userRole: number;
@@ -37,6 +38,7 @@ export class AuthService {
   setID(id: any) {
     localStorage.setItem(this.ID_USER, id);
   }
+  
   logout() {
     sessionStorage.removeItem(this.USER_NAME_SESSION);
     this.username = '';
@@ -47,16 +49,13 @@ export class AuthService {
     if (user === null) return false;
     return true;
   }
-  getLoggedInUserName() {
-    let user = sessionStorage.getItem(this.USER_NAME_SESSION);
-    if (user === null) return ''
-    return user;
-  }
+  
   getId() {
     let id = localStorage.getItem(this.ID_USER);
     if (id === null) return '';
     return id;
   }
+  
   setUserRole(role: number) {
     this.userRole = role;
   }

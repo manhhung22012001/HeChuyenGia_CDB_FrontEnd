@@ -8,7 +8,8 @@ import { AuthService } from '../auth.service';
 })
 export class TaskbarKsComponent implements OnInit{
   id: any;
-  user=this.authService.getLoggedInUserName();
+  fullname=localStorage.getItem('fullname');
+  
   constructor(private router: Router, private authService: AuthService) { }
 
   ngOnInit(): void {
