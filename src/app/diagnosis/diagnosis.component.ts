@@ -19,6 +19,7 @@ export class DiagnosisComponent implements OnInit{
   basicSymptomsInitial: any[] = [];
   danh_sach_tc: string[] = [];
   ketqua: any[] = [];
+  ketqua1: any[] = [];
 
 
   constructor(
@@ -73,10 +74,32 @@ export class DiagnosisComponent implements OnInit{
     // Ghép mảng mã triệu chứng cơ bản và mã triệu chứng chi tiết
     this.danh_sach_tc = [...selectedSymptomCodes, ...selectedSymptomCodes1];
     console.log("Danh sach gui di la "+ this.danh_sach_tc)
+    // this.DiagnosticService.KQ_cdb(this.danh_sach_tc).subscribe(
+    //   data => {
+    //     this.ketqua = data;
+    //     this.showStep3=true;
+    //   },
+    //   error => {
+    //     console.error('Error loading detail symptoms: ', error);
+    //   }
+    // );
     this.DiagnosticService.KQ_cdb(this.danh_sach_tc).subscribe(
       data => {
         this.ketqua = data;
-        this.showStep3=true;
+        // Nếu không có bệnh nào được tìm thấy, hiển thị tất cả các bệnh có chứa ít nhất một triệu chứng đã chọn
+        if (this.ketqua.length === 0) {
+          this.DiagnosticService.KQ_cdb1(this.danh_sach_tc).subscribe(
+            benhData => {
+              this.ketqua1 = benhData;
+              this.showStep3 = true;
+            },
+            error => {
+              console.error('Error loading diseases containing selected symptoms: ', error);
+            }
+          );
+        } else {
+          this.showStep3 = true;
+        }
       },
       error => {
         console.error('Error loading detail symptoms: ', error);

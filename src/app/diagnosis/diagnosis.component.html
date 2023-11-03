@@ -31,8 +31,12 @@
       </li>
     </ul>
   </div>
-  <div *ngIf="ketqua && ketqua.length === 0">
-    <p>Vui lòng chọn triệu chứng chi tiết hơn.</p>
+  <div *ngIf="ketqua1 && ketqua.length === 0">
+    <ul>
+      <li *ngFor="let benh1 of ketqua1">
+        {{ benh1.ten_benh }}
+      </li>
+    </ul>
   </div>
 </div>
 
