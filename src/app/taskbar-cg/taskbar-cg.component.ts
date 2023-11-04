@@ -17,7 +17,7 @@ export class TaskbarCgComponent implements OnInit {
   constructor(private router: Router, private authService: AuthService, private dataService:DataService) { }
 
   ngOnInit(): void {
-    this.dataService.getUsers().subscribe(
+    this.dataService.getBenh().subscribe(
       data => {
         this.benhs = data;
       },
@@ -33,5 +33,11 @@ export class TaskbarCgComponent implements OnInit {
   tabChange(key: any) {
     this.id = key;
     this.router.navigate(['/' + this.id]);
+  }
+  onRowDoubleClick(benh: any) {
+    // Gửi dữ liệu của dòng được chọn về backend
+    this.dataService.sendDataToBackend(benh).subscribe(response => {
+      // Xử lý phản hồi từ backend nếu cần
+    });
   }
 }
