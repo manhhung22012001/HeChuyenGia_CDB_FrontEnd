@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
+import { ScrollingModule } from '@angular/cdk/scrolling';
+import { MatTableModule } from '@angular/material/table';
 
 @Component({
   selector: 'app-taskbar-cg',

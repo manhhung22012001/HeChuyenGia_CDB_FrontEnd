@@ -10,7 +10,7 @@
   
         <nav id="navbar" class="navbar">
           <ul>
-            <li><a class="nav-link scrollto active" href="#hero">Thêm bệnh</a></li>
+            <li><a class="nav-link scrollto active">Thêm bệnh</a></li>
             <li><a class="nav-link scrollto active" routerLink="/diagnosis">Chuẩn đoán bệnh</a></li>
             
             <li class="dropdown">
@@ -22,7 +22,43 @@
           <i class="bi bi-list mobile-nav-toggle"></i>
         </nav><!-- .navbar -->
     </header>
-
+    <div class="container" data-aos="zoom-out" data-aos-delay="100">
+      <h1>Thêm Bệnh </h1>
+      <div class="tables-container">
+          <div class="table">
+              <h2>Bảng Bệnh</h2>
+              <table mat-table  class="mat-elevation-z8">
+                <!-- <table mat-table [dataSource]="benhs" class="mat-elevation-z8"> -->
+                  <ng-container matColumnDef="stt">
+                      <th mat-header-cell *matHeaderCellDef>STT</th>
+                      <td mat-cell *matCellDef="let row">{{row.stt}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="tenBenh">
+                      <th mat-header-cell *matHeaderCellDef>Tên Bệnh</th>
+                      <td mat-cell *matCellDef="let row">{{row.tenBenh}}</td>
+                  </ng-container>
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+          </div>
+          <div class="table">
+              <h2>Bảng Triệu Chứng</h2>
+              <table mat-table  class="mat-elevation-z8">
+                <!-- <table mat-table [dataSource]="trieuChungs" class="mat-elevation-z8"> -->
+                  <ng-container matColumnDef="stt">
+                      <th mat-header-cell *matHeaderCellDef>STT</th>
+                      <td mat-cell *matCellDef="let row">{{row.stt}}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="tenTrieuChung">
+                      <th mat-header-cell *matHeaderCellDef>Tên Triệu Chứng</th>
+                      <td mat-cell *matCellDef="let row">{{row.tenTrieuChung}}</td>
+                  </ng-container>
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+          </div>
+      </div>
+  </div>
     
 </body>
 
