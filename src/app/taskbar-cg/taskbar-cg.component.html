@@ -23,10 +23,8 @@
         </nav><!-- .navbar -->
     </header>
     <div class="container" data-aos="zoom-out" data-aos-delay="100">
-     
       <div class="tables-container">
-          <div class="table">
-              
+          <div class="table">  
               <div *ngIf="benhs">
                 <h2>Danh Sách Bệnh</h2>
                 
@@ -39,33 +37,42 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let benh of benhs">
-                      <td>{{benh[0]}}</td>
-                      <td>{{benh[1]}}</td>
-                      
-                     
+                    <tr *ngFor="let benh of benhs" (click)="selectBenh(benh)" [ngClass]="{'selected-row': benh === selectedBenh, 'hover-row': benh === hoveredBenh}" (mouseenter)="hoveredBenh = benh" (mouseleave)="hoveredBenh = null">
+                      <td>{{benh.ma_benh}}</td>
+                      <td>{{benh.ten_benh}}</td>
                     </tr>
+                    
                   </tbody>
                 </table>
               </div>
           </div>
-          <div class="table">
-              <h2>Bảng Triệu Chứng</h2>
-              <table mat-table  class="mat-elevation-z8">
-                <!-- <table mat-table [dataSource]="trieuChungs" class="mat-elevation-z8"> -->
-                  <ng-container matColumnDef="stt">
-                      <th mat-header-cell *matHeaderCellDef>STT</th>
-                      <td mat-cell *matCellDef="let row">{{row.stt}}</td>
-                  </ng-container>
-                  <ng-container matColumnDef="tenTrieuChung">
-                      <th mat-header-cell *matHeaderCellDef>Tên Triệu Chứng</th>
-                      <td mat-cell *matCellDef="let row">{{row.tenTrieuChung}}</td>
-                  </ng-container>
-                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-              </table>
-          </div>
+          
       </div>
+      <div class="tables-container">
+        <div class="table">  
+            <div *ngIf="listTrieuChung">
+              <h2>Danh Sách Trieu Chung</h2>
+              
+              <table>
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Tên</th>
+                    
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let benh of listTrieuChung"  [ngClass]="{'selected-row': benh === selectedBenh, 'hover-row': benh === hoveredBenh}" (mouseenter)="hoveredBenh = benh" (mouseleave)="hoveredBenh = null">
+                    <td>{{benh[0]}}</td>
+                    <td>{{benh[1]}}</td>
+                  </tr>
+                  
+                </tbody>
+              </table>
+            </div>
+        </div>
+        
+    </div>
   </div>
     
 </body>

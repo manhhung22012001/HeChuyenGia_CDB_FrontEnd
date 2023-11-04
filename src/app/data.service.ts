@@ -52,4 +52,8 @@ getBenh(): Observable<any[]> {
   return this.http.get<any[]>(`${this.rootURL}/taskbar-cg/getall`)
 
 }
+getTrieuChungByMaBenh(maBenh: number) {
+  // Gửi yêu cầu HTTP GET đến API
+  return this.http.get<any[]>(`${this.rootURL}/taskbar-cg/trieuchung/${maBenh}`);
+}
 }

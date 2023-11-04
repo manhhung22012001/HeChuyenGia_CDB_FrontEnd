@@ -51,6 +51,7 @@ const appRoutes: Routes = [
     BrowserModule,
     MatDialogModule,
     ReactiveFormsModule,
+    
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: true } 

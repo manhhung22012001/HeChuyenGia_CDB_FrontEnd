@@ -212,6 +212,7 @@ th, td {
     text-align: left; /* Căn lề nội dung về trái */
     padding: 10px; /* Khoảng cách giữa nội dung và mép của cột */
     border-bottom: 1px solid #dee2e6; /* Viền dưới của mỗi hàng */
+    width: 25%;
 }
 
 th {
@@ -229,6 +230,16 @@ th {
     width: 45%;
     height: 300px; /* Độ cao của bảng */
     overflow-y: auto; /* Kích hoạt thanh cuộn dọc khi nội dung vượt quá chiều cao */
-    margin-bottom: 580px; /* Khoảng cách giữa hai bảng */
+    margin-bottom: 80px; /* Khoảng cách giữa hai bảng */
 }
 
+/* styles.css hoặc styles.scss */
+.selected-row {
+  background-color: #cce5ff; /* Màu nền khi hàng được chọn */
+  transition: background-color 0.3s ease; /* Hiệu ứng chuyển đổi màu nền trong 0.3 giây */
+}
+/* styles.css hoặc styles.scss */
+.hover-row:hover {
+  background-color: #ffffcc; /* Màu nền khi chuột hover lên hàng */
+  transition: background-color 0.3s ease; /* Hiệu ứng chuyển đổi màu nền trong 0.3 giây */
+}
