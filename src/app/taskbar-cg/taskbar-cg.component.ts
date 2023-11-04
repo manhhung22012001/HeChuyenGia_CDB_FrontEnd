@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatTableModule } from '@angular/material/table';
+import { DataService } from '../data.service';
 
 @Component({
   selector: 'app-taskbar-cg',
@@ -11,10 +12,19 @@ import { MatTableModule } from '@angular/material/table';
 })
 export class TaskbarCgComponent implements OnInit {
   id: any;
+  benhs: any[] = [];
   fullname=localStorage.getItem('fullname');
-  constructor(private router: Router, private authService: AuthService) { }
+  constructor(private router: Router, private authService: AuthService, private dataService:DataService) { }
 
   ngOnInit(): void {
+    this.dataService.getUsers().subscribe(
+      data => {
+        this.benhs = data;
+      },
+      error => {
+        console.error('Error loading users data: ', error);
+      }
+    );
   }
   logout() {
     this.authService.logout();

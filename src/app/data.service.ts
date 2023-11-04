@@ -48,5 +48,8 @@ updateUser(userId: number, updatedUser: any): Observable<any> {
   const url = `${this.rootURL}/taskbar-qtv/edit/${userId}`;
   return this.http.put<any>(url, updatedUser);
 }
+getBenh(): Observable<any[]> {
+  return this.http.get<any[]>(`${this.rootURL}/taskbar-cg/getall`)
 
+}
 }

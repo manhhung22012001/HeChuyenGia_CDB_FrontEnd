@@ -1,6 +1,6 @@
-.body {
-    width: 191px;
-    display: flex;
+body {
+  margin-left: 50px;
+  margin-right: 50px;
 }
 
 
@@ -29,9 +29,9 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 20px;
+    padding: 0 35px;
     border-radius: 10px;
-    position: fixed; 
+    
     width: 95%;
   }
   
@@ -205,6 +205,7 @@
     border-radius: 5px; /* Góc bo tròn của bảng */
     padding: 20px; /* Khoảng cách giữa nội dung và mép của bảng */
     box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.1); /* Đổ bóng cho bảng */
+    padding-top: 0px;
 }
 
 th, td {
