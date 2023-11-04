@@ -2,6 +2,8 @@ import { Component,OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 import { AuthService } from '../auth.service';
 import { DataService } from '../data.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmComponent } from '../confirm/confirm.component';
 @Component({
   selector: 'app-taskbar-qtv',
   templateUrl: './taskbar-qtv.component.html',
@@ -11,7 +13,7 @@ export class TaskbarQtvComponent implements OnInit {
   id: any;
   users: any[] = [];
   fullname=localStorage.getItem('fullname');
-  constructor(private router: Router, private authService: AuthService,private dataService:DataService ) { }
+  constructor(private router: Router, private authService: AuthService,private dataService:DataService,private dialog: MatDialog ) { }
 
   ngOnInit(): void {
     this.dataService.getUsers().subscribe(
@@ -43,33 +45,30 @@ export class TaskbarQtvComponent implements OnInit {
     user.phonenumber = event.target.innerText;
   }
   deleteUser(user: any) {
-    const userId = user.id_user; // Lấy ID người dùng cần xóa
-    this.dataService.deleteUser(userId).subscribe(
-      () => {
-        // Xóa người dùng khỏi danh sách hiển thị
-        this.users = this.users.filter(u => u.id_user !== userId);
-      },
-      error => {
-        console.error('Error deleting user: ', error);
+    const dialogRef = this.dialog.open(ConfirmComponent, {
+      
+      data: {
+        title: 'Xác nhận xóa người dùng',
+        message: 'Bạn có chắc chắn muốn xóa người dùng này không?'
       }
-    );
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // Nếu người dùng chọn "Có", thực hiện xóa người dùng
+        const userId = user.id_user;
+        this.dataService.deleteUser(userId).subscribe(
+          () => {
+            // Xóa người dùng khỏi danh sách hiển thị
+            this.users = this.users.filter(u => u.id_user !== userId);
+          },
+          error => {
+            console.error('Error deleting user: ', error);
+          }
+        );
+      }
+    });
   }
-
-  // Lưu thông tin người dùng đã chỉnh sửa
-//   editUser(user: any) {
-//     this.dataService.updateUser(user).subscribe(
-//       (updatedUser: any) => {
-//         // Cập nhật thông tin người dùng trong danh sách hiển thị
-//         const index = this.users.findIndex(u => u.id_user === updatedUser.id_user);
-//         if (index !== -1) {
-//           this.users[index] = updatedUser;
-//         }
-//       },
-//       error => {
-//         console.error('Error updating user: ', error);
-//       }
-//     );
-// }
 updateUser(user: any) {
   // Lấy ID người dùng cần cập nhật
   const userId = user.id_user;

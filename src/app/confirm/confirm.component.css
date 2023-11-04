@@ -1,0 +1,28 @@
+h1.mat-dialog-title, p {
+    text-align: center;
+  }
+  
+  .mat-dialog-content {
+    margin: 20px;
+  }
+  button.mat-button {
+    border-radius: 5px;
+    margin: 0 10px;
+  }
+  
+  button.mat-button[color="warn"] {
+    background-color: #f44336; /* Màu đỏ */
+    color: white;
+  }
+  
+  button.mat-button:not([color="warn"]) {
+    background-color: #2196F3; /* Màu xanh */
+    color: white;
+  }
+  button.mat-button {
+    border-radius: 5px;
+  }
+  button.mat-button {
+    margin: 0 10px;
+  }
+        
