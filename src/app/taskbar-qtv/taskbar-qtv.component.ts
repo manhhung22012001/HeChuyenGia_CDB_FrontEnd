@@ -42,34 +42,65 @@ export class TaskbarQtvComponent implements OnInit {
   onPhoneNumberChange(event: any, user: any) {
     user.phonenumber = event.target.innerText;
   }
-  // deleteUser(user: any) {
-  //   const userId = user.id_user; // Lấy ID người dùng cần xóa
-  //   this.dataService.deleteUser(userId).subscribe(
-  //     () => {
-  //       // Xóa người dùng khỏi danh sách hiển thị
-  //       this.users = this.users.filter(u => u.id_user !== userId);
-  //     },
-  //     error => {
-  //       console.error('Error deleting user: ', error);
-  //     }
-  //   );
-  // }
+  deleteUser(user: any) {
+    const userId = user.id_user; // Lấy ID người dùng cần xóa
+    this.dataService.deleteUser(userId).subscribe(
+      () => {
+        // Xóa người dùng khỏi danh sách hiển thị
+        this.users = this.users.filter(u => u.id_user !== userId);
+      },
+      error => {
+        console.error('Error deleting user: ', error);
+      }
+    );
+  }
 
-  // // Lưu thông tin người dùng đã chỉnh sửa
-  // editUser(user: any) {
-  //   this.dataService.updateUser(user).subscribe(
-  //     updatedUser => {
-  //       // Cập nhật thông tin người dùng trong danh sách hiển thị
-  //       const index = this.users.findIndex(u => u.id_user === updatedUser.id_user);
-  //       if (index !== -1) {
-  //         this.users[index] = updatedUser;
-  //       }
-  //     },
-  //     error => {
-  //       console.error('Error updating user: ', error);
-  //     }
-  //   );
-  // }
+  // Lưu thông tin người dùng đã chỉnh sửa
+//   editUser(user: any) {
+//     this.dataService.updateUser(user).subscribe(
+//       (updatedUser: any) => {
+//         // Cập nhật thông tin người dùng trong danh sách hiển thị
+//         const index = this.users.findIndex(u => u.id_user === updatedUser.id_user);
+//         if (index !== -1) {
+//           this.users[index] = updatedUser;
+//         }
+//       },
+//       error => {
+//         console.error('Error updating user: ', error);
+//       }
+//     );
+// }
+updateUser(user: any) {
+  // Lấy ID người dùng cần cập nhật
+  const userId = user.id_user;
+
+  // Lấy thông tin người dùng từ form chỉnh sửa hoặc các trường khác trong user object
+  const updatedUser: any = {
+    id_user: userId, // Bạn cần chắc chắn rằng id_user được gán lại đúng giá trị
+    fullname: user.fullname, // Lấy từ form hoặc các trường thông tin khác
+    role: user.role,
+    phonenumber: user.phonenumber
+    // Thêm các trường thông tin khác nếu cần
+  };
+
+  // Gọi hàm updateUser() trong dataService để gửi yêu cầu cập nhật
+  this.dataService.updateUser(userId, updatedUser).subscribe(
+    (response: any) => {
+      console.log('Cập nhật thành công:', response);
+      // Cập nhật thông tin người dùng trong danh sách hiển thị (nếu cần)
+      const index = this.users.findIndex(u => u.id_user === response.id_user);
+      if (index !== -1) {
+        this.users[index] = response;
+      }
+    },
+    error => {
+      console.error('Lỗi khi cập nhật người dùng: ', error);
+      // Xử lý lỗi, ví dụ: hiển thị thông báo lỗi cho người dùng
+    }
+  );
+}
+
+
   
 }
 

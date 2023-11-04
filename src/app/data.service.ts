@@ -34,12 +34,19 @@ export class DataService {
   }
   getUsers(): Observable<any[]> {
     return this.http.get<any[]>(`${this.rootURL}/taskbar-qtv/getall`)
-    .pipe(
-      tap(data => console.log("Data from server:", data)),
-      catchError(error => {
-        console.error("Error from server:", error);
-        throw error;
-      })
-    );
+    
   }
+  deleteUser(userId: any) {
+    const deleteUrl = `${this.rootURL}/taskbar-qtv/delete/${userId}`; // Sử dụng ${userId} để chèn giá trị của id vào URL
+    return this.http.delete(deleteUrl);
+}
+// updateUser(userId: number): Observable<any> {
+//   const updateUrl = `${this.rootURL}/taskbar-qtv/edit/${userId}`;
+//   return this.http.put(updateUrl, null); 
+// }
+updateUser(userId: number, updatedUser: any): Observable<any> {
+  const url = `${this.rootURL}/taskbar-qtv/edit/${userId}`;
+  return this.http.put<any>(url, updatedUser);
+}
+
 }
