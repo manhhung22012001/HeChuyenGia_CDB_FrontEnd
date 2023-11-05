@@ -1,28 +1,42 @@
-h1.mat-dialog-title, p {
-    text-align: center;
-  }
-  
-  .mat-dialog-content {
-    margin: 20px;
-  }
-  button.mat-button {
-    border-radius: 5px;
-    margin: 0 10px;
-  }
-  
-  button.mat-button[color="warn"] {
-    background-color: #f44336; /* Màu đỏ */
-    color: white;
-  }
-  
-  button.mat-button:not([color="warn"]) {
-    background-color: #2196F3; /* Màu xanh */
-    color: white;
-  }
-  button.mat-button {
-    border-radius: 5px;
-  }
-  button.mat-button {
-    margin: 0 10px;
-  }
-        
+/* styles.css hoặc styles.scss */
+.mat-dialog-container {
+  background-color: white; /* Màu nền của hộp thoại */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Đổ bóng cho hộp thoại */
+  padding: 24px; /* Khoảng cách nội dung với viền hộp thoại */
+  border-radius: 8px; /* Bo góc của hộp thoại */
+  width: 500px; /* Độ rộng của hộp thoại */
+  border: 1px solid #181717;
+}
+
+.mat-dialog-title {
+  font-size: 24px; /* Cỡ chữ của tiêu đề */
+  margin-bottom: 16px; /* Khoảng cách giữa tiêu đề và nội dung */
+}
+
+.mat-dialog-content {
+  font-size: 16px; /* Cỡ chữ của nội dung */
+  margin-bottom: 24px; /* Khoảng cách giữa nội dung và các nút */
+}
+
+.mat-dialog-actions {
+  display: flex;
+  justify-content: flex-end; /* Các nút sẽ được căn phải */
+}
+
+.mat-button {
+  margin-left: 8px; /* Khoảng cách giữa các nút */
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+button:hover {
+  background-color: #2a653d;
+}

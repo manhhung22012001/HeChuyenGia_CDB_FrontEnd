@@ -37,14 +37,21 @@ export class LoginComponent implements OnInit {
         this.successMessage = 'Đăng nhập thành công';
         this.authService.username = this.loginForm.value.username;
         this.authService.password = this.loginForm.value.password;
-        
+       
         this.authService.registerSuccessfulLogin(this.loginForm.value.username);
-        localStorage.setItem('userId', response.body['id_user']);
+       
+        
         // Lấy và lưu fullname vào localStorage (nếu `fullname` là key chứa thông tin fullname trong response.body)
         if (response.body.hasOwnProperty('fullname')) {
           localStorage.setItem('fullname', response.body['fullname']);
           console.log('Full Name:', localStorage.getItem('fullname'));
         }
+        if (response.body.hasOwnProperty('id_user')) {
+          localStorage.setItem('id_user', response.body['id_user']);
+          console.log('id_user:', localStorage.getItem('id_user'));
+        }
+        
+       
         
         localStorage.setItem('user', JSON.stringify(response.body)); // lấy toàn bộ thông tin user         
         //this.router.navigate(['/index']);

@@ -20,6 +20,7 @@ export class DiagnosisComponent implements OnInit{
   danh_sach_tc: string[] = [];
   ketqua: any[] = [];
   ketqua1: any[] = [];
+  disableBasicSymptoms: boolean = false;
 
 
   constructor(
@@ -46,7 +47,7 @@ export class DiagnosisComponent implements OnInit{
       const selectedSymptomCodes = this.trieuChungList
         .filter(trieuChung => trieuChung.isSelected)
         .map(trieuChung => trieuChung[0]);
-    
+        this.disableBasicSymptoms = true;
       this.DiagnosticService.searchDiagnosis(selectedSymptomCodes).subscribe(
         data => {
           this.detailSymptoms = data;
@@ -107,6 +108,15 @@ export class DiagnosisComponent implements OnInit{
     );
     
   }
+  resetDiagnosis(): void {
+    // Đặt lại các giá trị người dùng đã chọn và ẩn các bước chuẩn đoán
+    this.trieuChungList.forEach(trieuChung => trieuChung.isSelected = false);
+    this.detailSymptoms1.forEach(trieuChung => trieuChung.isSelected = false);
+    this.showStep2 = false;
+    this.showStep3 = false;
+    this.disableBasicSymptoms = false;
+  }
+
 }
 
 

@@ -49,7 +49,11 @@ export class AuthService {
     if (user === null) return false;
     return true;
   }
-  
+  getCurrentLoggedInUser(){
+    let id = sessionStorage.getItem(this.ID_USER);
+    if (id === null) return '';
+    return id;
+  }
   getId() {
     let id = localStorage.getItem(this.ID_USER);
     if (id === null) return '';

@@ -3,7 +3,7 @@
   <h2>Bước 1: Chọn Triệu Chứng Cơ Bản</h2>
   <div class="checkbox-group">
     <label *ngFor="let trieuChung of trieuChungList">
-      <input type="checkbox" [(ngModel)]="trieuChung.isSelected">
+      <input type="checkbox" [(ngModel)]="trieuChung.isSelected" [disabled]="disableBasicSymptoms">
       {{ trieuChung[1] }}
     </label>
   </div>
@@ -38,9 +38,14 @@
       </li>
     </ul>
   </div>
+  <br>
+  <button class="reset-button"(click)="resetDiagnosis()">Chuẩn đoán lại</button>
+  <br>
+  <br>
+  <button class="back-button"routerLink="">Trở về</button>
 </div>
 
-<button routerLink="">Trở về</button>
+
     
  
   

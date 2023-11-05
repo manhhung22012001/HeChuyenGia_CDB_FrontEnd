@@ -29,7 +29,7 @@ body, h1, h2, p, ul, li {
   }
   
   .checkbox-group {
-    column-count: 3; /* Số lượng cột bạn muốn hiển thị */
+    column-count: 4; /* Số lượng cột bạn muốn hiển thị */
     column-gap: 20px; /* Khoảng cách giữa các cột */
   }
   
@@ -89,6 +89,23 @@ button {
 
 button:hover {
   background-color: #45a049;
+}
+.reset-button {
+  background-color: #dc3545;
+  margin-right: 10px;
+}
+
+.reset-button:hover {
+  background-color: #bd2130;
+}
+
+/* Style cho nút "Trở về" */
+.back-button {
+  background-color: #1881dd;
+}
+
+.back-button:hover {
+  background-color: #135e9f;
 }
 
   

@@ -13,9 +13,11 @@ export class TaskbarQtvComponent implements OnInit {
   id: any;
   users: any[] = [];
   fullname=localStorage.getItem('fullname');
+   loggedInUserId = localStorage.getItem('id_user');
   constructor(private router: Router, private authService: AuthService,private dataService:DataService,private dialog: MatDialog ) { }
 
   ngOnInit(): void {
+   
     this.dataService.getUsers().subscribe(
       data => {
         this.users = data;
@@ -44,7 +46,12 @@ export class TaskbarQtvComponent implements OnInit {
   onPhoneNumberChange(event: any, user: any) {
     user.phonenumber = event.target.innerText;
   }
+ 
   deleteUser(user: any) {
+    
+    if (user.id_user == this.loggedInUserId) {
+      alert('Bạn không thể xóa tài khoản của chính mình.');}
+      else{
     const dialogRef = this.dialog.open(ConfirmComponent, {
       
       data: {
@@ -67,7 +74,7 @@ export class TaskbarQtvComponent implements OnInit {
           }
         );
       }
-    });
+    });}
   }
 updateUser(user: any) {
   // Lấy ID người dùng cần cập nhật
