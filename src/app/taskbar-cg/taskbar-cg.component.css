@@ -6,249 +6,280 @@ body {
 
 
 .welcome {
-    font-size: 18px;
-    padding-top: 0px;
-    font-family: sans-serif;
+  font-size: 18px;
+  padding-top: 0px;
+  font-family: sans-serif;
 }
 
 .user {
-    color: var(--primary-color) !important;
+  color: var(--primary-color) !important;
 }
 
 .user {
-    color: floralwhite;
-    text-decoration: underline;
-    cursor: pointer;
+  color: floralwhite;
+  text-decoration: underline;
+  cursor: pointer;
 }
+
 #header {
-    background:#f6cdf5 ;
-    transition: all 0.5s;
-    z-index: 997;
-    height: 86px;
-    box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 35px;
-    border-radius: 10px;
-    
-    width: 95%;
-  }
-  
-  #header.fixed-top {
-    height: 70px;
-    box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
-  }
-  
-  #header .logo {
-    font-size: 30px;
-    margin: 0;
-    padding: 0;
-    line-height: 1;
-    font-weight: 600;
-    letter-spacing: 0.8px;
-    font-family: "Poppins", sans-serif;
-  }
-  
-  #header .logo a {
-    color: #222222;
-    text-decoration: none;
-  }
-  
-  #header .logo a span {
-    color: #f2f4f6;
-  }
-  
-  #header .navbar ul {
-    list-style: none;
-    display: flex;
-    align-items: center;
-  }
-  
-  #header .navbar ul li {
-    margin: 0 15px;
-  }
-  
-  #header .navbar ul li:last-child {
-    margin-right: 0;
-  }
-  
-  #header .navbar ul li a {
-    color: #222222;
-    text-decoration: none;
-    transition: all 0.3s ease;
-  }
-  
-  #header .navbar ul li a:hover {
-    /* color: #106eea; */
-    color:#e7f1fd;
-  }
-  
-  .mobile-nav-toggle {
-    font-size: 24px;
-    color: #222222;
-    cursor: pointer;
-    display: none;
-  }
-  
-  @media (max-width: 768px) {
-    #header .navbar ul {
-        display: none;
-        flex-direction: column;
-        position: absolute;
-        top: 70px;
-        left: 0;
-        width: 100%;
-        background: #fff;
-        text-align: center;
-        box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
-    }
-  
-    #header .navbar ul li {
-        margin: 10px 0;
-    }
-  
-    #header .mobile-nav-toggle {
-        display: block;
-    }
-  
-    #header .nav-active ul {
-        display: flex;
-    }
-  }
-  /* Ẩn hộp thoại dropdown ban đầu */
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 90px;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-    z-index: 1;
-  }
-  
-  /* Hiển thị hộp thoại dropdown khi hover hoặc focus vào menu "Sign" */
-  .dropdown:hover .dropdown-content {
-    display: block;
-  }
-  
-  /* Thêm hiệu ứng khi hiển thị hộp thoại dropdown */
-  .dropdown-content a {
-    color: black;
-    padding: 12px 16px;
-    display: block;
-  }
-  
-  /* Đổi màu chữ khi di chuột qua các lựa chọn */
-  .dropdown-content a:hover {
-    background-color: #ddd;
-  }
-  
-  html{
-    scroll-behavior: smooth;
-    
-  }
-  section{
-    height: 720px;
-  }
-  .container {
-    margin-top: 50px;
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .info-box1 {
-    background-color: #f8ccd6;
-    padding: 20px;
-    border: 1px solid #dee2e6;
-    border-radius: 5px;
-    text-align: center;
-    margin-bottom: 10px;
-    width: 400px;
-    height: 100px;
-  }
-  .info-box2 {
-    background-color: #ecf4be;
-    padding-left: 20px;
-    border: 1px solid #dee2e6;
-    border-radius: 5px;
-    text-align: center;
-    margin-bottom: 10px;
-    width: 400px;
-    height: 140px;
-  
-  }
-  .info-box3 {
-    background-color: #bafad5;
-    padding-left: 20px;
-    border: 1px solid #dee2e6;
-    border-radius: 5px;
-    text-align: center;
-    margin-bottom: 10px;
-    width: 400px;
-    height: 140px;
-  
-  }
-  .map-box {
-    background-color: #f8f9fa;
-    padding: 20px;
-    border: 1px solid #dee2e6;
-    border-radius: 5px;
-    text-align: center;
-    flex: 1;
-  }
-  table{
-    background-color: #ffffff; /* Màu nền của bảng */
-    border: 1px solid #dee2e6; /* Viền của bảng */
-    border-radius: 5px; /* Góc bo tròn của bảng */
-    padding: 20px; /* Khoảng cách giữa nội dung và mép của bảng */
-    box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.1); /* Đổ bóng cho bảng */
-    padding-top: 0px;
-    
-  }
-  
+  background: #f6cdf5;
+  transition: all 0.5s;
+  z-index: 997;
+  height: 86px;
+  box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 35px;
+  border-radius: 10px;
 
-  .table {
-    background-color: #ffffff; /* Màu nền của bảng */
-    border: 1px solid #dee2e6; /* Viền của bảng */
-    border-radius: 5px; /* Góc bo tròn của bảng */
-    padding: 20px; /* Khoảng cách giữa nội dung và mép của bảng */
-    box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.1); /* Đổ bóng cho bảng */
-    padding-top: 0px;
-    
+  width: 95%;
 }
 
-th, td {
-    text-align: left; /* Căn lề nội dung về trái */
-    padding: 10px; /* Khoảng cách giữa nội dung và mép của cột */
-    border-bottom: 1px solid #dee2e6; /* Viền dưới của mỗi hàng */
-    width: 300px; 
+#header.fixed-top {
+  height: 70px;
+  box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
+}
+
+#header .logo {
+  font-size: 30px;
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  font-family: "Poppins", sans-serif;
+}
+
+#header .logo a {
+  color: #222222;
+  text-decoration: none;
+}
+
+#header .logo a span {
+  color: #f2f4f6;
+}
+
+#header .navbar ul {
+  list-style: none;
+  display: flex;
+  align-items: center;
+}
+
+#header .navbar ul li {
+  margin: 0 15px;
+}
+
+#header .navbar ul li:last-child {
+  margin-right: 0;
+}
+
+#header .navbar ul li a {
+  color: #222222;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+#header .navbar ul li a:hover {
+  /* color: #106eea; */
+  color: #e7f1fd;
+}
+
+.mobile-nav-toggle {
+  font-size: 24px;
+  color: #222222;
+  cursor: pointer;
+  display: none;
+}
+
+@media (max-width: 768px) {
+  #header .navbar ul {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    text-align: center;
+    box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  #header .navbar ul li {
+    margin: 10px 0;
+  }
+
+  #header .mobile-nav-toggle {
+    display: block;
+  }
+
+  #header .nav-active ul {
+    display: flex;
+  }
+}
+
+/* Ẩn hộp thoại dropdown ban đầu */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 90px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+/* Hiển thị hộp thoại dropdown khi hover hoặc focus vào menu "Sign" */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Thêm hiệu ứng khi hiển thị hộp thoại dropdown */
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  display: block;
+}
+
+/* Đổi màu chữ khi di chuột qua các lựa chọn */
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+html {
+  scroll-behavior: smooth;
+
+}
+
+section {
+  height: 720px;
+}
+
+.container {
+  margin-top: 50px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.info-box1 {
+  background-color: #f8ccd6;
+  padding: 20px;
+  border: 1px solid #dee2e6;
+  border-radius: 5px;
+  text-align: center;
+  margin-bottom: 10px;
+  width: 400px;
+  height: 100px;
+}
+
+.info-box2 {
+  background-color: #ecf4be;
+  padding-left: 20px;
+  border: 1px solid #dee2e6;
+  border-radius: 5px;
+  text-align: center;
+  margin-bottom: 10px;
+  width: 400px;
+  height: 140px;
+
+}
+
+.info-box3 {
+  background-color: #bafad5;
+  padding-left: 20px;
+  border: 1px solid #dee2e6;
+  border-radius: 5px;
+  text-align: center;
+  margin-bottom: 10px;
+  width: 400px;
+  height: 140px;
+
+}
+
+.map-box {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border: 1px solid #dee2e6;
+  border-radius: 5px;
+  text-align: center;
+  flex: 1;
+}
+
+table {
+  background-color: #ffffff;
+  /* Màu nền của bảng */
+  border: 1px solid #dee2e6;
+  /* Viền của bảng */
+  border-radius: 5px;
+  /* Góc bo tròn của bảng */
+  padding: 20px;
+  /* Khoảng cách giữa nội dung và mép của bảng */
+  box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.1);
+  /* Đổ bóng cho bảng */
+  padding-top: 0px;
+
+}
+
+
+.table {
+  background-color: #ffffff;
+  /* Màu nền của bảng */
+  border: 1px solid #dee2e6;
+  /* Viền của bảng */
+  border-radius: 5px;
+  /* Góc bo tròn của bảng */
+  padding: 20px;
+  /* Khoảng cách giữa nội dung và mép của bảng */
+  box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.1);
+  /* Đổ bóng cho bảng */
+  padding-top: 0px;
+
+}
+
+th,
+td {
+  text-align: left;
+  /* Căn lề nội dung về trái */
+  padding: 10px;
+  /* Khoảng cách giữa nội dung và mép của cột */
+  border-bottom: 1px solid #dee2e6;
+  /* Viền dưới của mỗi hàng */
+  width: 300px;
 }
 
 th {
-    background-color: #f8f9fa; /* Màu nền của hàng tiêu đề */
+  background-color: #f8f9fa;
+  /* Màu nền của hàng tiêu đề */
 }
 
 .tables-container {
-    display: flex;
-    justify-content: space-between;
-    
-    width: 5000px;
+  display: flex;
+  justify-content: space-between;
+
+  width: 5000px;
 }
 
 .table {
-    width: 90%;
-    height: 300px; /* Độ cao của bảng */
-    overflow-y: auto; /* Kích hoạt thanh cuộn dọc khi nội dung vượt quá chiều cao */
-    margin-bottom: 80px; /* Khoảng cách giữa hai bảng */
+  width: 90%;
+  height: 300px;
+  /* Độ cao của bảng */
+  overflow-y: auto;
+  /* Kích hoạt thanh cuộn dọc khi nội dung vượt quá chiều cao */
+  margin-bottom: 80px;
+  /* Khoảng cách giữa hai bảng */
 }
 
 /* styles.css hoặc styles.scss */
 .selected-row {
-  background-color: #cce5ff; /* Màu nền khi hàng được chọn */
-  transition: background-color 0.3s ease; /* Hiệu ứng chuyển đổi màu nền trong 0.3 giây */
+  background-color: #cce5ff;
+  /* Màu nền khi hàng được chọn */
+  transition: background-color 0.3s ease;
+  /* Hiệu ứng chuyển đổi màu nền trong 0.3 giây */
 }
+
 /* styles.css hoặc styles.scss */
 .hover-row:hover {
-  background-color: #ffffcc; /* Màu nền khi chuột hover lên hàng */
-  transition: background-color 0.3s ease; /* Hiệu ứng chuyển đổi màu nền trong 0.3 giây */
+  background-color: #ffffcc;
+  /* Màu nền khi chuột hover lên hàng */
+  transition: background-color 0.3s ease;
+  /* Hiệu ứng chuyển đổi màu nền trong 0.3 giây */
 }

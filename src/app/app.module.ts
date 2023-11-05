@@ -19,19 +19,19 @@ import { TaskbarQtvComponent } from './taskbar-qtv/taskbar-qtv.component';
 import { QtvCgmanageComponent } from './qtv-cgmanage/qtv-cgmanage.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ConfirmComponent } from './confirm/confirm.component';
-
+import { AuthInterceptor } from './auth.interceptor';
 
 
 const appRoutes: Routes = [
-  { path: '', component:HomepageComponent },
+  { path: '', component: HomepageComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'taskbar-qtv', component: TaskbarQtvComponent },
   { path: 'taskbar-cg', component: TaskbarCgComponent },
   { path: 'taskbar-ks', component: TaskbarKsComponent },
-  { path: 'homepage', component:HomepageComponent },
-  { path: 'diagnosis', component:DiagnosisComponent },
-  { path: 'comfirm', component:ConfirmComponent }
+  { path: 'homepage', component: HomepageComponent },
+  { path: 'diagnosis', component: DiagnosisComponent },
+  { path: 'comfirm', component: ConfirmComponent }
 ]
 @NgModule({
   declarations: [
@@ -45,24 +45,28 @@ const appRoutes: Routes = [
     TaskbarQtvComponent,
     QtvCgmanageComponent,
     ConfirmComponent,
-    
+
   ],
   imports: [
     BrowserModule,
     MatDialogModule,
     ReactiveFormsModule,
-    
+
     RouterModule.forRoot(
       appRoutes,
-      { enableTracing: true } 
+      { enableTracing: true }
     ),
     HttpClientModule,
     FormsModule,
     BrowserAnimationsModule,
-   
+
   ],
   providers: [
-    
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })
