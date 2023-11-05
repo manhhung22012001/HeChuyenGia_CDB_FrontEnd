@@ -214,13 +214,14 @@ body {
     padding: 20px; /* Khoảng cách giữa nội dung và mép của bảng */
     box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.1); /* Đổ bóng cho bảng */
     padding-top: 0px;
+    
 }
 
 th, td {
     text-align: left; /* Căn lề nội dung về trái */
     padding: 10px; /* Khoảng cách giữa nội dung và mép của cột */
     border-bottom: 1px solid #dee2e6; /* Viền dưới của mỗi hàng */
-    width: 25%;
+    width: 300px; 
 }
 
 th {
@@ -231,11 +232,11 @@ th {
     display: flex;
     justify-content: space-between;
     
-    width: 500%;
+    width: 5000px;
 }
 
 .table {
-    width: 45%;
+    width: 90%;
     height: 300px; /* Độ cao của bảng */
     overflow-y: auto; /* Kích hoạt thanh cuộn dọc khi nội dung vượt quá chiều cao */
     margin-bottom: 80px; /* Khoảng cách giữa hai bảng */
