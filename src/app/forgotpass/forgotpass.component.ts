@@ -1,5 +1,6 @@
 import { Component,OnInit } from '@angular/core';
-
+import { AuthService } from '../auth.service';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-forgotpass',
@@ -7,26 +8,46 @@ import { Component,OnInit } from '@angular/core';
   styleUrls: ['./forgotpass.component.css']
 })
 export class ForgotpassComponent implements OnInit{
-  username: string = '';
-  email: string = '';
+  // username: string = '';
+  // email: string = '';
+   usernameExists:boolean = true; // Giả sử tên người dùng tồn tại trong cơ sở dữ liệu
+   phoneExists:boolean = true; 
   newPassword: string = '';
   showPasswordResetForm: boolean = false;
   showcheckForm: boolean = true;
   errorMessage: string = '';
   resetPasswordMessage: string = '';
+  ForgotPassForm: any = this.fb.group({
+    username: [''],
+    phonenumber: [''],
+
+  });
+  constructor(private authService:AuthService, private fb:FormBuilder){}
 ngOnInit(): void {
   
 }
+
   checkUser() {
     // Gửi yêu cầu đến backend để kiểm tra tên người dùng và email
     // Nếu tên người dùng và email đúng, hiển thị form đặt lại mật khẩu
     // Nếu không, hiển thị thông báo lỗi
     // Ví dụ: this.authService.checkUser(this.username, this.email).subscribe(response => { ... });
     // Trong ví dụ này, giả sử AuthService có một phương thức checkUser() trả về Observable<Response>.
-    const usernameExists = true; // Giả sử tên người dùng tồn tại trong cơ sở dữ liệu
-    const emailExists = true; // Giả sử email tồn tại trong cơ sở dữ liệu
+    this.authService.checkUser(this.ForgotPassForm.value.username,this.ForgotPassForm.value.phonenumber).subscribe((response: any) => {
+      var code = response.status;
+      if (code==200)
+      {
+        this.usernameExists = true;
+      this.phoneExists = true;
+      }
+      
+    },() => {
+      this.usernameExists = false;
+      this.phoneExists = false;
+    });
+   
 
-    if (usernameExists && emailExists) {
+    if (this.usernameExists && this.phoneExists) {
       this.showcheckForm=false;
       this.showPasswordResetForm = true;
       this.errorMessage = '';

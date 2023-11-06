@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import {JwtHelperService} from '@auth0/angular-jwt';
+import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
@@ -83,6 +84,15 @@ export class AuthService {
     const isExpired = helper.isTokenExpired(token);
     localStorage.setItem('fullname',this.fullname);
 
+  }
+  checkUser(username: string, phonenumber: string): Observable<any> {
+    const requestData = {
+      username: username,
+      phonenumber:phonenumber
+    };
+
+    // Gửi yêu cầu POST đến backend API
+    return this.http.post<any>(`${this.BASE_PATH}/check-user`, requestData, { observe: 'response' });
   }
   
   

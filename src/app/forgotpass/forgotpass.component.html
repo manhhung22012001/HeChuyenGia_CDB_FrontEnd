@@ -1,20 +1,20 @@
-<div *ngIf="!showPasswordResetForm">
+<div *ngIf="!showPasswordResetForm && showcheckForm">
     <h2>Quên Mật Khẩu</h2>
-    <form (ngSubmit)="checkUser()">
+    <form class="login-form" [formGroup]="ForgotPassForm" (ngSubmit)="checkUser()" novalidate>
         <div>
             <label for="username">Tên Người Dùng:</label>
-            <input type="text" id="username" name="username" [(ngModel)]="username" required>
+            <input type="text" formControlName="username" placeholder="Tên đăng nhập" required>
         </div>
         <div>
-            <label for="email">Địa chỉ Email:</label>
-            <input type="email" id="email" name="email" [(ngModel)]="email" required>
+            <label for="phonenumber">Số điện thoại:</label>
+            <input type="text" formControlName="phonenumber" placeholder="Số điện thoại" required>
         </div>
         <button type="submit">Kiểm Tra</button>
     </form>
     <div *ngIf="errorMessage">{{ errorMessage }}</div>
 </div>
 
-<div *ngIf="showPasswordResetForm">
+<div *ngIf="showPasswordResetForm && !showcheckForm">
     <h2>Đặt Lại Mật Khẩu</h2>
     <form (ngSubmit)="resetPassword()">
         <div>
@@ -24,5 +24,6 @@
         <button type="submit">Đặt Lại Mật Khẩu</button>
     </form>
     <div *ngIf="resetPasswordMessage">{{ resetPasswordMessage }}</div>
+    <button routerLink="/login">Đăng nhập</button>
 </div>
 
