@@ -19,6 +19,7 @@ import { TaskbarQtvComponent } from './taskbar-qtv/taskbar-qtv.component';
 import { QtvCgmanageComponent } from './qtv-cgmanage/qtv-cgmanage.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ConfirmComponent } from './confirm/confirm.component';
+import { ForgotpassComponent } from './forgotpass/forgotpass.component';
 
 
 
@@ -31,7 +32,8 @@ const appRoutes: Routes = [
   { path: 'taskbar-ks', component: TaskbarKsComponent },
   { path: 'homepage', component: HomepageComponent },
   { path: 'diagnosis', component: DiagnosisComponent },
-  { path: 'comfirm', component: ConfirmComponent }
+  { path: 'comfirm', component: ConfirmComponent },
+  {path: 'forgotpass',component:ForgotpassComponent}
 ]
 @NgModule({
   declarations: [
@@ -45,7 +47,7 @@ const appRoutes: Routes = [
     TaskbarQtvComponent,
     QtvCgmanageComponent,
     ConfirmComponent,
-
+    ForgotpassComponent
   ],
   imports: [
     BrowserModule,

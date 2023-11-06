@@ -1,0 +1,28 @@
+<div *ngIf="!showPasswordResetForm">
+    <h2>Quên Mật Khẩu</h2>
+    <form (ngSubmit)="checkUser()">
+        <div>
+            <label for="username">Tên Người Dùng:</label>
+            <input type="text" id="username" name="username" [(ngModel)]="username" required>
+        </div>
+        <div>
+            <label for="email">Địa chỉ Email:</label>
+            <input type="email" id="email" name="email" [(ngModel)]="email" required>
+        </div>
+        <button type="submit">Kiểm Tra</button>
+    </form>
+    <div *ngIf="errorMessage">{{ errorMessage }}</div>
+</div>
+
+<div *ngIf="showPasswordResetForm">
+    <h2>Đặt Lại Mật Khẩu</h2>
+    <form (ngSubmit)="resetPassword()">
+        <div>
+            <label for="newPassword">Mật Khẩu Mới:</label>
+            <input type="password" id="newPassword" name="newPassword" [(ngModel)]="newPassword" required>
+        </div>
+        <button type="submit">Đặt Lại Mật Khẩu</button>
+    </form>
+    <div *ngIf="resetPasswordMessage">{{ resetPasswordMessage }}</div>
+</div>
+
