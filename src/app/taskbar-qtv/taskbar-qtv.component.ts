@@ -12,9 +12,15 @@ import { ConfirmComponent } from '../confirm/confirm.component';
 export class TaskbarQtvComponent implements OnInit {
   id: any;
   users: any[] = [];
-  fullname=this.authService.fullname;
+  fullname: any;
   loggedInUserId = this.authService.id_user;
-  constructor(private router: Router, private authService: AuthService,private dataService:DataService,private dialog: MatDialog ) { }
+  constructor(private router: Router, private authService: AuthService,private dataService:DataService,private dialog: MatDialog ) { 
+    const token = localStorage.getItem('token');
+    if (!token) {
+      this.router.navigate(['/login']);
+    }
+    this.fullname = localStorage.getItem('fullname');
+  }
 
   ngOnInit(): void {
    

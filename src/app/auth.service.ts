@@ -81,7 +81,7 @@ export class AuthService {
     this.id_user=decodedToken.id;
     const expirationDate =helper.getTokenExpirationDate(token);
     const isExpired = helper.isTokenExpired(token);
-    
+    localStorage.setItem('fullname',this.fullname);
 
   }
   

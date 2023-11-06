@@ -1,16 +1,16 @@
 #header {
-  background:#f6cdf5 ;
+  background: rgb(249, 248, 248) ;
   transition: all 0.5s;
   z-index: 997;
-  height: 86px;
+  height: 100px;
   box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 20px;
-  border-radius: 10px;
+  border-radius: 0px;
   position: fixed; 
-  width: 95%;
+  width: 97.8%;
 }
 
 #header.fixed-top {
@@ -34,7 +34,7 @@
 }
 
 #header .logo a span {
-  color: #f2f4f6;
+  color: #476583;
 }
 
 #header .navbar ul {
@@ -118,7 +118,7 @@
 
 /* Đổi màu chữ khi di chuột qua các lựa chọn */
 .dropdown-content a:hover {
-  background-color: #ddd;
+  background-color: #070505;
 }
 
 html{
@@ -136,7 +136,7 @@ section{
   padding-top: 200px;
   background-size: cover;
   position: relative;
-  background: url("src/app/img/hero.jpg");
+  background: url("../img/hero-bg.png");
 }
 
 #hero:before {
@@ -181,11 +181,26 @@ section{
   letter-spacing: 1px;
   display: inline-block;
   padding: 10px 28px;
-  border-radius: 4px;
-  transition: 0.5s;
+  border-radius: 5px; /* Để có góc bo tròn hơn */
+  transition: 0.3s ease-in-out;
   color: #fff;
-  background: #106eea;
+  background: linear-gradient(45deg, #007bff, #106eea); /* Gradient màu sắc */
+  border: none; /* Loại bỏ đường viền */
+  cursor: pointer;
+  outline: none; /* Loại bỏ đường viền khi được click */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ */
+  transition: 0.3s ease-in-out;
+  animation: bounce 1s infinite; /* Thêm animation hiệu ứng nhảy nhảy */
+  
 }
+
+#hero .btn-get-started:hover {
+  transform: scale(1.05); /* Hiệu ứng phóng to khi hover */
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2); /* Đổ bóng tăng khi hover */
+  background: linear-gradient(45deg, #007bff, #007bff); /* Gradient màu sắc thay đổi khi hover */
+  animation: none; /* Ngừng animation khi hover */
+}
+
 
 #hero .btn-get-started:hover {
   background: #247cf0;

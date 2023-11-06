@@ -15,11 +15,17 @@ export class TaskbarCgComponent implements OnInit {
   id: any;
   benhs: any[] = [];
   listTrieuChung: any[] = [];
-  fullname=this.authService.fullname;
+  fullname:any;
   selectedBenh: any; // Khai báo biến selectedBenh để lưu trữ bệnh được chọn
   hoveredBenh: any;
-  constructor(private router: Router, private authService: AuthService, private dataService:DataService) { }
-
+  constructor(private router: Router, private authService: AuthService, private dataService:DataService) {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      this.router.navigate(['/login']);
+    }
+    this.fullname = localStorage.getItem('fullname');
+   }
+  
   ngOnInit(): void {
     this.dataService.getBenh().subscribe(
       data => {
