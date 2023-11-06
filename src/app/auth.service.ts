@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import {JwtHelperService} from '@auth0/angular-jwt';
 @Injectable({
   providedIn: 'root'
 })
@@ -9,22 +10,25 @@ export class AuthService {
   BASE_PATH = environment.baseUrl;
   USER_NAME_SESSION = 'username_session';
   ID_USER = 'id_user';
-  
+  private secretKey = 'lodaaaaaa';
   public username: string | undefined;
   public password: string | undefined;
   public userRole: number;
-  public id: any;
+  public id_user: any;
+  public fullname :any;
   results: string[] | undefined;
   constructor(private http: HttpClient) {
     this.userRole=1;
    }
-  login(username: string, password: string) {
-    var params = new HttpParams()
-      .set('username', username)
-      .set('password', password)
-     
-    return this.http.post<Response>(this.BASE_PATH + "/auth/login", params, { observe: 'response' });
+   login(username: string, password: string) {
+    const body = {
+      username: username,
+      password: password
+    };
+  
+    return this.http.post<Response>(this.BASE_PATH + "/auth/login", body, { observe: 'response' });
   }
+  
   register(fullname: string, phonenumber: number, user: string, pass: string, role: number) {
     return this.http.post<Response>(this.BASE_PATH + "/auth/register", { username: user, password: pass, fullname: fullname, phonenumber: phonenumber, role: role }, { observe: 'response' });
   }
@@ -67,6 +71,19 @@ export class AuthService {
   getUserRole(): number {
     return this.userRole;
   }
- 
+  public setToken(token: string){
+    
+    localStorage.setItem('token',token);
+    const helper = new JwtHelperService();
+    const decodedToken = helper.decodeToken(token);
+    this.userRole = decodedToken.role;
+    this.fullname= decodedToken.fullname;
+    this.id_user=decodedToken.id;
+    const expirationDate =helper.getTokenExpirationDate(token);
+    const isExpired = helper.isTokenExpired(token);
+    
+
+  }
+  
   
 }

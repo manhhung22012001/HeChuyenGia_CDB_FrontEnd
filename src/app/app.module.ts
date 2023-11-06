@@ -19,7 +19,7 @@ import { TaskbarQtvComponent } from './taskbar-qtv/taskbar-qtv.component';
 import { QtvCgmanageComponent } from './qtv-cgmanage/qtv-cgmanage.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ConfirmComponent } from './confirm/confirm.component';
-import { AuthInterceptor } from './auth.interceptor';
+
 
 
 const appRoutes: Routes = [
@@ -62,11 +62,7 @@ const appRoutes: Routes = [
 
   ],
   providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
-      multi: true
-    }
+    
   ],
   bootstrap: [AppComponent]
 })

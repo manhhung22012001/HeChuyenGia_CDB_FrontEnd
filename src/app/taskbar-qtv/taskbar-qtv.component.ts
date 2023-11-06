@@ -12,8 +12,8 @@ import { ConfirmComponent } from '../confirm/confirm.component';
 export class TaskbarQtvComponent implements OnInit {
   id: any;
   users: any[] = [];
-  fullname=localStorage.getItem('fullname');
-   loggedInUserId = localStorage.getItem('id_user');
+  fullname=this.authService.fullname;
+  loggedInUserId = this.authService.id_user;
   constructor(private router: Router, private authService: AuthService,private dataService:DataService,private dialog: MatDialog ) { }
 
   ngOnInit(): void {
@@ -21,6 +21,7 @@ export class TaskbarQtvComponent implements OnInit {
     this.dataService.getUsers().subscribe(
       data => {
         this.users = data;
+        
       },
       error => {
         console.error('Error loading users data: ', error);
@@ -47,9 +48,10 @@ export class TaskbarQtvComponent implements OnInit {
     user.phonenumber = event.target.innerText;
   }
  
-  deleteUser(user: any) {
+  deleteUser(users: any) {
     
-    if (user.id_user == this.loggedInUserId) {
+    if (users.id_user == this.authService.id_user) {
+      console.log(users.id_user);
       alert('Bạn không thể xóa tài khoản của chính mình.');}
       else{
     const dialogRef = this.dialog.open(ConfirmComponent, {
@@ -63,7 +65,7 @@ export class TaskbarQtvComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         // Nếu người dùng chọn "Có", thực hiện xóa người dùng
-        const userId = user.id_user;
+        const userId = users.id_user;
         this.dataService.deleteUser(userId).subscribe(
           () => {
             // Xóa người dùng khỏi danh sách hiển thị

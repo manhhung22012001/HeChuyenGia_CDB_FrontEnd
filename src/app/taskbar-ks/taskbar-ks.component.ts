@@ -8,7 +8,7 @@ import { AuthService } from '../auth.service';
 })
 export class TaskbarKsComponent implements OnInit{
   id: any;
-  fullname=localStorage.getItem('fullname');
+  fullname=this.authService.fullname;
   
   constructor(private router: Router, private authService: AuthService) { }
 

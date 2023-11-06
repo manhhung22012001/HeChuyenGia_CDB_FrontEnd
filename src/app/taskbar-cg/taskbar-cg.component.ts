@@ -15,7 +15,7 @@ export class TaskbarCgComponent implements OnInit {
   id: any;
   benhs: any[] = [];
   listTrieuChung: any[] = [];
-  fullname=localStorage.getItem('fullname');
+  fullname=this.authService.fullname;
   selectedBenh: any; // Khai báo biến selectedBenh để lưu trữ bệnh được chọn
   hoveredBenh: any;
   constructor(private router: Router, private authService: AuthService, private dataService:DataService) { }
