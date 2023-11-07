@@ -1,28 +1,36 @@
-<div *ngIf="!showPasswordResetForm">
+<div *ngIf="!showPasswordResetForm && showcheckForm">
     <h2>Quên Mật Khẩu</h2>
-    <form (ngSubmit)="checkUser()">
+    <form class="login-form" [formGroup]="ForgotPassForm" (ngSubmit)="checkUserInfo()" novalidate>
         <div>
             <label for="username">Tên Người Dùng:</label>
-            <input type="text" id="username" name="username" [(ngModel)]="username" required>
+            <input type="text" formControlName="username" placeholder="Tên đăng nhập" required>
         </div>
         <div>
-            <label for="email">Địa chỉ Email:</label>
-            <input type="email" id="email" name="email" [(ngModel)]="email" required>
+            <label for="phonenumber">Số điện thoại:</label>
+            <input type="text" formControlName="phonenumber" placeholder="Số điện thoại" required>
+        </div>
+        <div>
+            <label for="phonenumber">email:</label>
+            <input type="text" formControlName="email" placeholder="email" required>
         </div>
         <button type="submit">Kiểm Tra</button>
     </form>
     <div *ngIf="errorMessage">{{ errorMessage }}</div>
 </div>
 
-<div *ngIf="showPasswordResetForm">
+<div *ngIf="showPasswordResetForm && !showcheckForm">
     <h2>Đặt Lại Mật Khẩu</h2>
-    <form (ngSubmit)="resetPassword()">
+    <form [formGroup]="ForgotPassForm" (ngSubmit)="resetPassword()">
         <div>
             <label for="newPassword">Mật Khẩu Mới:</label>
-            <input type="password" id="newPassword" name="newPassword" [(ngModel)]="newPassword" required>
+            <input type="password" id="newPassword" formControlName="newPassword" placeholder="Mật khẩu mới" required>
+        </div>
+        <div>
+            <label for="confirmPassword">Nhập Lại Mật Khẩu:</label>
+            <input type="password" id="confirmPassword" formControlName="confirmPassword" placeholder="Nhập lại mật khẩu" required>
         </div>
         <button type="submit">Đặt Lại Mật Khẩu</button>
     </form>
     <div *ngIf="resetPasswordMessage">{{ resetPasswordMessage }}</div>
+    <button routerLink="/login">Đăng nhập</button>
 </div>
-
