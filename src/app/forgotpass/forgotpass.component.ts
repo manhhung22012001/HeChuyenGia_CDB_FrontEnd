@@ -15,6 +15,7 @@ export class ForgotpassComponent implements OnInit{
   phoneExists:boolean = true; 
   phonenumber: string = '';
   newPassword: string = '';
+  confirmPassword:string ='';
   otp:string='';
   showPasswordResetForm: boolean = false;
   showcheckForm: boolean = true;
@@ -22,11 +23,15 @@ export class ForgotpassComponent implements OnInit{
   errorMessage: string = '';
   errorMessage1: string = '';
   resetPasswordMessage: string = '';
+ 
+
   ForgotPassForm: any = this.fb.group({
     username: [''],
     phonenumber: [''],
     email: [''],
-    otp:['']
+    otp:[''],
+    newPassword:[''],
+    confirmPassword:['']
 
   });
 ngOnInit(): void {
@@ -71,9 +76,9 @@ checkUserInfo() {
   
 }
 checkOTP(){
-  this.authService.checkotp(this.ForgotPassForm.value.email,this.ForgotPassForm.value.otp).subscribe(
+  this.authService.checkOTP(this.ForgotPassForm.value.email,this.ForgotPassForm.value.otp).subscribe(
     (response:any) => {
-      if(response.status==200)
+      if(response==this.ForgotPassForm.value.otp)
       {
           this.showPasswordResetForm=true;
           this.showcheckForm=false;
@@ -117,6 +122,32 @@ checkOTP(){
     // Xử lý phản hồi từ backend và hiển thị thông báo cho người dùng
     // Ví dụ: this.authService.resetPassword(this.username, this.email, this.newPassword).subscribe(response => { ... });
     // Trong ví dụ này, giả sử AuthService có một phương thức resetPassword() trả về Observable<Response>.
-    this.resetPasswordMessage = 'Mật khẩu đã được đặt lại thành công.';
+    if(this.ForgotPassForm.value.newPassword==this.ForgotPassForm.value.confirmPassword)
+    {
+      this.authService.resetpass(this.ForgotPassForm.value.newPassword).subscribe(
+        (response:any) => {
+          console.log(response);
+          if(response.status===201)
+          {
+            this.resetPasswordMessage = "Cập nhật thành công .";
+          }
+        },
+        (error: HttpErrorResponse) => {
+          if (error.status === 404) {
+            // Lỗi khi người dùng không nhập đầy đủ thông tin
+            this.resetPasswordMessage = "Mã OTP không chính xác .";
+          } else {
+            // Lỗi không xác định
+            this.resetPasswordMessage = "Đã xảy ra lỗi. Vui lòng thử lại sau.";
+          }
+        }
+    
+      )
+
+    } else
+    {
+        this.resetPasswordMessage=" Nhập lại không trùng khớp";
+    }
+   
   }
 }

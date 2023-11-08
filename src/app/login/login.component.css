@@ -221,11 +221,7 @@ body {
     text-align: center;
 }
 
-.container .box .form.sign_up {
-    /* transition: all 0.5s;
-    opacity: 0;
-    transform: translateX(-100%); */
-}
+
 
 .container .box .form.sign_up {
     transition: all 1.15s;
@@ -251,21 +247,7 @@ body {
     opacity: 1;
 }
 
-.container.active .box .form.sign_up {
-    /* opacity: 1;
-    transform: translateX(0%); */
-}
 
-.container .box .form.sign_in {
-    /* transition: all 0.5s;
-    opacity: 1;
-    transform: translateX(0%); */
-}
-
-.container.active .box .form.sign_in {
-    /* opacity: 0;
-    transform: translateX(100%); */
-}
 
 .container .overlay {
     display: flex;
@@ -358,7 +340,15 @@ body {
     outline: none;
     background-color: transparent;
 }
-
+#form_input .type select {
+    width: 100%;
+    height: 100%;
+    padding: 0 10px;
+    font-size: 16px;
+    border: none;
+    outline: none;
+    background-color: transparent;
+}
 #form_input .type input::placeholder {
     color: #A9A8A9;
 }

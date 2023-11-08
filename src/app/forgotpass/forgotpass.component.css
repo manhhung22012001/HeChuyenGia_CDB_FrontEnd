@@ -1,55 +1,76 @@
-/* Kiểu dáng cho form và các trường nhập liệu */
+/* Định dạng cho container chứa form */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Chiều cao 100% của viewport */
+    background: url("../img/hero-bg.png");
+}
+
+/* Định dạng cho form */
 form {
-    max-width: 300px;
-    margin: 0 auto;
+    width: 400px; /* Độ rộng của form */
     padding: 20px;
     border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f9f9f9;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Hiển thị đổ bóng cho form */
 }
 
-div {
-    margin-bottom: 10px;
-}
-
-label {
-    font-weight: bold;
-    display: block;
-    margin-bottom: 5px;
-}
-
+/* Định dạng cho các ô input trong form */
 input[type="text"],
-input[type="email"],
 input[type="password"] {
     width: 100%;
-    padding: 8px;
-    font-size: 14px;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 10px;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 5px;
     box-sizing: border-box;
 }
 
+/* Định dạng cho nút submit */
 button[type="submit"] {
-    background-color: #4caf50;
+    width: 100%;
+    background-color: #4CAF50;
     color: white;
-    padding: 10px 20px;
+    padding: 10px;
     border: none;
-    border-radius: 4px;
+    border-radius: 5px;
     cursor: pointer;
 }
-
-button[type="submit"]:hover {
-    background-color: #45a049;
+button{
+    width: 100%;
+    background-color: red;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding-top:10px;
 }
 
-/* Hiển thị thông báo lỗi */
+/* Định dạng cho các thông báo lỗi */
 div.error-message {
     color: red;
     margin-top: 10px;
 }
 
-/* Kiểu dáng cho các phần tử h2 */
-h2 {
-    color: #333;
-    margin-bottom: 15px;
+/* Định dạng cho nút đăng nhập */
+button.router-link {
+    background-color: #008CBA;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 20px;
+}
+h2{
+    text-align: center;
+}
+label{
+    font-weight: bold;
 }
