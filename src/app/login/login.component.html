@@ -3,7 +3,7 @@
 
         <div class="box">
             <div class="form sign_in">
-                <h3>Sign In</h3>
+                <h3>Đăng Nhập</h3>
                 <span>or use your account</span>
 
                 <form action="#" id="form_input" [formGroup]="loginForm" (ngSubmit)="login()" novalidate>
@@ -18,16 +18,16 @@
                     </div>
 
                     <div class="forgot">
-                        <span>Forgot your password?</span>
+                        <span>Quên Mật Khẩu?</span>
                     </div>
 
-                    <button class="btn bkg">Sign In</button>
+                    <button class="btn bkg">Đăng Nhập</button>
                     <div class="alert alert-warning" *ngIf='invalidLogin'>{{errorMessage}}</div>
                 </form>
             </div>
 
             <div class="form sign_up">
-                <h3>Sign Up</h3>
+                <h3>Đăng Ký</h3>
                 <span>or use your email for register</span>
 
                 <form action="#" id="form_input" [formGroup]="registerForm" (ngSubmit)=register()>
@@ -62,7 +62,7 @@
                         </select>
                     </div>
                     
-                    <button class="btn bkg">Sign Up</button>
+                    <button class="btn bkg">Đăng Ký</button>
                     <div class="message-text">{{message}}</div>
                     
                 </form>
@@ -71,7 +71,7 @@
 
         <div class="overlay">
             <div class="page page_signIn">
-                <h3>Welcome Back!</h3>
+                <h3>Chào mừng chở lại!</h3>
                 <p>To keep with us please login with your personal info</p>
 
                 <button class="btn btnSign-in" (click)="onSignInClick()">Sign Up <i
