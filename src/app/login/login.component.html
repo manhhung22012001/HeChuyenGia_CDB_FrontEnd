@@ -18,7 +18,7 @@
                     </div>
 
                     <div class="forgot">
-                        <span>Quên Mật Khẩu?</span>
+                        <a routerLink="/forgotpass">Quên Mật Khẩu?</a>
                     </div>
 
                     <button class="btn bkg">Đăng Nhập</button>
@@ -28,7 +28,7 @@
 
             <div class="form sign_up">
                 <h3>Đăng Ký</h3>
-                <span>or use your email for register</span>
+                
 
                 <form action="#" id="form_input" [formGroup]="registerForm" (ngSubmit)=register()>
                     <div class="type">
@@ -71,7 +71,7 @@
 
         <div class="overlay">
             <div class="page page_signIn">
-                <h3>Chào mừng chở lại!</h3>
+                <h3>Welcome Back!</h3>
                 <p>To keep with us please login with your personal info</p>
 
                 <button class="btn btnSign-in" (click)="onSignInClick()">Sign Up <i

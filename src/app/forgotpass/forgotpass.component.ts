@@ -17,6 +17,7 @@ export class ForgotpassComponent implements OnInit{
   newPassword: string = '';
   showPasswordResetForm: boolean = false;
   showcheckForm: boolean = true;
+  showcheckOTP: boolean = false;
   errorMessage: string = '';
   resetPasswordMessage: string = '';
   ForgotPassForm: any = this.fb.group({
@@ -44,11 +45,10 @@ checkUserInfo() {
             // Người dùng tồn tại trong hệ thống
             console.log("ok");
             this.errorMessage = "Xác thực thành công. Check Email để lấy OTP";
-            this.usernameExists = false;
-            this.phoneExists = false;
-            // this.showcheckForm =  false;  // Thiết lập showcheckForm thành false
-            // this.showPasswordResetForm = true;  // Thiết lập showPasswordResetForm thành true
-            
+           
+             this.showcheckForm =  false;  // Thiết lập showcheckForm thành false
+             this.showPasswordResetForm = false;  // Thiết lập showPasswordResetForm thành true
+            this.showcheckOTP=true
           } 
         },
         (error: HttpErrorResponse) => {
@@ -66,6 +66,28 @@ checkUserInfo() {
     this.errorMessage = "Vui lòng nhập đầy đủ thông tin.";
   }
   
+}
+checkOTP(){
+  this.authService.checkotp(this.ForgotPassForm.value.otpcode).subscribe(
+    (response:any) => {
+      if(this.ForgotPassForm.value.otpcode==response.otpcode)
+      {
+          this.showPasswordResetForm=true;
+          this.showcheckForm=false;
+          this.showcheckOTP=false;
+      }
+    },
+    (error: HttpErrorResponse) => {
+      if (error.status === 404) {
+        // Lỗi khi người dùng không nhập đầy đủ thông tin
+        this.errorMessage = "Mã OTP không chính xác .";
+      } else {
+        // Lỗi không xác định
+        this.errorMessage = "Đã xảy ra lỗi. Vui lòng thử lại sau.";
+      }
+    }
+
+  )
 }
 
     // Gửi yêu cầu đến backend để kiểm tra tên người dùng và email

@@ -1,4 +1,4 @@
-<div *ngIf="!showPasswordResetForm && showcheckForm">
+<div *ngIf="!showPasswordResetForm && showcheckForm && !showcheckOTP">
     <h2>Quên Mật Khẩu</h2>
     <form class="login-form" [formGroup]="ForgotPassForm" (ngSubmit)="checkUserInfo()" novalidate>
         <div>
@@ -10,15 +10,21 @@
             <input type="text" formControlName="phonenumber" placeholder="Số điện thoại" required>
         </div>
         <div>
-            <label for="phonenumber">email:</label>
+            <label for="email">email:</label>
             <input type="text" formControlName="email" placeholder="email" required>
         </div>
         <button type="submit">Kiểm Tra</button>
     </form>
     <div *ngIf="errorMessage">{{ errorMessage }}</div>
 </div>
-
-<div *ngIf="showPasswordResetForm && !showcheckForm">
+<div *ngIf="showcheckOTP && !showPasswordResetForm && !showcheckForm">
+    <form [formGroup]="ForgotPassForm" (ngSubmit)="checkOTP()">
+    <label >Mã OTP:</label>
+         <input type="text" formControlName="otpcode" placeholder="Mã OTP" required>
+         <button type="submit">Tiếp</button>
+    </form>
+</div>
+<div *ngIf="showPasswordResetForm && !showcheckForm && !showcheckOTP">
     <h2>Đặt Lại Mật Khẩu</h2>
     <form [formGroup]="ForgotPassForm" (ngSubmit)="resetPassword()">
         <div>
