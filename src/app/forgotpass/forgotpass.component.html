@@ -17,13 +17,19 @@
     </form>
     <div *ngIf="errorMessage">{{ errorMessage }}</div>
 </div>
+
 <div *ngIf="showcheckOTP && !showPasswordResetForm && !showcheckForm">
     <form [formGroup]="ForgotPassForm" (ngSubmit)="checkOTP()">
-    <label >Mã OTP:</label>
-         <input type="text" formControlName="otpcode" placeholder="Mã OTP" required>
-         <button type="submit">Tiếp</button>
+        <div>
+            <label >Mã OTP:</label>
+            <input type="text" formControlName="otp" placeholder="Mã OTP" required>
+           
+        </div>
+        <button type="submit">Tiếp</button>
     </form>
+    <div *ngIf="errorMessage1">{{ errorMessage1}}</div>
 </div>
+
 <div *ngIf="showPasswordResetForm && !showcheckForm && !showcheckOTP">
     <h2>Đặt Lại Mật Khẩu</h2>
     <form [formGroup]="ForgotPassForm" (ngSubmit)="resetPassword()">

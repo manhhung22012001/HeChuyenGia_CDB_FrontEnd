@@ -92,8 +92,8 @@ export class AuthService {
     // Gửi yêu cầu POST đến API backend và trả về kết quả dưới dạng Observable
     return this.http.post<any>(this.BASE_PATH + "/auth/forgotpass", { username, phonenumber,email });
   }
-  checkotp(otpcode:string): Observable<any> {
+  checkotp(email:string, otp:string): Observable<any> {
     // Gửi yêu cầu POST đến API backend và trả về kết quả dưới dạng Observable
-    return this.http.post<any>(this.BASE_PATH + "/auth/CheckOTP", { otpcode });
+    return this.http.post<any>(this.BASE_PATH + "/auth/CheckOTP", { otp });
   }
 }

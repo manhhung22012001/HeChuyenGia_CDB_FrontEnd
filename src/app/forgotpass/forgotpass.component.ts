@@ -15,15 +15,18 @@ export class ForgotpassComponent implements OnInit{
   phoneExists:boolean = true; 
   phonenumber: string = '';
   newPassword: string = '';
+  otp:string='';
   showPasswordResetForm: boolean = false;
   showcheckForm: boolean = true;
   showcheckOTP: boolean = false;
   errorMessage: string = '';
+  errorMessage1: string = '';
   resetPasswordMessage: string = '';
   ForgotPassForm: any = this.fb.group({
     username: [''],
     phonenumber: [''],
     email: [''],
+    otp:['']
 
   });
 ngOnInit(): void {
@@ -68,9 +71,9 @@ checkUserInfo() {
   
 }
 checkOTP(){
-  this.authService.checkotp(this.ForgotPassForm.value.otpcode).subscribe(
+  this.authService.checkotp(this.ForgotPassForm.value.email,this.ForgotPassForm.value.otp).subscribe(
     (response:any) => {
-      if(this.ForgotPassForm.value.otpcode==response.otpcode)
+      if(response.status==200)
       {
           this.showPasswordResetForm=true;
           this.showcheckForm=false;
@@ -80,10 +83,10 @@ checkOTP(){
     (error: HttpErrorResponse) => {
       if (error.status === 404) {
         // Lỗi khi người dùng không nhập đầy đủ thông tin
-        this.errorMessage = "Mã OTP không chính xác .";
+        this.errorMessage1 = "Mã OTP không chính xác .";
       } else {
         // Lỗi không xác định
-        this.errorMessage = "Đã xảy ra lỗi. Vui lòng thử lại sau.";
+        this.errorMessage1 = "Đã xảy ra lỗi. Vui lòng thử lại sau.";
       }
     }
 
