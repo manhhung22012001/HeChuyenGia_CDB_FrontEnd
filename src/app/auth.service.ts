@@ -96,8 +96,8 @@ export class AuthService {
     // Gửi yêu cầu POST đến API backend và trả về kết quả dưới dạng Observable
     return this.http.post<any>(this.BASE_PATH + "/auth/CheckOTP", { email,otp });
   }
-  resetpass(password:string):Observable<any> {
+  resetpass(username:string,password:string):Observable<any> {
     // Gửi yêu cầu POST đến API backend và trả về kết quả dưới dạng Observable
-    return this.http.post<Response>(this.BASE_PATH + "/auth/reset-password", { password });
+    return this.http.post<Response>(this.BASE_PATH + "/auth/reset-password", { username,password }, { observe: 'response' });
   }
 }

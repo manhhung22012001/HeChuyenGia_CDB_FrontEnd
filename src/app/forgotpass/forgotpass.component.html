@@ -3,15 +3,15 @@
     <form class="login-form" [formGroup]="ForgotPassForm" (ngSubmit)="checkUserInfo()" novalidate>
         <h2>Quên Mật Khẩu</h2>
         <div>
-            <label for="username">Tên Người Dùng:</label>
+            <label for="username">Tên Người Dùng</label>
             <input type="text" formControlName="username" placeholder="Tên đăng nhập" required>
         </div>
         <div>
-            <label for="phonenumber">Số điện thoại:</label>
+            <label for="phonenumber">Số điện thoại</label>
             <input type="text" formControlName="phonenumber" placeholder="Số điện thoại" required>
         </div>
         <div>
-            <label for="email">Email:</label>
+            <label for="email">Email</label>
             <input type="text" formControlName="email" placeholder="Email" required>
             <br>
             <div *ngIf="errorMessage">{{ errorMessage }}</div>
@@ -27,7 +27,7 @@
 <div class="container" *ngIf="showcheckOTP && !showPasswordResetForm && !showcheckForm">
     <form [formGroup]="ForgotPassForm" (ngSubmit)="checkOTP()">
         <div>
-            <label >Mã OTP:</label>
+            <label >Mã OTP</label>
             <input type="text" formControlName="otp" placeholder="Mã OTP" required>
            
         </div>
@@ -37,14 +37,15 @@
 </div>
 
 <div class="container" *ngIf="showPasswordResetForm && !showcheckForm && !showcheckOTP">
-    <h2>Đặt Lại Mật Khẩu</h2>
+    
     <form [formGroup]="ForgotPassForm" (ngSubmit)="resetPassword()">
+        <h2>Đặt Lại Mật Khẩu</h2>
         <div>
-            <label for="newPassword">Mật Khẩu Mới:</label>
+            <label for="newPassword">Mật Khẩu Mới</label>
             <input type="password" id="newPassword" formControlName="newPassword" placeholder="Mật khẩu mới" required>
         </div>
         <div>
-            <label for="confirmPassword">Nhập Lại Mật Khẩu:</label>
+            <label for="confirmPassword">Nhập Lại Mật Khẩu</label>
             <input type="password" id="confirmPassword" formControlName="confirmPassword" placeholder="Nhập lại mật khẩu" required>
         </div>
         <div *ngIf="resetPasswordMessage">{{ resetPasswordMessage }}</div>

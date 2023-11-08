@@ -124,9 +124,9 @@ checkOTP(){
     // Trong ví dụ này, giả sử AuthService có một phương thức resetPassword() trả về Observable<Response>.
     if(this.ForgotPassForm.value.newPassword==this.ForgotPassForm.value.confirmPassword)
     {
-      this.authService.resetpass(this.ForgotPassForm.value.newPassword).subscribe(
+      this.authService.resetpass(this.ForgotPassForm.value.username,this.ForgotPassForm.value.newPassword).subscribe(
         (response:any) => {
-          console.log(response);
+          console.log(response.status);
           if(response.status===201)
           {
             this.resetPasswordMessage = "Cập nhật thành công .";
