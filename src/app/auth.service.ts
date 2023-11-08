@@ -32,8 +32,8 @@ export class AuthService {
     return this.http.post<Response>(this.BASE_PATH + "/auth/login", body, { observe: 'response' });
   }
   
-  register(fullname: string, phonenumber: number, user: string, pass: string, role: number) {
-    return this.http.post<Response>(this.BASE_PATH + "/auth/register", { username: user, password: pass, fullname: fullname, phonenumber: phonenumber, role: role }, { observe: 'response' });
+  register(fullname: string,email:string, phonenumber: string, username: string, password: string, role: number) {
+    return this.http.post<Response>(this.BASE_PATH + "/auth/register", { fullname: fullname, email:email, phonenumber: phonenumber, username:username,password:password,role: role  }, { observe: 'response' });
   }
   
   createBasicAuthToken() {

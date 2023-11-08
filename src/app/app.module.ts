@@ -10,7 +10,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { MatDialogModule } from '@angular/material/dialog';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { RegisterComponent } from './register/register.component';
+
 import { HomepageComponent } from './homepage/homepage.component';
 import { DiagnosisComponent } from './diagnosis/diagnosis.component';
 import { TaskbarCgComponent } from './taskbar-cg/taskbar-cg.component';
@@ -26,7 +26,7 @@ import { ForgotpassComponent } from './forgotpass/forgotpass.component';
 const appRoutes: Routes = [
   { path: '', component: HomepageComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
+
   { path: 'taskbar-qtv', component: TaskbarQtvComponent },
   { path: 'taskbar-cg', component: TaskbarCgComponent },
   { path: 'taskbar-ks', component: TaskbarKsComponent },
@@ -39,7 +39,7 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent,
     LoginComponent,
-    RegisterComponent,
+
     HomepageComponent,
     DiagnosisComponent,
     TaskbarCgComponent,
