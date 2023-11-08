@@ -46,6 +46,15 @@
           </tr>
         </tbody>
       </table>
+      <button  *ngIf="!ShowFrom" (click)="LoadForm()">Thêm Bác Sĩ</button>
+      <form *ngIf="ShowFrom">
+        <label>Fullname: <input [(ngModel)]="newUser.fullname" name="fullname" required></label><br>
+        <label>Phone Number: <input [(ngModel)]="newUser.phonenumber" name="phonenumber" required></label><br>
+        <label>Email: <input [(ngModel)]="newUser.email" name="email" required></label><br>
+        <label>Username: <input [(ngModel)]="newUser.username" name="username" required></label><br>
+        <label>Password: <input type="password" [(ngModel)]="newUser.password" name="password" required></label><br>
+        <button type="submit"(click)="addNewUser()">Lưu</button>
+      </form>
     </div>
     
       

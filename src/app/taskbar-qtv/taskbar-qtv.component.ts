@@ -12,8 +12,19 @@ import { ConfirmComponent } from '../confirm/confirm.component';
 export class TaskbarQtvComponent implements OnInit {
   id: any;
   users: any[] = [];
+  ShowTable:boolean =true;
+  ShowFrom:boolean=false;
   fullname: any;
   loggedInUserId = this.authService.id_user;
+  newUser: any = {
+    fullname: '',
+    phonenumber: '',
+    email: '',
+    username: '',
+    password: '',
+    role: 1,
+    status: 1
+  };
   constructor(private router: Router, private authService: AuthService,private dataService:DataService,private dialog: MatDialog ) { 
     const token = localStorage.getItem('token');
     if (!token) {
@@ -33,6 +44,30 @@ export class TaskbarQtvComponent implements OnInit {
         console.error('Error loading users data: ', error);
       }
     );
+  }
+   // Hàm để thêm bác sĩ mới
+   addNewUser() {
+    // Hiển thị modal hoặc form để nhập thông tin bác sĩ mới
+    this.ShowFrom=true;
+    // Sau khi người dùng nhập thông tin và nhấn "Lưu"
+    // Thêm bác sĩ mới vào mảng users
+    this.users.push(this.newUser);
+    
+    // Sau khi thêm xong, đặt lại giá trị của newUser để chuẩn bị cho lần thêm mới tiếp theo
+    this.newUser = {
+      fullname: '',
+      phonenumber: '',
+      email: '',
+      username: '',
+      password: '',
+      role: 1,
+      status: 1
+    };
+  }
+  LoadForm() {
+    // Hiển thị modal hoặc form để nhập thông tin bác sĩ mới
+    this.ShowFrom=true;
+   
   }
   logout() {
     this.authService.logout();
