@@ -24,18 +24,14 @@
   </header>
 <br>
 <br>
-  <div class="filter-options">
-    <label>
-      <input type="checkbox" [(ngModel)]="hohaptren" (change)="onCheckboxChange()"> Hô hấp trên
-    </label>
-    <label>
-      <input type="checkbox" [(ngModel)]="hohapduoi" (change)="onCheckboxChange()"> Hô hấp dưới
-    </label>
-    <label>
-      <input type="checkbox" [(ngModel)]="tatca" (change)="onCheckboxChange()"> Tất cả
-    </label>
-    
-  </div>
+<label>
+  Chọn loại hô hấp:
+  <select [(ngModel)]="loai_he" name="loai_he" required (change)="onCheckboxChange()" >
+    <option value="1" >Hô hấp trên</option>
+    <option value="2">Hô hấp dưới</option>
+    <option value="3">Tất cả</option>
+  </select>
+</label>
 
   <div class="container" data-aos="zoom-out" data-aos-delay="100">
     <div class="tables-container">
@@ -57,6 +53,8 @@
                 (mouseenter)="hoveredBenh = benh" (mouseleave)="hoveredBenh = null">
                 <td>{{benh.ma_benh}}</td>
                 <td>{{benh.ten_benh}}</td>
+                <!-- <td>{{benh[0]}}</td>
+                <td>{{benh[1]}}</td> -->
               </tr>
 
             </tbody>

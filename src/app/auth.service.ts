@@ -19,6 +19,7 @@ export class AuthService {
   public id_user: any;
   public fullname :any;
   public email :any;
+  public status:any;
   results: string[] | undefined;
   constructor(private http: HttpClient) {
     this.userRole=1;
@@ -83,6 +84,7 @@ export class AuthService {
     this.userRole = decodedToken.role;
     this.fullname= decodedToken.fullname;
     this.id_user=decodedToken.id;
+    this.status=decodedToken.status;
     const expirationDate =helper.getTokenExpirationDate(token);
     const isExpired = helper.isTokenExpired(token);
     localStorage.setItem('fullname',this.fullname);

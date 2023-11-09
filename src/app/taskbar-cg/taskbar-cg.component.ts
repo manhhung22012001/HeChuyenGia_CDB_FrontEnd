@@ -20,6 +20,7 @@ export class TaskbarCgComponent implements OnInit {
   hoveredBenh: any;
   hohaptren:boolean=false;
   hohapduoi:boolean=false;
+  loai_he:String = '';
   tatca:boolean=false;
   constructor(private router: Router, private authService: AuthService, private dataService:DataService) {
     const token = localStorage.getItem('token');
@@ -42,7 +43,7 @@ export class TaskbarCgComponent implements OnInit {
   }
   onCheckboxChange() {
     // Lọc danh sách bệnh theo loại hệ hô hấp là 1 nếu checkbox được chọn
-    if (this.hohaptren) {
+    if (this.loai_he=='1') {
      this.dataService.getBenhbyhe(1).subscribe(
       data => {
         this.benhs=data;
@@ -51,7 +52,7 @@ export class TaskbarCgComponent implements OnInit {
         console.error('Error loading users data: ', error);
       }
      )
-    } else if(this.hohapduoi){
+    } else if(this.loai_he=='2'){
       this.dataService.getBenhbyhe(2).subscribe(
         data => {
           this.benhs=data;

@@ -61,7 +61,7 @@ export class LoginComponent implements OnInit {
 
       // Lưu token vào local storage hoặc cookie
       this.authService.setToken(response.body.token);
-      console.log("status code:" + code);
+      console.log("status code:" + this.authService.status);
       if (code == 200) {
         this.invalidLogin = false;
         this.loginSuccess = true;
