@@ -47,6 +47,9 @@
         </tbody>
       </table>
       <button  *ngIf="!ShowFrom" (click)="LoadForm()">Thêm Bác Sĩ</button>
+      <br>
+      <br>
+
       <form *ngIf="ShowFrom" (ngSubmit)="addNewUser()">
         <label>Fullname: <input [(ngModel)]="newUser.fullname" name="fullname" required></label><br>
         <label>Phone Number: <input [(ngModel)]="newUser.phonenumber" name="phonenumber" required pattern="[0-9]{10}"></label><br>
@@ -63,13 +66,13 @@
       
       <div [hidden]="!showStatusDropdown">
       <label>Trạng Thái : 
-        <select [(ngModel)]="newUser.status" name="status" required [disabled]="!showStatusDropdown">
+        <select [(ngModel)]="newUser.status" name="status" required >
         <option value="1">Active</option>
         <option value="0">Not Active</option>
       </select>
       </label>
       </div>
-        <button type="submit">Thêm</button>
+        <button type="submit" >Thêm</button>
     </form>
     
 

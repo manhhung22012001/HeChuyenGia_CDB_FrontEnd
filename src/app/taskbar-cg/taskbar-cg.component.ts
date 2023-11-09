@@ -18,6 +18,9 @@ export class TaskbarCgComponent implements OnInit {
   fullname:any;
   selectedBenh: any; // Khai báo biến selectedBenh để lưu trữ bệnh được chọn
   hoveredBenh: any;
+  hohaptren:boolean=false;
+  hohapduoi:boolean=false;
+  tatca:boolean=false;
   constructor(private router: Router, private authService: AuthService, private dataService:DataService) {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -27,14 +30,7 @@ export class TaskbarCgComponent implements OnInit {
    }
   
   ngOnInit(): void {
-    this.dataService.getBenh().subscribe(
-      data => {
-        this.benhs = data;
-      },
-      error => {
-        console.error('Error loading users data: ', error);
-      }
-    );
+    
   }
   logout() {
     this.authService.logout();
@@ -43,6 +39,38 @@ export class TaskbarCgComponent implements OnInit {
   tabChange(key: any) {
     this.id = key;
     this.router.navigate(['/' + this.id]);
+  }
+  onCheckboxChange() {
+    // Lọc danh sách bệnh theo loại hệ hô hấp là 1 nếu checkbox được chọn
+    if (this.hohaptren) {
+     this.dataService.getBenhbyhe(1).subscribe(
+      data => {
+        this.benhs=data;
+      },
+      error => {
+        console.error('Error loading users data: ', error);
+      }
+     )
+    } else if(this.hohapduoi){
+      this.dataService.getBenhbyhe(2).subscribe(
+        data => {
+          this.benhs=data;
+        },
+        error => {
+          console.error('Error loading users data: ', error);
+        })
+    }
+    else 
+    {
+     this.dataService.getBenh().subscribe(
+      data => {
+        this.benhs=data;
+        },
+        error => {
+          console.error('Error loading users data: ', error);
+      }
+     )
+    }
   }
   selectBenh(benh: any) {
     this.selectedBenh = benh; // Lưu trữ thông tin bệnh được chọn

@@ -100,4 +100,7 @@ export class AuthService {
     // Gửi yêu cầu POST đến API backend và trả về kết quả dưới dạng Observable
     return this.http.post<Response>(this.BASE_PATH + "/auth/reset-password", { username,password }, { observe: 'response' });
   }
+  qtvregister(fullname: string,email:string, phonenumber: string, username: string, password: string, role: number,status:string) {
+    return this.http.post<Response>(this.BASE_PATH + "/auth/register", { fullname: fullname, email:email, phonenumber: phonenumber, username:username,password:password,role: role ,status:status }, { observe: 'response' });
+  }
 }

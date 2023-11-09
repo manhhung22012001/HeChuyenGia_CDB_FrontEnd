@@ -54,6 +54,10 @@ export class DataService {
     const httpOptions = this.getHttpOptions();
     return this.http.get<any[]>(`${this.rootURL}/taskbar-cg/getall`, httpOptions);
   }
+  getBenhbyhe(loai_he:number):Observable<any[]>{
+    const httpOptions = this.getHttpOptions();
+    return this.http.get<any[]>(`${this.rootURL}/taskbar-cg/getall12/${loai_he}`, httpOptions);
+  }
 
   getTrieuChungByMaBenh(maBenh: number): Observable<any[]> {
     const httpOptions = this.getHttpOptions();

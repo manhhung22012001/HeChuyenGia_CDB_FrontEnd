@@ -4,6 +4,7 @@ import { AuthService } from '../auth.service';
 import { DataService } from '../data.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmComponent } from '../confirm/confirm.component';
+import { HttpErrorResponse } from '@angular/common/http';
 @Component({
   selector: 'app-taskbar-qtv',
   templateUrl: './taskbar-qtv.component.html',
@@ -16,6 +17,7 @@ export class TaskbarQtvComponent implements OnInit {
   ShowFrom:boolean=false;
   showStatusDropdown: boolean = false;
   fullname: any;
+  message: string='';
   loggedInUserId = this.authService.id_user;
   newUser: any = {
     fullname: '',
@@ -52,19 +54,38 @@ export class TaskbarQtvComponent implements OnInit {
     this.ShowFrom=true;
     // Sau khi người dùng nhập thông tin và nhấn "Lưu"
     // Thêm bác sĩ mới vào mảng users
-    this.users.push(this.newUser);
-    
-    // Sau khi thêm xong, đặt lại giá trị của newUser để chuẩn bị cho lần thêm mới tiếp theo
-    this.newUser = {
-      fullname: '',
-      phonenumber: '',
-      email: '',
-      username: '',
-      password: '',
-      role: '',
-      status: ''
-    };
+    const fullname = this.newUser.fullname;
+    const email=this.newUser.email;
+    const phonenumber = this.newUser.phonenumber;
+    const username = this.newUser.username;
+    const password = this.newUser.password;
+    const role = this.newUser.role;
+    const status=this.newUser.status;
+
+    if (fullname && email && phonenumber && username && password && role && status) {
+      console.log(fullname, email, phonenumber, username, password, role,status);
+
+      this.authService.qtvregister(fullname,email, phonenumber, username ,password, role,status).subscribe(response => {
+        var code = response.status;
+        if (code === 201) {
+          this.message = "Đăng ký thành công";
+          this.ngOnInit();
+        }
+      },
+        (error: HttpErrorResponse) => {
+          if (error.status === 400) {
+            this.message = "Tên đăng nhập đã tồn tại.";
+          } 
+          else {
+            this.message = "Đã xảy ra lỗi. Vui lòng thử lại sau.";
+          }
+        }
+      );
+    } else {
+      this.message = "Vui lòng nhập đầy đủ thông tin.";
+    }
   }
+  
   onRoleChange1() {
     if (this.newUser.role === '1') {
       this.showStatusDropdown = true;
@@ -158,6 +179,7 @@ updateUser(user: any) {
     }
   );
 }
+
 
 
   
