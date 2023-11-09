@@ -14,6 +14,7 @@ export class TaskbarQtvComponent implements OnInit {
   users: any[] = [];
   ShowTable:boolean =true;
   ShowFrom:boolean=false;
+  showStatusDropdown: boolean = false;
   fullname: any;
   loggedInUserId = this.authService.id_user;
   newUser: any = {
@@ -22,8 +23,8 @@ export class TaskbarQtvComponent implements OnInit {
     email: '',
     username: '',
     password: '',
-    role: 1,
-    status: 1
+    role: '',
+    status: ''
   };
   constructor(private router: Router, private authService: AuthService,private dataService:DataService,private dialog: MatDialog ) { 
     const token = localStorage.getItem('token');
@@ -60,10 +61,19 @@ export class TaskbarQtvComponent implements OnInit {
       email: '',
       username: '',
       password: '',
-      role: 1,
-      status: 1
+      role: '',
+      status: ''
     };
   }
+  onRoleChange1() {
+    if (this.newUser.role === '1') {
+      this.showStatusDropdown = true;
+    } else {
+      this.showStatusDropdown = false;
+      this.newUser.status = ''; // Đặt giá trị trạng thái về rỗng khi không cho chọn
+    }
+  }
+
   LoadForm() {
     // Hiển thị modal hoặc form để nhập thông tin bác sĩ mới
     this.ShowFrom=true;

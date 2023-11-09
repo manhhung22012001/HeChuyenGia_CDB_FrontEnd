@@ -47,14 +47,32 @@
         </tbody>
       </table>
       <button  *ngIf="!ShowFrom" (click)="LoadForm()">Thêm Bác Sĩ</button>
-      <form *ngIf="ShowFrom">
+      <form *ngIf="ShowFrom" (ngSubmit)="addNewUser()">
         <label>Fullname: <input [(ngModel)]="newUser.fullname" name="fullname" required></label><br>
-        <label>Phone Number: <input [(ngModel)]="newUser.phonenumber" name="phonenumber" required></label><br>
-        <label>Email: <input [(ngModel)]="newUser.email" name="email" required></label><br>
+        <label>Phone Number: <input [(ngModel)]="newUser.phonenumber" name="phonenumber" required pattern="[0-9]{10}"></label><br>
+        <label>Email: <input [(ngModel)]="newUser.email" name="email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"></label><br>
         <label>Username: <input [(ngModel)]="newUser.username" name="username" required></label><br>
         <label>Password: <input type="password" [(ngModel)]="newUser.password" name="password" required></label><br>
-        <button type="submit"(click)="addNewUser()">Lưu</button>
-      </form>
+        <label>Chọn chức vụ  :  
+          <select [(ngModel)]="newUser.role" name="role" required (change)="onRoleChange1()" >
+          <option value="1" >Chuyên gia</option>
+          <option value="2">Kỹ sư</option>
+          <option value="3">Quản trị viên</option>
+        </select>
+      </label>
+      
+      <div [hidden]="!showStatusDropdown">
+      <label>Trạng Thái : 
+        <select [(ngModel)]="newUser.status" name="status" required [disabled]="!showStatusDropdown">
+        <option value="1">Active</option>
+        <option value="0">Not Active</option>
+      </select>
+      </label>
+      </div>
+        <button type="submit">Thêm</button>
+    </form>
+    
+
     </div>
     
       

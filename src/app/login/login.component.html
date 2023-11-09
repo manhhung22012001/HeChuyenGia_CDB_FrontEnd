@@ -37,11 +37,11 @@
                     </div>
                     <div class="type">
 
-                        <input type="text" formControlName="email" placeholder="Email" required>
+                        <input type="text" formControlName="email" placeholder="Email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
                     </div>
                     <div class="type">
 
-                        <input type="text" formControlName="phonenumber" placeholder="Phonenumber" required>
+                        <input type="text" formControlName="phonenumber" placeholder="Phonenumber" required pattern="[0-9]{10}">
                     </div>
                     <div class="type">
 
