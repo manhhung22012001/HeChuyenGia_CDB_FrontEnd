@@ -60,7 +60,15 @@ export class TaskbarQtvComponent implements OnInit {
     const username = this.newUser.username;
     const password = this.newUser.password;
     const role = this.newUser.role;
-    const status=this.newUser.status;
+    var status;
+   if(role==1)
+   {
+    status=this.newUser.status;
+   }
+   else
+   {
+    status=' ';
+   }
 
     if (fullname && email && phonenumber && username && password && role && status) {
       console.log(fullname, email, phonenumber, username, password, role,status);
