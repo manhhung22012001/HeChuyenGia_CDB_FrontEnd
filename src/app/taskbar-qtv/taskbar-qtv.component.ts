@@ -51,7 +51,7 @@ export class TaskbarQtvComponent implements OnInit {
    // Hàm để thêm bác sĩ mới
    addNewUser() {
     // Hiển thị modal hoặc form để nhập thông tin bác sĩ mới
-    this.ShowFrom=true;
+   
     // Sau khi người dùng nhập thông tin và nhấn "Lưu"
     // Thêm bác sĩ mới vào mảng users
     const fullname = this.newUser.fullname;
@@ -69,7 +69,8 @@ export class TaskbarQtvComponent implements OnInit {
         var code = response.status;
         if (code === 201) {
           this.message = "Đăng ký thành công";
-          this.ngOnInit();
+          this.ngOnInit()
+          this.ShowFrom=false;
         }
       },
         (error: HttpErrorResponse) => {
@@ -111,7 +112,9 @@ export class TaskbarQtvComponent implements OnInit {
   onFullnameChange(event: any, user: any) {
     user.fullname = event.target.innerText;
   }
-  
+  onActiveChange(event: any, user: any) {
+    user.active = event.target.innerText;
+  }
   onRoleChange(event: any, user: any) {
     user.role = event.target.innerText;
   }

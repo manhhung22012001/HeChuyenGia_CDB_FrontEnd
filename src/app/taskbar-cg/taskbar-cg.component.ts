@@ -18,20 +18,40 @@ export class TaskbarCgComponent implements OnInit {
   fullname:any;
   selectedBenh: any; // Khai báo biến selectedBenh để lưu trữ bệnh được chọn
   hoveredBenh: any;
-  hohaptren:boolean=false;
-  hohapduoi:boolean=false;
+  // activeForm:boolean= true;
+  // notactiveForm:boolean=false;
+  
   loai_he:String = '';
-  tatca:boolean=false;
+
   constructor(private router: Router, private authService: AuthService, private dataService:DataService) {
     const token = localStorage.getItem('token');
     if (!token) {
       this.router.navigate(['/login']);
     }
     this.fullname = localStorage.getItem('fullname');
+  
    }
   
   ngOnInit(): void {
+  
+  }
+  checkactive()
+  {
     
+    if(this.authService.status==1)
+    {
+      // this.activeForm=true;
+      // this.notactiveForm=false;
+     return true;
+    }
+    else if (this.authService.status==0){
+      // this.activeForm=false;
+      // this.notactiveForm=true;
+      return false;
+    }
+   else{
+    return;
+   }
   }
   logout() {
     this.authService.logout();

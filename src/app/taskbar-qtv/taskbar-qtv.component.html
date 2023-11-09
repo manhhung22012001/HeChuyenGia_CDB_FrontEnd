@@ -30,6 +30,7 @@
             <th>Fullname</th>
             <th>Role</th>
             <th>Phone Number</th>
+            <th>Able</th>
             <th>Active</th>
           </tr>
         </thead>
@@ -39,6 +40,7 @@
             <td contenteditable="true" (input)="onFullnameChange($event, user)">{{user.fullname}}</td>
             <td contenteditable="true" (input)="onRoleChange($event, user)">{{user.role}}</td>
             <td contenteditable="true" (input)="onPhoneNumberChange($event, user)">{{user.phonenumber}}</td>
+            <td contenteditable="true" (input)="onActiveChange($event, user)">{{user.active}}</td>
             <td>
               <button (click)="deleteUser(user)">Xóa</button>
               <button (click)="updateUser(user)">Sửa</button>
@@ -50,7 +52,7 @@
       <br>
       <br>
 
-      <form *ngIf="ShowFrom" (ngSubmit)="addNewUser()">
+      <form *ngIf="ShowFrom" >
         <label>Fullname: <input [(ngModel)]="newUser.fullname" name="fullname" required></label><br>
         <label>Phone Number: <input [(ngModel)]="newUser.phonenumber" name="phonenumber" required pattern="[0-9]{10}"></label><br>
         <label>Email: <input [(ngModel)]="newUser.email" name="email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"></label><br>
@@ -72,7 +74,7 @@
       </select>
       </label>
       </div>
-        <button type="submit" >Thêm</button>
+        <button (click)="addNewUser()">Thêm</button>
     </form>
     
 
