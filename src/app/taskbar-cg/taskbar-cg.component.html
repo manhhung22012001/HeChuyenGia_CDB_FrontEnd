@@ -24,10 +24,12 @@
   </header>
 <br>
 <br>
+</body>
 
-<div *ngIf="!this.checkactive()">Vui lòng đợi xác nhận người dùng</div>
+<!-- <div *ngIf="notactiveForm"> >Vui lòng đợi xác nhận người dùng</div> -->
 
-<div *ngIf="this.checkactive()">
+
+<div>
 <label>
   Chọn loại hô hấp:
   <select [(ngModel)]="loai_he" name="loai_he" required (change)="onCheckboxChange()" >
@@ -97,4 +99,3 @@
   </div>
 </div>
 
-</body>

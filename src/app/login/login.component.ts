@@ -18,6 +18,7 @@ export class LoginComponent implements OnInit {
   invalidLogin = false;
   loginSuccess = false;
   userRole: number;
+ 
   loginForm: any = this.fb.group({
     username: [''],
     password: [''],
@@ -34,6 +35,7 @@ export class LoginComponent implements OnInit {
   });
   constructor(private fb: FormBuilder, private router: Router, private authService: AuthService) {
     this.userRole = 1;
+    
   }
 
   ngOnInit(): void {
@@ -88,8 +90,12 @@ export class LoginComponent implements OnInit {
   }
   onLoginSuccess(role: number) {
     this.userRole = role;
-    if (this.userRole == 1) {
+
+    if (this.userRole == 1 && this.authService.status==1) {
       this.router.navigate(['/taskbar-cg'])
+    }
+    else if(this.userRole == 1 && this.authService.status==0){
+      this.router.navigate(['/taskbar-cg0'])
     }
     else if (this.userRole == 2) {
       this.router.navigate(['/taskbar-ks'])

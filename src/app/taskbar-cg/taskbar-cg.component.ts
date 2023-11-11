@@ -15,44 +15,31 @@ export class TaskbarCgComponent implements OnInit {
   id: any;
   benhs: any[] = [];
   listTrieuChung: any[] = [];
-  fullname:any;
+  fullname: any;
   selectedBenh: any; // Khai báo biến selectedBenh để lưu trữ bệnh được chọn
   hoveredBenh: any;
-  // activeForm:boolean= true;
-  // notactiveForm:boolean=false;
-  
-  loai_he:String = '';
-
-  constructor(private router: Router, private authService: AuthService, private dataService:DataService) {
+  loai_he: String = '';
+ 
+  constructor(private router: Router, private authService: AuthService, private dataService: DataService) {
+    
     const token = localStorage.getItem('token');
     if (!token) {
       this.router.navigate(['/login']);
     }
     this.fullname = localStorage.getItem('fullname');
-  
-   }
-  
-  ngOnInit(): void {
-  
+
+
   }
-  checkactive()
-  {
+  // Trong component của bạn
+
+
+  ngOnInit() {
     
-    if(this.authService.status==1)
-    {
-      // this.activeForm=true;
-      // this.notactiveForm=false;
-     return true;
-    }
-    else if (this.authService.status==0){
-      // this.activeForm=false;
-      // this.notactiveForm=true;
-      return false;
-    }
-   else{
-    return;
-   }
   }
+ 
+  // Hàm để chuyển đổi giữa notactiveForm và activeForm
+
+
   logout() {
     this.authService.logout();
     this.router.navigate(['/login']);
@@ -63,34 +50,33 @@ export class TaskbarCgComponent implements OnInit {
   }
   onCheckboxChange() {
     // Lọc danh sách bệnh theo loại hệ hô hấp là 1 nếu checkbox được chọn
-    if (this.loai_he=='1') {
-     this.dataService.getBenhbyhe(1).subscribe(
-      data => {
-        this.benhs=data;
-      },
-      error => {
-        console.error('Error loading users data: ', error);
-      }
-     )
-    } else if(this.loai_he=='2'){
+    if (this.loai_he == '1') {
+      this.dataService.getBenhbyhe(1).subscribe(
+        data => {
+          this.benhs = data;
+        },
+        error => {
+          console.error('Error loading users data: ', error);
+        }
+      )
+    } else if (this.loai_he == '2') {
       this.dataService.getBenhbyhe(2).subscribe(
         data => {
-          this.benhs=data;
+          this.benhs = data;
         },
         error => {
           console.error('Error loading users data: ', error);
         })
     }
-    else 
-    {
-     this.dataService.getBenh().subscribe(
-      data => {
-        this.benhs=data;
+    else {
+      this.dataService.getBenh().subscribe(
+        data => {
+          this.benhs = data;
         },
         error => {
           console.error('Error loading users data: ', error);
-      }
-     )
+        }
+      )
     }
   }
   selectBenh(benh: any) {
@@ -100,18 +86,18 @@ export class TaskbarCgComponent implements OnInit {
     const maBenh = parseInt(benh.ma_benh, 10);
     // Gọi hàm lấy danh sách triệu chứng cho bệnh được chọn
     this.dataService.getTrieuChungByMaBenh(benh.ma_benh).subscribe(
-    (trieuChung: any[]) => {
-      // Xử lý dữ liệu triệu chứng trả về từ API (trieuChung)
-      console.log(trieuChung);
-      // Lưu trữ danh sách triệu chứng vào một thuộc tính trong component để hiển thị trong giao diện người dùng
-      this.listTrieuChung = trieuChung;
-    },
-    (error) => {
-      // Xử lý lỗi nếu có
-      console.error('Error fetching trieu chung:', error);
-      
-    }
-  );
-    
+      (trieuChung: any[]) => {
+        // Xử lý dữ liệu triệu chứng trả về từ API (trieuChung)
+        console.log(trieuChung);
+        // Lưu trữ danh sách triệu chứng vào một thuộc tính trong component để hiển thị trong giao diện người dùng
+        this.listTrieuChung = trieuChung;
+      },
+      (error) => {
+        // Xử lý lỗi nếu có
+        console.error('Error fetching trieu chung:', error);
+
+      }
+    );
+
   }
 }

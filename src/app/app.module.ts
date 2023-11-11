@@ -20,6 +20,7 @@ import { QtvCgmanageComponent } from './qtv-cgmanage/qtv-cgmanage.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ConfirmComponent } from './confirm/confirm.component';
 import { ForgotpassComponent } from './forgotpass/forgotpass.component';
+import { TaskbarCg0Component } from './taskbar-cg0/taskbar-cg0.component';
 
 
 
@@ -29,6 +30,7 @@ const appRoutes: Routes = [
 
   { path: 'taskbar-qtv', component: TaskbarQtvComponent },
   { path: 'taskbar-cg', component: TaskbarCgComponent },
+  { path: 'taskbar-cg0', component: TaskbarCg0Component },
   { path: 'taskbar-ks', component: TaskbarKsComponent },
   { path: 'homepage', component: HomepageComponent },
   { path: 'diagnosis', component: DiagnosisComponent },
@@ -47,7 +49,8 @@ const appRoutes: Routes = [
     TaskbarQtvComponent,
     QtvCgmanageComponent,
     ConfirmComponent,
-    ForgotpassComponent
+    ForgotpassComponent,
+    TaskbarCg0Component
   ],
   imports: [
     BrowserModule,
