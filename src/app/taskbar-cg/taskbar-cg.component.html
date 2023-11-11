@@ -10,7 +10,7 @@
 
     <nav id="navbar" class="navbar">
       <ul>
-        <li><a class="nav-link scrollto active">Thêm bệnh</a></li>
+        <li><a class="nav-link scrollto active" (click)="addNewBenh()">Thêm bệnh</a></li>
         <li><a class="nav-link scrollto active" routerLink="/diagnosis">Chuẩn đoán bệnh</a></li>
 
         <li class="dropdown">
@@ -98,4 +98,24 @@
     </div>
   </div>
 </div>
+<div *ngIf="isAddingNewBenh">
+  <h2>Thêm Bệnh Mới</h2>
+  <label for="tenBenh">Tên Bệnh:</label>
+  <input id="tenBenh" [(ngModel)]="newBenh.ten_benh" />
+
+  <label for="trieuChung">Triệu Chứng:</label>
+  <div *ngFor="let trieuChung of newBenh.trieu_chung; let i = index">
+    <input
+      id="trieuChung{{i}}"
+      [(ngModel)]="newBenh.trieu_chung[i]"
+      
+      
+    />
+    <button (click)="addNewTrieuChung()" *ngIf="i === newBenh.trieu_chung.length - 1">+</button>
+  </div>
+
+  <button (click)="saveNewBenh()">Lưu</button>
+</div>
+
+
 

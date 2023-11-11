@@ -21,6 +21,12 @@ export class DiagnosisComponent implements OnInit{
   ketqua: any[] = [];
   ketqua1: any[] = [];
   disableBasicSymptoms: boolean = false;
+  listTrieuChung: any[] = [];
+  show:boolean=false;
+  
+  selectedBenh: any; // Khai báo biến selectedBenh để lưu trữ bệnh được chọn
+  hoveredBenh: any;
+  selectedBenhs: any[] = [];
 
 
   constructor(
@@ -116,7 +122,38 @@ export class DiagnosisComponent implements OnInit{
     this.showStep3 = false;
     this.disableBasicSymptoms = false;
   }
+  selectBenh(benh: any) {
+    this.selectedBenh = benh; // Lưu trữ thông tin bệnh được chọn
+    console.log(benh)
+    const existingIndex = this.selectedBenhs.findIndex((selected) => selected.ma_benh === benh.ma_benh);
 
+  if (existingIndex !== -1) {
+    // Bệnh đã được chọn trước đó, hủy chọn bệnh này
+    this.selectedBenhs.splice(existingIndex, 1);
+  } else {
+    // Bệnh chưa được chọn, thêm vào mảng
+    this.selectedBenhs.push(benh);
+  }
+    // Chuyển đổi giá trị ma_benh thành số nguyên
+    const maBenh = parseInt(benh.ma_benh, 10);
+    // Gọi hàm lấy danh sách triệu chứng cho bệnh được chọn
+    this.DataService.getTrieuChungByMaBenh(benh.ma_benh).subscribe(
+      (trieuChung: any[]) => {
+        // Xử lý dữ liệu triệu chứng trả về từ API (trieuChung)
+        console.log(trieuChung);
+        // Lưu trữ danh sách triệu chứng vào một thuộc tính trong component để hiển thị trong giao diện người dùng
+        this.selectedBenh.trieu_Chung = trieuChung;
+        
+      },
+      (error) => {
+        // Xử lý lỗi nếu có
+        console.error('Error fetching trieu chung:', error);
+
+      }
+    );
+    
+
+  }
 }
 
 

@@ -19,7 +19,12 @@ export class TaskbarCgComponent implements OnInit {
   selectedBenh: any; // Khai báo biến selectedBenh để lưu trữ bệnh được chọn
   hoveredBenh: any;
   loai_he: String = '';
- 
+  isAddingNewBenh: boolean = false;
+  newBenh: any = {
+    ten_benh: '',
+    trieu_chung: [''] // Mảng triệu chứng, bắt đầu với một textbox
+  };
+  
   constructor(private router: Router, private authService: AuthService, private dataService: DataService) {
     
     const token = localStorage.getItem('token');
@@ -100,4 +105,39 @@ export class TaskbarCgComponent implements OnInit {
     );
 
   }
+  addbenh(){
+
+  }
+  addNewBenh() {
+    this.isAddingNewBenh = true;
+  }
+  addNewTrieuChungIfLast(index: number) {
+    if (index === this.newBenh.trieu_chung.length - 1) {
+      this.addNewTrieuChung();
+    }
+  }
+  addNewTrieuChung() {
+    this.newBenh.trieu_chung.push('');
+  }
+  saveNewBenh() {
+    // Xử lý lưu thông tin bệnh, có thể gọi API hoặc thực hiện các thao tác khác ở đây
+    console.log('Saved new benh:', this.newBenh);
+    // Sau khi lưu, reset trạng thái
+    this.isAddingNewBenh = false;
+    this.newBenh = {
+      ten_benh: '',
+      trieu_chung: ['']
+    };
+  }
+  onTrieuChungBlur(index: number) {
+    const element = document.getElementById(`trieuChung${index}`);
+    if (element) {
+      if (index === this.newBenh.trieu_chung.length - 1) {
+        // Đảm bảo rằng đối tượng DOM tồn tại trước khi gọi focus()
+        element.focus();
+      }
+    }
+  }
+  
+      
 }

@@ -26,16 +26,38 @@
   <h2>Bước 3: Kết Quả Chuẩn Đoán</h2>
   <div *ngIf="ketqua && ketqua.length > 0">
     <ul>
-      <li *ngFor="let benh of ketqua">
-        {{ benh.ten_benh }}
-      </li>
+      <div *ngFor="let benh of ketqua; let i = index">
+        <li class="kq">
+          {{ benh.ten_benh }}
+          <a class="chitiet" (click)="selectBenh(benh)">Chi tiết</a>
+          <div *ngIf="selectedBenh && selectedBenh.ma_benh === benh.ma_benh">
+            <h3>Thông tin chi tiết về bệnh: {{ selectedBenh.ten_benh }}</h3>
+            <ul>
+              <li class="tc" *ngFor="let trieuChung of selectedBenh.trieu_Chung">
+                {{ trieuChung[1] }}
+              </li>
+            </ul>
+          </div>
+        </li>
+      </div>
     </ul>
   </div>
   <div *ngIf="ketqua1 && ketqua.length === 0">
     <ul>
-      <li *ngFor="let benh1 of ketqua1">
-        {{ benh1.ten_benh }}
-      </li>
+      <div *ngFor="let benh of ketqua1; let i = index">
+        <li class="kq">
+          {{ benh.ten_benh }}
+          <a class="chitiet" (click)="selectBenh(benh)">Chi tiết</a>
+          <div *ngIf="selectedBenh && selectedBenh.ma_benh === benh.ma_benh">
+            <h3>Thông tin chi tiết về bệnh: {{ selectedBenh.ten_benh }}</h3>
+            <ul>
+              <li class="tc" *ngFor="let trieuChung of selectedBenh.trieu_Chung">
+                {{ trieuChung[1] }}
+              </li>
+            </ul>
+          </div>
+        </li>
+      </div>
     </ul>
   </div>
   <br>
@@ -44,6 +66,8 @@
   <br>
   <button class="back-button"routerLink="">Trở về</button>
 </div>
+
+
 
 
     

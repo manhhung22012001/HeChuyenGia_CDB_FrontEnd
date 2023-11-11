@@ -107,5 +107,16 @@ button:hover {
 .back-button:hover {
   background-color: #135e9f;
 }
-
-  
+.kq{
+  font-weight: bold;
+  font-size: 16px;
+}
+li .tc{
+  margin-left: 30px;
+  column-count: 4;
+  column-gap: 20px;
+}
+ .chitiet{
+    text-decoration: underline; /* Thêm gạch chân */
+    font-style: italic; /* In nghiêng */
+  }
