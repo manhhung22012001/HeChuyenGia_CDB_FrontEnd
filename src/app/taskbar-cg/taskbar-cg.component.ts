@@ -119,22 +119,24 @@ export class TaskbarCgComponent implements OnInit {
     }
   }
   addNewTrieuChung() {
-    this.trieuChungArray.push({ trieuChung: '' });
+    this.newBenh.trieu_chung.push({ trieu_chung: '' });
   }
-
+  
   removeTrieuChung(index: number): void {
-    this.trieuChungArray.splice(index, 1);
+    this.newBenh.trieu_chung.splice(index, 1);
   }
+  
   saveNewBenh() {
-    // Xử lý lưu thông tin bệnh, có thể gọi API hoặc thực hiện các thao tác khác ở đây
     console.log('Saved new benh:', this.newBenh);
     // Sau khi lưu, reset trạng thái
     this.isAddingNewBenh = false;
     this.newBenh = {
       ten_benh: '',
-      trieu_chung: ['']
+      loai_he: '',
+      trieu_chung: [{ trieu_chung: '' }]
     };
   }
+  
   onTrieuChungBlur(index: number) {
     const element = document.getElementById(`trieuChung${index}`);
     if (element) {

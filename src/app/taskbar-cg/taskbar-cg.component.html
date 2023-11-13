@@ -111,12 +111,13 @@
       <br>
       <!-- ... -->
       <label for="trieuChung">Triệu Chứng:</label>
-      <div *ngFor="let trieuChungObj of trieuChungArray; let i = index">
-        <input id="trieuChung{{i}}" [(ngModel)]="trieuChungObj.trieuChung" name="trieuChung{{i}}" required />
-        <button (click)="addNewTrieuChung()" *ngIf="i === trieuChungArray.length - 1">+</button>
-        <button (click)="removeTrieuChung(i)" *ngIf="trieuChungArray.length > 1">-</button>
+      <div *ngFor="let trieuChungObj of newBenh.trieu_chung; let i = index">
+        <input id="trieuChung{{i}}" [(ngModel)]="trieuChungObj.trieu_chung" name="trieuChung{{i}}" required />
+        <button (click)="addNewTrieuChungIfLast(i)" *ngIf="i === newBenh.trieu_chung.length - 1">+</button>
+        <button (click)="removeTrieuChung(i)" *ngIf="newBenh.trieu_chung.length > 1">-</button>
       </div>
       <!-- ... -->
+
 
 
 
