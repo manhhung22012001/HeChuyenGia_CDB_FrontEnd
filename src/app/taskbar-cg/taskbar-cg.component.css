@@ -283,3 +283,22 @@ th {
   transition: background-color 0.3s ease;
   /* Hiệu ứng chuyển đổi màu nền trong 0.3 giây */
 }
+thead th {
+  background-color: #f2f2f2;
+}
+
+tbody tr {
+  transition: background-color 0.3s;
+}
+
+
+
+td {
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+/* Đặt chiều rộng của cột ID */
+td:first-child {
+  width: 50px; /* Đặt chiều rộng mong muốn cho cột ID */
+}

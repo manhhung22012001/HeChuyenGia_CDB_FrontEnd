@@ -15,6 +15,7 @@ export class TaskbarCgComponent implements OnInit {
   id: any;
   benhs: any[] = [];
   listTrieuChung: any[] = [];
+  trieuChungArray: any[] = [{ trieuChung: '' }];
   fullname: any;
   selectedBenh: any; // Khai báo biến selectedBenh để lưu trữ bệnh được chọn
   hoveredBenh: any;
@@ -22,7 +23,8 @@ export class TaskbarCgComponent implements OnInit {
   isAddingNewBenh: boolean = false;
   newBenh: any = {
     ten_benh: '',
-    trieu_chung: [''] // Mảng triệu chứng, bắt đầu với một textbox
+    trieu_chung: [{ trieu_chung: '' }], // Start with an empty object
+    loai_he: ''
   };
   
   constructor(private router: Router, private authService: AuthService, private dataService: DataService) {
@@ -117,7 +119,11 @@ export class TaskbarCgComponent implements OnInit {
     }
   }
   addNewTrieuChung() {
-    this.newBenh.trieu_chung.push('');
+    this.trieuChungArray.push({ trieuChung: '' });
+  }
+
+  removeTrieuChung(index: number): void {
+    this.trieuChungArray.splice(index, 1);
   }
   saveNewBenh() {
     // Xử lý lưu thông tin bệnh, có thể gọi API hoặc thực hiện các thao tác khác ở đây
