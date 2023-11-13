@@ -5,7 +5,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatTableModule } from '@angular/material/table';
 import { DataService } from '../data.service';
 import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-taskbar-cg',
@@ -26,11 +26,11 @@ export class TaskbarCgComponent implements OnInit {
 
   newBenh: any = {
     ten_benh: '',
-    trieu_chung: [{ trieu_chung: '' }], // Start with an empty object
+    trieu_chung: [''], // Bắt đầu với một mảng rỗng// Start with an empty object
     loai_he: ''
   };
 
-  constructor(private router: Router, private authService: AuthService, private dataService: DataService) {
+  constructor(private router: Router, private authService: AuthService, private dataService: DataService,private formBuilder: FormBuilder) {
 
     const token = localStorage.getItem('token');
     if (!token) {
@@ -116,39 +116,50 @@ export class TaskbarCgComponent implements OnInit {
   addNewBenh() {
     this.isAddingNewBenh = true;
   }
-  addNewTrieuChungIfLast(index: number) {
+  updateTrieuChung(value: string, index: number): void {
+    this.newBenh.trieu_chung[index] = value;
+  }
+  
+  addNewTrieuChungIfLast(index: number): void {
     if (index === this.newBenh.trieu_chung.length - 1) {
       this.addNewTrieuChung();
     }
   }
-  addNewTrieuChung() {
-    this.newBenh.trieu_chung.push({ trieu_chung: '' });
+  
+  addNewTrieuChung(): void {
+    this.newBenh.trieu_chung.push('');
   }
-
+  
   removeTrieuChung(index: number): void {
     this.newBenh.trieu_chung.splice(index, 1);
   }
-
-  saveNewBenh() {
-    
-    
   
+  saveNewBenh() {
+    console.log('Đã lưu bệnh mới:', this.newBenh);
     this.dataService.addNewBenh(this.id, this.newBenh.ten_benh, this.newBenh.loai_he, this.newBenh.trieu_chung).subscribe(
       (response: any) => {
-        var code = response.status;
-        console.log(code);
+        if (response && response.status) {
+          var code = response.status;
+          console.log(code);
   
-        if (code === 200) {
-          this.errorMessage = "Đăng ký thành công";
-          console.log('Saved new benh:', this.newBenh);
+          if (code === 200) {
+            this.errorMessage = "Đăng ký thành công";
+            console.log('Đã lưu bệnh mới:', this.newBenh);
   
-          // Sau khi lưu, reset trạng thái
-          this.isAddingNewBenh = false;
-          this.newBenh = {
-            ten_benh: '',
-            loai_he: '',
-            trieu_chung: [{ trieu_chung: '' }]
-          };
+            // Sau khi lưu, đặt lại trạng thái
+            this.isAddingNewBenh = false;
+            this.newBenh = {
+              ten_benh: '',
+              loai_he: '',
+              trieu_chung: [''] // Điều chỉnh giá trị mặc định để khớp cấu trúc phía backend
+            };
+          } else {
+            // Handle the case when the status code is not 200
+            console.error('Unexpected status code:', code);
+          }
+        } else {
+          // Handle the case when response or response.status is null or undefined
+          console.error('Invalid response:', response);
         }
       },
       (error: HttpErrorResponse) => {
@@ -159,21 +170,7 @@ export class TaskbarCgComponent implements OnInit {
         }
       }
     );
-  
-    console.log('Saved new benh:', this.newBenh);
-    // Sau khi lưu, reset trạng thái
   }
   
-
-  onTrieuChungBlur(index: number) {
-    const element = document.getElementById(`trieuChung${index}`);
-    if (element) {
-      if (index === this.newBenh.trieu_chung.length - 1) {
-        // Đảm bảo rằng đối tượng DOM tồn tại trước khi gọi focus()
-        element.focus();
-      }
-    }
-  }
-
 
 }

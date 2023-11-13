@@ -30,9 +30,9 @@
 
 
 <div>
-  <label>
+  <label class="label1">
     Chọn loại hô hấp:
-    <select [(ngModel)]="loai_he" name="loai_he" required (change)="onCheckboxChange()">
+    <select class="he" [(ngModel)]="loai_he" name="loai_he" required (change)="onCheckboxChange()">
       <option value="1">Hô hấp trên</option>
       <option value="2">Hô hấp dưới</option>
       <option value="3">Tất cả</option>
@@ -72,7 +72,7 @@
     <div class="tables-container">
       <div class="table">
         <div *ngIf="listTrieuChung">
-          <h2>Danh Sách Trieu Chung</h2>
+          <h2>Danh Sách Trieu Chứng</h2>
 
           <table>
             <thead>
@@ -98,23 +98,23 @@
     </div>
   </div>
   <div *ngIf="isAddingNewBenh">
-    <h2>Thêm Bệnh Mới</h2>
     <form (ngSubmit)="saveNewBenh()">
-      <label for="tenBenh">Tên Bệnh:</label>
-      <input id="tenBenh" [(ngModel)]="newBenh.ten_benh" required name="tenBenh" />
+      <h2>Thêm Bệnh Mới</h2>
+      <label class="label" for="tenBenh">Tên Bệnh:</label>
+      <input class="input" id="tenBenh" [(ngModel)]="newBenh.ten_benh" required name="tenBenh" />
       <br>
-      <label for="he">Loại Hệ:</label>
-      <select id="he" [(ngModel)]="newBenh.loai_he" name="he" required>
+      <label class="label" for="he">Loại Hệ:</label>
+      <select class="select" id="he" [(ngModel)]="newBenh.loai_he" name="he" required>
         <option value="1">Hệ hô hấp trên</option>
         <option value="2">Hệ hô hấp dưới</option>
       </select>
       <br>
       <!-- ... -->
-      <label for="trieuChung">Triệu Chứng:</label>
+      <label class="label"for="trieuChung">Triệu Chứng:</label>
       <div *ngFor="let trieuChungObj of newBenh.trieu_chung; let i = index">
-        <input id="trieuChung{{i}}" [(ngModel)]="trieuChungObj.trieu_chung" name="trieuChung{{i}}" required />
-        <button (click)="addNewTrieuChungIfLast(i)" *ngIf="i === newBenh.trieu_chung.length - 1">+</button>
-        <button (click)="removeTrieuChung(i)" *ngIf="newBenh.trieu_chung.length > 1">-</button>
+        <input class="input" id="trieuChung{{i}}" [(ngModel)]="trieuChungObj.trieu_chung" name="trieuChung{{i}}" required />
+        <button class="add" (click)="addNewTrieuChungIfLast(i)" *ngIf="i === newBenh.trieu_chung.length - 1">+</button>
+        <button class="sub" (click)="removeTrieuChung(i)" *ngIf="newBenh.trieu_chung.length > 1">-</button>
       </div>
       <!-- ... -->
 
@@ -122,6 +122,6 @@
 
 
 
-      <button type="submit">Lưu</button>
+      <button class="save" type="submit">Lưu</button>
     </form>
   </div>

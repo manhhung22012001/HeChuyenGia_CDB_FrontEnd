@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { AuthService } from './auth.service';
+
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -10,7 +11,9 @@ import { Observable } from 'rxjs';
 export class DataService {
   private rootURL = environment.baseUrl;
 
-  constructor(private http: HttpClient, private authService: AuthService) { }
+  constructor(private http: HttpClient, private authService: AuthService) { 
+    
+  }
 
   // Hàm này trả về các options cho HTTP requests, bao gồm Authorization header chứa token JWT
   private getHttpOptions(): { headers: HttpHeaders } {
@@ -67,12 +70,14 @@ export class DataService {
     const httpOptions = this.getHttpOptions();
     const requestBody = {
       ten_benh: ten_benh,
-      loaiHe: loai_he, // Adjusted to match the @RequestParam name in the Spring controller
-      trieuChungList: trieu_chung
+      loai_he: loai_he,
+      trieu_chung: trieu_chung
     };
   
-    return this.http.post(`${this.rootURL}/taskbar-cg/add-benh-va-trieu-chung/${userId}`, requestBody, httpOptions);
+    return this.http.post<any>(`${this.rootURL}/taskbar-cg/add-benh-va-trieu-chung/${userId}`, requestBody, httpOptions);
   }
+  
+  
   
   
 }
