@@ -67,11 +67,12 @@ export class DataService {
     const httpOptions = this.getHttpOptions();
     const requestBody = {
       ten_benh: ten_benh,
-      loai_he: loai_he,
+      loaiHe: loai_he, // Adjusted to match the @RequestParam name in the Spring controller
       trieuChungList: trieu_chung
     };
   
     return this.http.post(`${this.rootURL}/taskbar-cg/add-benh-va-trieu-chung/${userId}`, requestBody, httpOptions);
   }
+  
   
 }

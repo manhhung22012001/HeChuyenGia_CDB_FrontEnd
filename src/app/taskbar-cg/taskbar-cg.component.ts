@@ -22,21 +22,23 @@ export class TaskbarCgComponent implements OnInit {
   hoveredBenh: any;
   loai_he: String = '';
   isAddingNewBenh: boolean = false;
-  errorMessage:string='';
-  
+  errorMessage: string = '';
+
   newBenh: any = {
     ten_benh: '',
     trieu_chung: [{ trieu_chung: '' }], // Start with an empty object
     loai_he: ''
   };
-  
+
   constructor(private router: Router, private authService: AuthService, private dataService: DataService) {
-    
+
     const token = localStorage.getItem('token');
     if (!token) {
       this.router.navigate(['/login']);
     }
     this.fullname = localStorage.getItem('fullname');
+    this.id = localStorage.getItem('id_user');
+
 
 
   }
@@ -44,9 +46,9 @@ export class TaskbarCgComponent implements OnInit {
 
 
   ngOnInit() {
-    
+
   }
- 
+
   // Hàm để chuyển đổi giữa notactiveForm và activeForm
 
 
@@ -110,7 +112,7 @@ export class TaskbarCgComponent implements OnInit {
     );
 
   }
-  
+
   addNewBenh() {
     this.isAddingNewBenh = true;
   }
@@ -122,22 +124,24 @@ export class TaskbarCgComponent implements OnInit {
   addNewTrieuChung() {
     this.newBenh.trieu_chung.push({ trieu_chung: '' });
   }
-  
+
   removeTrieuChung(index: number): void {
     this.newBenh.trieu_chung.splice(index, 1);
   }
-  
+
   saveNewBenh() {
-
-    console.log(this.authService.getID());
-    this.dataService.addNewBenh(this.authService.getID(),this.newBenh.ten_benh,this.newBenh.loai_he,this.newBenh.trieuChungArray).subscribe(
-      response => {
+    
+    
+  
+    this.dataService.addNewBenh(this.id, this.newBenh.ten_benh, this.newBenh.loai_he, this.newBenh.trieu_chung).subscribe(
+      (response: any) => {
         var code = response.status;
-        console.log(status);
+        console.log(code);
+  
         if (code === 200) {
-          this.errorMessage= "Đăng ký thành công";
+          this.errorMessage = "Đăng ký thành công";
           console.log('Saved new benh:', this.newBenh);
-
+  
           // Sau khi lưu, reset trạng thái
           this.isAddingNewBenh = false;
           this.newBenh = {
@@ -147,22 +151,20 @@ export class TaskbarCgComponent implements OnInit {
           };
         }
       },
-        (error: HttpErrorResponse) => {
-          if (error.status === 400) {
-            this.errorMessage = "Tên đăng nhập đã tồn tại.";
-          } 
-          else {
-            this.errorMessage= "Đã xảy ra lỗi. Vui lòng thử lại sau.";
-          }
+      (error: HttpErrorResponse) => {
+        if (error.status === 400) {
+          this.errorMessage = "Tên đăng nhập đã tồn tại.";
+        } else {
+          this.errorMessage = "Đã xảy ra lỗi. Vui lòng thử lại sau.";
         }
-      );
-
-
+      }
+    );
+  
     console.log('Saved new benh:', this.newBenh);
     // Sau khi lưu, reset trạng thái
-    
   }
   
+
   onTrieuChungBlur(index: number) {
     const element = document.getElementById(`trieuChung${index}`);
     if (element) {
@@ -172,6 +174,6 @@ export class TaskbarCgComponent implements OnInit {
       }
     }
   }
-  
-      
+
+
 }

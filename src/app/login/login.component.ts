@@ -90,7 +90,7 @@ export class LoginComponent implements OnInit {
   }
   onLoginSuccess(role: number) {
     this.userRole = role;
-
+    console.log(" a: "+this.authService.id_user);
     if (this.userRole == 1 && this.authService.status==1) {
       this.router.navigate(['/taskbar-cg'])
     }

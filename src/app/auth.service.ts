@@ -90,6 +90,8 @@ export class AuthService {
     this.fullname= decodedToken.fullname;
     this.id_user=decodedToken.id;
     this.status=decodedToken.status;
+    // Save user ID in local storage
+    localStorage.setItem('id_user', decodedToken.id);
     const expirationDate =helper.getTokenExpirationDate(token);
     const isExpired = helper.isTokenExpired(token);
     localStorage.setItem('fullname',this.fullname);
