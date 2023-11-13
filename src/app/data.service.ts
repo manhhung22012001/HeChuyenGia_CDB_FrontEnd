@@ -63,4 +63,15 @@ export class DataService {
     const httpOptions = this.getHttpOptions();
     return this.http.get<any[]>(`${this.rootURL}/taskbar-cg/trieuchung/${maBenh}`, httpOptions);
   }
+  addNewBenh(userId: number, ten_benh: string, loai_he: string, trieu_chung: string[]): Observable<any> {
+    const httpOptions = this.getHttpOptions();
+    const requestBody = {
+      ten_benh: ten_benh,
+      loai_he: loai_he,
+      trieuChungList: trieu_chung
+    };
+  
+    return this.http.post(`${this.rootURL}/taskbar-cg/add-benh-va-trieu-chung/${userId}`, requestBody, httpOptions);
+  }
+  
 }

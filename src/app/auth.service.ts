@@ -68,6 +68,11 @@ export class AuthService {
     if (id === null) return '';
     return id;
   }
+  getID():number {
+    let idString = localStorage.getItem(this.ID_USER);
+    if (idString === null) return 0; // hoặc giá trị mặc định khác tùy vào yêu cầu của bạn
+    return parseInt(idString, 10);
+  }
   
   setUserRole(role: number) {
     this.userRole = role;

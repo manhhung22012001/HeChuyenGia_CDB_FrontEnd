@@ -4,6 +4,7 @@ import { AuthService } from '../auth.service';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatTableModule } from '@angular/material/table';
 import { DataService } from '../data.service';
+import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 
 
 @Component({
@@ -21,6 +22,8 @@ export class TaskbarCgComponent implements OnInit {
   hoveredBenh: any;
   loai_he: String = '';
   isAddingNewBenh: boolean = false;
+  errorMessage:string='';
+  
   newBenh: any = {
     ten_benh: '',
     trieu_chung: [{ trieu_chung: '' }], // Start with an empty object
@@ -107,9 +110,7 @@ export class TaskbarCgComponent implements OnInit {
     );
 
   }
-  addbenh(){
-
-  }
+  
   addNewBenh() {
     this.isAddingNewBenh = true;
   }
@@ -127,14 +128,39 @@ export class TaskbarCgComponent implements OnInit {
   }
   
   saveNewBenh() {
+
+    console.log(this.authService.getID());
+    this.dataService.addNewBenh(this.authService.getID(),this.newBenh.ten_benh,this.newBenh.loai_he,this.newBenh.trieuChungArray).subscribe(
+      response => {
+        var code = response.status;
+        console.log(status);
+        if (code === 200) {
+          this.errorMessage= "Đăng ký thành công";
+          console.log('Saved new benh:', this.newBenh);
+
+          // Sau khi lưu, reset trạng thái
+          this.isAddingNewBenh = false;
+          this.newBenh = {
+            ten_benh: '',
+            loai_he: '',
+            trieu_chung: [{ trieu_chung: '' }]
+          };
+        }
+      },
+        (error: HttpErrorResponse) => {
+          if (error.status === 400) {
+            this.errorMessage = "Tên đăng nhập đã tồn tại.";
+          } 
+          else {
+            this.errorMessage= "Đã xảy ra lỗi. Vui lòng thử lại sau.";
+          }
+        }
+      );
+
+
     console.log('Saved new benh:', this.newBenh);
     // Sau khi lưu, reset trạng thái
-    this.isAddingNewBenh = false;
-    this.newBenh = {
-      ten_benh: '',
-      loai_he: '',
-      trieu_chung: [{ trieu_chung: '' }]
-    };
+    
   }
   
   onTrieuChungBlur(index: number) {
