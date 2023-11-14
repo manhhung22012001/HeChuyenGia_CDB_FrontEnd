@@ -110,6 +110,7 @@ export class TaskbarQtvComponent implements OnInit {
    
   }
   logout() {
+    localStorage.removeItem('token');
     this.authService.logout();
     this.router.navigate(['/login']);
   }

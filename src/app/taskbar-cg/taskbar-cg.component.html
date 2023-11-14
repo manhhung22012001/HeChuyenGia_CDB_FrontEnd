@@ -14,7 +14,7 @@
         <li><a class="nav-link scrollto active" routerLink="/diagnosis">Chuẩn đoán bệnh</a></li>
 
         <li class="dropdown">
-          <a routerLink="/homepage"><span>Đăng xuất</span> <i class="bi bi-chevron-down"></i></a>
+          <a (click)="logout()"><span>Đăng xuất</span> <i class="bi bi-chevron-down"></i></a>
 
         </li>
 
@@ -98,30 +98,28 @@
     </div>
   </div>
   <div *ngIf="isAddingNewBenh">
-    <form (ngSubmit)="saveNewBenh()">
+    <form id="form_input" [formGroup]="newBenh" (ngSubmit)="saveNewBenh()">
       <h2>Thêm Bệnh Mới</h2>
       <label class="label" for="tenBenh">Tên Bệnh:</label>
-      <input class="input" id="tenBenh" [(ngModel)]="newBenh.ten_benh" required name="tenBenh" />
+      <input class="input" id="tenBenh" formControlName="ten_benh" required name="tenBenh" />
       <br>
       <label class="label" for="he">Loại Hệ:</label>
-      <select class="select" id="he" [(ngModel)]="newBenh.loai_he" name="he" required>
+      <select class="select" id="he" formControlName="loai_he" name="he" required>
         <option value="1">Hệ hô hấp trên</option>
         <option value="2">Hệ hô hấp dưới</option>
       </select>
       <br>
       <!-- ... -->
-      <label class="label"for="trieuChung">Triệu Chứng:</label>
-      <div *ngFor="let trieuChungObj of newBenh.trieu_chung; let i = index">
-        <input class="input" id="trieuChung{{i}}" [(ngModel)]="trieuChungObj.trieu_chung" name="trieuChung{{i}}" required />
-        <button class="add" (click)="addNewTrieuChungIfLast(i)" *ngIf="i === newBenh.trieu_chung.length - 1">+</button>
-        <button class="sub" (click)="removeTrieuChung(i)" *ngIf="newBenh.trieu_chung.length > 1">-</button>
+      <div formArrayName="trieu_chung">
+        <label class="label" for="trieuChung">Triệu Chứng:</label>
+        <div *ngFor="let trieuChungControl of trieuChungControls; let i = index">
+          <div [formGroupName]="i">
+            <input class="input" id="trieuChung{{i}}" formControlName="trieu_chung" name="trieuChung{{i}}" required />
+            <button class="add" (click)="addNewTrieuChungIfLast(i)" *ngIf="i === trieuChungControls.length - 1">+</button>
+            <button class="sub" (click)="removeTrieuChung(i)" *ngIf="trieuChungControls.length > 1">-</button>
+          </div>
+        </div>
       </div>
-      <!-- ... -->
-
-
-
-
-
       <button class="save" type="submit">Lưu</button>
     </form>
   </div>

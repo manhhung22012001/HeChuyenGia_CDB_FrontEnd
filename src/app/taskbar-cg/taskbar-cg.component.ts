@@ -5,7 +5,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatTableModule } from '@angular/material/table';
 import { DataService } from '../data.service';
 import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators,FormArray } from '@angular/forms';
 
 @Component({
   selector: 'app-taskbar-cg',
@@ -23,14 +23,11 @@ export class TaskbarCgComponent implements OnInit {
   loai_he: String = '';
   isAddingNewBenh: boolean = false;
   errorMessage: string = '';
+  newBenh: FormGroup;
 
-  newBenh: any = {
-    ten_benh: '',
-    trieu_chung: [''], // Bắt đầu với một mảng rỗng// Start with an empty object
-    loai_he: ''
-  };
+  
 
-  constructor(private router: Router, private authService: AuthService, private dataService: DataService,private formBuilder: FormBuilder) {
+  constructor(private router: Router, private authService: AuthService, private dataService: DataService,private fb: FormBuilder) {
 
     const token = localStorage.getItem('token');
     if (!token) {
@@ -39,11 +36,20 @@ export class TaskbarCgComponent implements OnInit {
     this.fullname = localStorage.getItem('fullname');
     this.id = localStorage.getItem('id_user');
 
+    this.newBenh = this.fb.group({
+      ten_benh: ['', Validators.required],
+      loai_he: ['', Validators.required],
+      trieu_chung: this.fb.array([this.createTrieuChungFormGroup()])
+    });
 
 
   }
   // Trong component của bạn
-
+  createTrieuChungFormGroup(): FormGroup {
+    return this.fb.group({
+      trieu_chung: ['', Validators.required]
+    });
+  }
 
   ngOnInit() {
 
@@ -53,6 +59,7 @@ export class TaskbarCgComponent implements OnInit {
 
 
   logout() {
+    localStorage.removeItem('token');
     this.authService.logout();
     this.router.navigate(['/login']);
   }
@@ -117,26 +124,30 @@ export class TaskbarCgComponent implements OnInit {
     this.isAddingNewBenh = true;
   }
   updateTrieuChung(value: string, index: number): void {
-    this.newBenh.trieu_chung[index] = value;
+    const trieuChungArray = this.newBenh.get('trieu_chung') as FormArray;
+    trieuChungArray.at(index).patchValue({ trieu_chung: value });
   }
-  
+
   addNewTrieuChungIfLast(index: number): void {
-    if (index === this.newBenh.trieu_chung.length - 1) {
-      this.addNewTrieuChung();
+    const trieuChungArray = this.newBenh.get('trieu_chung') as FormArray;
+    if (index === trieuChungArray.length - 1) {
+      trieuChungArray.push(this.createTrieuChungFormGroup());
     }
   }
-  
-  addNewTrieuChung(): void {
-    this.newBenh.trieu_chung.push('');
-  }
-  
+
   removeTrieuChung(index: number): void {
-    this.newBenh.trieu_chung.splice(index, 1);
+    const trieuChungArray = this.newBenh.get('trieu_chung') as FormArray;
+    trieuChungArray.removeAt(index);
   }
+  get trieuChungControls() {
+    return (this.newBenh.get('trieu_chung') as FormArray).controls;
+  }
+  
+
   
   saveNewBenh() {
     console.log('Đã lưu bệnh mới:', this.newBenh);
-    this.dataService.addNewBenh(this.id, this.newBenh.ten_benh, this.newBenh.loai_he, this.newBenh.trieu_chung).subscribe(
+    this.dataService.addNewBenh(this.id, this.newBenh.value.ten_benh, this.newBenh.value.loai_he, this.newBenh.value.trieu_chung).subscribe(
       (response: any) => {
         if (response && response.status) {
           var code = response.status;
@@ -148,11 +159,7 @@ export class TaskbarCgComponent implements OnInit {
   
             // Sau khi lưu, đặt lại trạng thái
             this.isAddingNewBenh = false;
-            this.newBenh = {
-              ten_benh: '',
-              loai_he: '',
-              trieu_chung: [''] // Điều chỉnh giá trị mặc định để khớp cấu trúc phía backend
-            };
+           
           } else {
             // Handle the case when the status code is not 200
             console.error('Unexpected status code:', code);

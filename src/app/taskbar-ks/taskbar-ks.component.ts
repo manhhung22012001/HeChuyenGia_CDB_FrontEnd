@@ -22,6 +22,7 @@ export class TaskbarKsComponent implements OnInit{
   ngOnInit(): void {
   }
   logout() {
+    localStorage.removeItem('token');
     this.authService.logout();
     this.router.navigate(['/login']);
   }
