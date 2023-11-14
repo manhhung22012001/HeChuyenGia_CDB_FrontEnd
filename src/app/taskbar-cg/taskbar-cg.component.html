@@ -114,9 +114,17 @@
         <label class="label" for="trieuChung">Triệu Chứng:</label>
         <div *ngFor="let trieuChungControl of trieuChungControls; let i = index">
           <div [formGroupName]="i">
-            <input class="input" id="trieuChung{{i}}" formControlName="trieu_chung" name="trieuChung{{i}}" required />
+            <input class="input" id="trieuChung{{i}}"  [formControl]="searchControl" formControlName="trieu_chung" name="trieuChung{{i}}" required 
+            (keydown)="onKeyDown($event, i)" [matAutocomplete]="auto" (input)="onTrieuChungInput(i)"/>
+     <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onTrieuChungSelected(i,$event)">
+       <mat-option *ngFor="let suggestion of suggestedTrieuChung[i]" [value]="suggestion">
+         {{ suggestion }}
+       </mat-option>
+     </mat-autocomplete>
+
             <button class="add" (click)="addNewTrieuChungIfLast(i)" *ngIf="i === trieuChungControls.length - 1">+</button>
             <button class="sub" (click)="removeTrieuChung(i)" *ngIf="trieuChungControls.length > 1">-</button>
+            
           </div>
         </div>
       </div>

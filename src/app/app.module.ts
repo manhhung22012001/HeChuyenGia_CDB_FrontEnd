@@ -10,6 +10,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { MatDialogModule } from '@angular/material/dialog';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 import { HomepageComponent } from './homepage/homepage.component';
 import { DiagnosisComponent } from './diagnosis/diagnosis.component';
@@ -64,6 +65,7 @@ const appRoutes: Routes = [
     HttpClientModule,
     FormsModule,
     BrowserAnimationsModule,
+    MatAutocompleteModule
 
   ],
   providers: [

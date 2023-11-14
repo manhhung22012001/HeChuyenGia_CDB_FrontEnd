@@ -5,7 +5,8 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatTableModule } from '@angular/material/table';
 import { DataService } from '../data.service';
 import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { FormBuilder, FormGroup, Validators,FormArray } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators,FormArray ,FormControl} from '@angular/forms';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-taskbar-cg',
@@ -24,6 +25,9 @@ export class TaskbarCgComponent implements OnInit {
   isAddingNewBenh: boolean = false;
   errorMessage: string = '';
   newBenh: FormGroup;
+  suggestedTrieuChung: string[][] = [];
+  searchControl = new FormControl();
+  
 
   
 
@@ -41,23 +45,73 @@ export class TaskbarCgComponent implements OnInit {
       loai_he: ['', Validators.required],
       trieu_chung: this.fb.array([this.createTrieuChungFormGroup()])
     });
+    this.setupSearch();
 
 
   }
+  
+
+  ngOnInit() {
+    
+    const trieuChungArray = this.newBenh.get('trieu_chung') as FormArray;
+    for (let i = 0; i < trieuChungArray.length; i++) {
+      this.suggestedTrieuChung.push([]);
+      
+    }
+  }
+  private setupSearch() {
+    this.searchControl.valueChanges
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        switchMap((keyword) => this.dataService.searchTrieuChung(keyword))
+      )
+      .subscribe((suggestions) => {
+        this.suggestedTrieuChung[0] = suggestions; // Thay đổi chỉ số 0 nếu có nhiều hơn một ô input
+      });
+    }
+    onKeyDown(event: KeyboardEvent, index: number) {
+      // Kiểm tra nếu phím ấn là phím cách (Space)
+      if (event.key === ' ') {
+        // Gọi API tìm kiếm với từ khoá là giá trị hiện tại trong ô input
+        this.searchControl.valueChanges.subscribe((keyword) => {
+          // Ở đây, bạn có thể sử dụng 'value' để lấy keyword và thực hiện các xử lý cần thiết
+          console.log('Keyword:', keyword);
+          // Gọi API tìm kiếm hoặc thực hiện các xử lý khác dựa trên keyword
+          this.dataService.searchTrieuChung(keyword).subscribe((suggestions) => {
+            this.suggestedTrieuChung[index] = suggestions;
+          });
+        });
+      
+    }
+  }
+ 
   // Trong component của bạn
   createTrieuChungFormGroup(): FormGroup {
     return this.fb.group({
       trieu_chung: ['', Validators.required]
     });
   }
+  // Thêm phương thức displayFn để hiển thị gợi ý trong dropdown
+displayFn(value: string): string {
+  return value;
+}
 
-  ngOnInit() {
+onTrieuChungInput(index: number) {
+  const trieuChungArray = this.newBenh.get('trieu_chung') as FormArray;
+  const trieuChungControl = trieuChungArray.controls[index].get('trieu_chung');
 
+  if (trieuChungControl && trieuChungControl.value && typeof trieuChungControl.value === 'string') {
+    this.dataService.searchTrieuChung(trieuChungControl.value).subscribe((suggestions) => {
+      this.suggestedTrieuChung[index] = suggestions;
+    });
   }
+}
 
-  // Hàm để chuyển đổi giữa notactiveForm và activeForm
-
-
+onTrieuChungSelected(index: number, event: any) {
+  // Lấy giá trị gợi ý được chọn và đặt nó vào form control
+  this.searchControl.setValue(event.option.viewValue);
+}
   logout() {
     localStorage.removeItem('token');
     this.authService.logout();
