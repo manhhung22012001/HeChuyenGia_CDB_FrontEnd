@@ -1,0 +1,152 @@
+/* Add appropriate styling to format the user info */
+.user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .user-info div {
+    margin-bottom: 10px;
+  }
+  
+  button {
+    padding: 5px 10px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  /* Reset CSS */
+body, h1, h2, h3, p, ul, li {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f4f4;
+  line-height: 1.6;
+}
+
+/* Header Styling */
+#header {
+  background-color: #333;
+  color: #fff; /* Màu chữ trắng */
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Welcome Styling */
+.welcome {
+  margin-right: 20px;
+  color: #fff; /* Màu chữ trắng */
+}
+.user {
+  color: white; /* Màu chữ trắng */
+}
+/* Navigation Styling */
+.navbar a {
+  text-decoration: none;
+  color: #fff; /* Màu chữ trắng */
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.navbar a:hover {
+  color: #ccc; /* Màu chữ khi hover */
+}
+
+/* Dropdown Styling */
+.dropdown a {
+  color: #fff; /* Màu chữ trắng */
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
+.dropdown i {
+  margin-left: 5px;
+}
+
+/* Mobile Nav Toggle Styling */
+.mobile-nav-toggle {
+  color: #fff; /* Màu chữ trắng */
+  font-size: 24px;
+  cursor: pointer;
+  display: none;
+}
+
+
+/* User Info Styling */
+.user-info {
+  background-color: #fff;
+  padding: 20px;
+  margin: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Form Styling */
+label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+input[type="file"] {
+  margin-bottom: 10px;
+}
+
+small {
+  color: red;
+}
+
+button {
+  background-color: #0066cc;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #004080;
+}
+
+/* Image Styling */
+img {
+  max-width: 100px;
+  max-height: 100px;
+  margin-bottom: 10px;
+}
+.user-info {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.user-info label,
+.user-info div {
+  flex: 0 0 calc(48% - 20px); /* Điều chỉnh kích thước cột và margin */
+  margin: 10px;
+  box-sizing: border-box; /* Đảm bảo box model không bị thay đổi */
+}
+
+/* Optional: Thêm margin cho phần tử input để tránh hiển thị chật chội */
+.user-info input {
+  width: 100%;
+  margin-top: 5px;
+}
+
+/* Optional: Đảm bảo ảnh đại diện không bị thu nhỏ quá mức */
+.user-info img {
+  width: 100%;
+  height: auto;
+}

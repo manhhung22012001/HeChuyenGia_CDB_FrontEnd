@@ -1,28 +1,93 @@
 <body>
-    <header id="header" class="d-flex align-items-center">
-      <div class="welcome">
-        Xin chào,
-        <!-- <label class="user">{{fullname}}</label><br /> -->
-  
-      </div>
-      <!-- Uncomment below if you prefer to use an image logo -->
-      <!-- <a href="index.html" class="logo"><img src="assets/img/logo.png" alt=""></a>-->
-  
-      <nav id="navbar" class="navbar">
-        <ul>
-          <li><a class="nav-link scrollto active">Thêm bệnh</a></li>
-          <li><a class="nav-link scrollto active" routerLink="/diagnosis">Chuẩn đoán bệnh</a></li>
-  
-          <li class="dropdown">
-            <a routerLink="/homepage"><span>Đăng xuất</span> <i class="bi bi-chevron-down"></i></a>
-  
-          </li>
-  
-        </ul>
-        <i class="bi bi-list mobile-nav-toggle"></i>
-      </nav><!-- .navbar -->
-    </header>
+  <header id="header" class="d-flex align-items-center">
+    <div class="welcome">
+      Xin chào,<label class="user">{{fullname}}</label><br />
+     
+    </div>
+
+    <nav id="navbar" class="navbar">
+      <ul>
+        
+        <li><a class="nav-link scrollto active" routerLink="/diagnosis">Chuẩn đoán bệnh</a></li>
+        <li class="dropdown">
+          <a routerLink="/homepage"><span>Đăng xuất</span> <i class="bi bi-chevron-down"></i></a>
+        </li>
+      </ul>
+      <i class="bi bi-list mobile-nav-toggle"></i>
+    </nav><!-- .navbar -->
+  </header>
+
   <br>
   <br>
-  <div> >Vui lòng đợi xác nhận người dùng</div>
-  </body>
+
+  <div class="user-info">
+    <div><strong>Cập Nhật Thông Tin Để Thêm Bệnh</strong></div>
+    <button (click)="updateUserInfo1()">Cập Nhật Ngay</button>
+    <div *ngIf="userInformation">
+      <strong>Thông Tin Của Bạn.</strong>
+      <br>
+      <!-- Ảnh đại diện -->
+      <label>
+        Ảnh đại diện:
+        <input type="file" (change)="onFileChange($event, 'anhdaidien')" accept=".png, .jpg, .pdf" #fileInput2>
+      </label>
+      <small *ngIf="fileInput2.value && !isValidFile(fileInput2.files![0])">
+        Vui lòng chọn file định dạng .png, .jpg, hoặc .pdf và có dung lượng dưới 2MB.
+      </small>
+      <br>
+      <!-- Hiển thị ảnh đại diện đã chọn -->
+      <img *ngIf="userInformation.anhdaidien" [src]="userInformation.anhdaidien" alt="Avatar"
+        style="max-width: 10px; max-height: 10px;">
+      <br>
+
+      <!-- ID, Fullname, Phone Number, Email -->
+      <div><strong>ID:</strong> {{userInformation.id_user}}</div>
+      <div><strong>Fullname:</strong> <input [(ngModel)]="userInformation.fullname" name="fullname"></div>
+      <div><strong>Phone Number:</strong> <input [(ngModel)]="userInformation.phonenumber" name="phonenumber"></div>
+      <div><strong>Email:</strong> <input [(ngModel)]="userInformation.email" name="email"></div>
+
+      <!-- Bằng tốt nghiệp y khoa -->
+      <label>
+        Bằng tốt nghiệp y khoa:
+        <input type="file" (change)="onFileChange($event, 'bangTotNghiepYKhoa')" accept=".png, .jpg, .pdf" #fileInput1>
+      </label>
+      <small *ngIf="fileInput1.value && !isValidFile(fileInput1.files![0])">
+        Vui lòng chọn file định dạng .png, .jpg, hoặc .pdf và có dung lượng dưới 2MB.
+      </small>
+      <br>
+      <!-- Hiển thị tên file bằng tốt nghiệp y khoa đã chọn -->
+      <div *ngIf="userInformation.bangTotNghiepYKhoa">{{userInformation.bangTotNghiepYKhoa.name}}</div>
+
+      <!-- Chứng chỉ hành nghề -->
+      <label>
+        Chứng chỉ hành nghề:
+        <input type="file" (change)="onFileChange($event, 'chungChiHanhNghe')" accept=".png, .jpg, .pdf" #fileInput2>
+      </label>
+      <small *ngIf="fileInput2.value && !isValidFile(fileInput2.files![0])">
+        Vui lòng chọn file định dạng .png, .jpg, hoặc .pdf và có dung lượng dưới 2MB.
+      </small>
+      <br>
+      <!-- Hiển thị tên file chứng chỉ hành nghề đã chọn -->
+      <div *ngIf="userInformation.chungChiHanhNghe">{{userInformation.chungChiHanhNghe.name}}</div>
+
+      <!-- Chứng nhận chuyên khoa -->
+      <label>
+        Chứng nhận chuyên khoa:
+        <input type="file" (change)="onFileChange($event, 'chungNhanChuyenKhoa')" accept=".png, .jpg, .pdf" #fileInput3>
+      </label>
+      <small *ngIf="fileInput3.value && !isValidFile(fileInput3.files![0])">
+        Vui lòng chọn file định dạng .png, .jpg, hoặc .pdf và có dung lượng dưới 2MB.
+      </small>
+      <br>
+      <!-- Hiển thị tên file chứng nhận chuyên khoa đã chọn -->
+      <div *ngIf="userInformation.chungNhanChuyenKhoa">{{userInformation.chungNhanChuyenKhoa.name}}</div>
+
+      <br>
+      <button (click)="updateUserInfo(userInformation)"> Lưu Thông Tin Cập nhật</button>
+    </div>
+  </div>
+
+
+
+
+</body>

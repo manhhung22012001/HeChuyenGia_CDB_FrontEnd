@@ -1,88 +1,102 @@
 <body>
-    <header id="header" class="d-flex align-items-center">
-        <div class="welcome">
-            Xin chào,
-            <label class="user">{{fullname}}</label><br/>
-            
-        </div>
-       
-        <nav id="navbar" class="navbar">
-          <ul>
-            
-            
-            <li class="dropdown">
-              <a (click)="logout()"><span>Đăng xuất</span> <i class="bi bi-chevron-down"></i></a>
-            </li>
-          </ul>
-          <i class="bi bi-list mobile-nav-toggle"></i>
-        </nav><!-- .navbar -->
-    </header>
-    <!-- ======= Hero Section ======= -->
-<br>
-<br>
-    <div *ngIf="users">
-      <h2>Danh Sách Người Dùng</h2>
-      
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Fullname</th>
-            <th>Role</th>
-            <th>Phone Number</th>
-            <th>Status</th>
-            <th>Active</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let user of users">
-            <td>{{user.id_user}}</td>
-            <td contenteditable="true" (input)="onFullnameChange($event, user)">{{user.fullname}}</td>
-            <td contenteditable="true" (input)="onRoleChange($event, user)">{{user.role}}</td>
-            <td contenteditable="true" (input)="onPhoneNumberChange($event, user)">{{user.phonenumber}}</td>
-            <td contenteditable="true" (input)="onActiveChange($event, user)">{{user.status}}</td>
-            <td>
-              <button (click)="deleteUser(user)">Xóa</button>
-              <button (click)="updateUser(user)">Sửa</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <button  *ngIf="!ShowFrom" (click)="LoadForm()">Thêm Người Dùng</button>
-      <br>
-      <br>
-
-      <form *ngIf="ShowFrom" >
-        <label>Fullname: <input [(ngModel)]="newUser.fullname" name="fullname" required></label><br>
-        <label>Phone Number: <input [(ngModel)]="newUser.phonenumber" name="phonenumber" required pattern="[0-9]{10}"></label><br>
-        <label>Email: <input [(ngModel)]="newUser.email" name="email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"></label><br>
-        <label>Username: <input [(ngModel)]="newUser.username" name="username" required></label><br>
-        <label>Password: <input type="password" [(ngModel)]="newUser.password" name="password" required></label><br>
-        <label>Chọn chức vụ  :  
-          <select [(ngModel)]="newUser.role" name="role" required (change)="onRoleChange1()" >
-          <option value="1" >Chuyên gia</option>
-          <option value="2">Kỹ sư</option>
-          <option value="3">Quản trị viên</option>
-        </select>
-      </label>
-      
-      <div [hidden]="!showStatusDropdown">
-      <label>Trạng Thái : 
-        <select [(ngModel)]="newUser.status" name="status" required >
-        <option value="1">Active</option>
-        <option value="0">Not Active</option>
-      </select>
-      </label>
-      </div>
-        <button (click)="addNewUser()">Thêm</button>
-    </form>
-    
+  <header id="header" class="d-flex align-items-center">
+    <div class="welcome">
+      Xin chào,
+      <label class="user">{{fullname}}</label><br />
 
     </div>
-    
-      
-    
- <!-- End Hero -->
+
+    <nav id="navbar" class="navbar">
+      <ul>
+
+
+        <li class="dropdown">
+          <a (click)="logout()"><span>Đăng xuất</span> <i class="bi bi-chevron-down"></i></a>
+        </li>
+      </ul>
+      <i class="bi bi-list mobile-nav-toggle"></i>
+    </nav><!-- .navbar -->
+  </header>
+  <!-- ======= Hero Section ======= -->
+  <br>
+  <br>
+  <div *ngIf="users">
+    <h2>Danh Sách Người Dùng</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Fullname</th>
+          <th>Role</th>
+          <th>Phone Number</th>
+          <th>Email</th>
+          <th>Status</th>
+          <th>Active</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users">
+          <td>{{user.id_user}}</td>
+          <td contenteditable="true" (input)="onFullnameChange($event, user)">{{user.fullname}}</td>
+          <td>{{getRoleName(user.role)}}</td>
+          <td contenteditable="true" (input)="onPhoneNumberChange($event, user)">{{user.phonenumber}}</td>
+          <td contenteditable="true" (input)="onEmailChange($event, user)">{{user.email}}</td>
+
+          <td>
+            <select [(ngModel)]="user.status" (change)="onStatusChange(user)" [disabled]="user.role !== '1'">
+              <option value="0">Not Active</option>
+              <option value="1">Active</option>
+            </select>
+            <span *ngIf="user.role !== '1'">Không thể sửa</span>
+          </td>
+          
+          <td>
+            <button (click)="deleteUser(user)">Xóa</button>
+            <button (click)="updateUser(user)">Sửa</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="message-text" *ngIf="isEditing">{{message}}</div>
+
+  </div>
+
+  <button *ngIf="!ShowFrom" (click)="LoadForm()">Thêm Người Dùng</button>
+  <br>
+  <br>
+
+  <form *ngIf="ShowFrom">
+    <label>Fullname: <input [(ngModel)]="newUser.fullname" name="fullname" required></label><br>
+    <label>Phone Number: <input [(ngModel)]="newUser.phonenumber" name="phonenumber" required
+        pattern="[0-9]{10}"></label><br>
+    <label>Email: <input [(ngModel)]="newUser.email" name="email" required
+        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"></label><br>
+    <label>Username: <input [(ngModel)]="newUser.username" name="username" required></label><br>
+    <label>Password: <input type="password" [(ngModel)]="newUser.password" name="password" required></label><br>
+    <label>Chọn chức vụ :
+      <select [(ngModel)]="newUser.role" name="role" required (change)="onRoleChange1()">
+        <option value="1">Chuyên gia</option>
+        <option value="2">Kỹ sư</option>
+        <option value="3">Quản trị viên</option>
+      </select>
+    </label>
+
+    <div [hidden]="!showStatusDropdown">
+      <label>Trạng Thái :
+        <select [(ngModel)]="newUser.status" name="status" required>
+          <option value="1">Active</option>
+          <option value="0">Not Active</option>
+        </select>
+      </label>
+    </div>
+    <button (click)="addNewUser()">Thêm</button>
+  </form>
+
+
+
+
+
+
+  <!-- End Hero -->
 
 </body>
-

@@ -124,7 +124,7 @@ export class LoginComponent implements OnInit {
       },
         (error: HttpErrorResponse) => {
           if (error.status === 400) {
-            this.message = "Tên đăng nhập đã tồn tại.";
+            this.message = "Email hoặc Số điện thoại đăng ký đã tồn tại.";
           } 
           else {
             this.message = "Đã xảy ra lỗi. Vui lòng thử lại sau.";

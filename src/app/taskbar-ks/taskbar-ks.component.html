@@ -1,26 +1,33 @@
 <body>
-    <header id="header" class="d-flex align-items-center">
-        <div class="welcome">
-            Xin chào,
-            <label class="user">{{fullname}}</label><br/>
-            
-        </div>
-       
-        <nav id="navbar" class="navbar">
-          <ul>
-            <li><a class="nav-link scrollto active" href="#hero">Thêm luật</a></li>
-            <li><a class="nav-link scrollto active" routerLink="/diagnosis">Chuẩn đoán bệnh</a></li>
-            
-            <li class="dropdown">
-              <a (click)="logout()"><span>Đăng xuất</span> <i class="bi bi-chevron-down"></i></a>
-             
-            </li>
-            
-          </ul>
-          <i class="bi bi-list mobile-nav-toggle"></i>
-        </nav><!-- .navbar -->
-    </header>
+  <header id="header" class="d-flex align-items-center">
+    <div class="welcome">
+      Xin chào,
+      <label class="user">{{fullname}}</label><br />
 
+    </div>
+
+    <nav id="navbar" class="navbar">
+      <ul>
+        <li><a class="nav-link scrollto active" href="#addRuleSection">Thêm luật</a></li>
+        <li><a class="nav-link scrollto active" href="#addDiseaseSection">Thêm Bệnh Mới</a></li>
+        <li><a class="nav-link scrollto active" routerLink="/diagnosis">Chuẩn đoán bệnh</a></li>
+
+        <li class="dropdown">
+          <a (click)="logout()"><span>Đăng xuất</span> <i class="bi bi-chevron-down"></i></a>
+
+        </li>
+
+      </ul>
+      <i class="bi bi-list mobile-nav-toggle"></i>
+    </nav><!-- .navbar -->
+  </header>
+  <div id="addRuleSection">
+    <!-- Nội dung của phần thêm luật -->
+  </div>
+
+  <!-- Thẻ div dưới đây cần có id tương ứng -->
+  <div id="addDiseaseSection">
+    <!-- Nội dung của phần thêm bệnh mới -->
+  </div>
 
 </body>
-

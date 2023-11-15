@@ -19,6 +19,7 @@ export class AuthService {
   public id_user: any;
   public fullname :any;
   public email :any;
+  public phonenumber :any;
   public status:any;
   results: string[] | undefined;
   constructor(private http: HttpClient) {
@@ -91,10 +92,15 @@ export class AuthService {
     this.id_user=decodedToken.id;
     this.status=decodedToken.status;
     // Save user ID in local storage
-    localStorage.setItem('id_user', decodedToken.id);
+    
+    localStorage.setItem('phonenumber', decodedToken.phonenumber);
+    localStorage.setItem('email', decodedToken.email);
     const expirationDate =helper.getTokenExpirationDate(token);
     const isExpired = helper.isTokenExpired(token);
     localStorage.setItem('fullname',this.fullname);
+    localStorage.setItem('id_user', this.id_user);
+    
+    
 
   }
   checkUserInfo(username: string, phonenumber: string,email:string): Observable<any> {

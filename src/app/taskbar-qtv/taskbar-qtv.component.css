@@ -346,22 +346,35 @@ table {
   }
   
   /* Style cho dòng chẵn của bảng */
+  tr{
+    display: flex;
+  }
   tr:nth-child(even) {
     background-color: #f2f2f2;
     border: 1px solid #1e1c1c;
+    
   }
   
   /* Style cho dòng lẻ của bảng */
   tr:nth-child(odd) {
     background-color: #ffffff;
     border: 1px solid #1e1c1c;
+    
+      /* Chia dòng thành các cell theo chiều ngang */
+      
+    
   }
-  
+  tbody {
+    display: block;
+    /* Thêm margin-top để giữ cho phần thân không bị che phủ bởi phần tiêu đề */
+    /* margin-top: 40px; */
+  }
   /* Style cho ô dữ liệu trong bảng */
   td {
     padding: 10px;
     text-align: center;
     border: 1px solid #1e1c1c;
+    flex: 1;
   }
   
   /* Style cho các nút */
@@ -422,3 +435,23 @@ button {
 button:hover {
     background-color: #0056b3;
 }
+.table-container {
+  max-height: 400px; /* Đặt chiều cao tối đa cho bảng */
+  overflow-y: auto; /* Tự động thêm thanh cuộn khi nội dung vượt quá chiều cao */
+}
+
+thead {
+  /* Đặt chiều cao cố định cho phần tiêu đề */
+  display: block;
+  position: sticky;
+  top: 0;
+  
+  background-color: white; /* Màu nền phải khác màu nền của bảng */
+}
+
+
+
+
+
+
+/* Các style khác bạn có thể thêm vào tùy ý */

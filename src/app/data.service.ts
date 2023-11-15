@@ -82,5 +82,10 @@ export class DataService {
 
     return this.http.get<string[]>(`${this.rootURL}/taskbar-cg/suggest`, { headers: httpOptions.headers, params }).pipe();
   }
+  getUserInfo(userId: number): Observable<any> {
+    const httpOptions = this.getHttpOptions();
+    
+    return this.http.get<any>(`${this.rootURL}/taskbar-cg/getuserdetail/${userId}`, httpOptions);
+  }
 
 }
