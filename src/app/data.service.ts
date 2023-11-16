@@ -87,5 +87,10 @@ export class DataService {
     
     return this.http.get<any>(`${this.rootURL}/taskbar-cg/getuserdetail/${userId}`, httpOptions);
   }
+  uploadUserInfo(userId: number, formData: FormData): Observable<any> {
+    const httpOptions = this.getHttpOptions();
+    return this.http.post<any>(`${this.rootURL}/taskbar-cg0/userinfo/${userId}`, formData, httpOptions);
+  }
+  
 
 }

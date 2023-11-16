@@ -31,7 +31,7 @@ export class TaskbarCg0Component implements OnInit {
     }
 
     this.id = localStorage.getItem('id_user');
-    this.fullname=localStorage.getItem('fullname');
+    this.fullname = localStorage.getItem('fullname');
 
 
 
@@ -66,10 +66,41 @@ export class TaskbarCg0Component implements OnInit {
 
   }
   updateUserInfo(user: any) {
-    // Gọi service để cập nhật thông tin người dùng
-    // Các bước cập nhật sẽ được thực hiện ở đây
-    // Sau khi cập nhật thành công, có thể thông báo hoặc thực hiện các hành động khác
+    const formData = new FormData();
+
+    // Thêm thông tin người dùng vào FormData
+    //formData.append('id_user', user.id_user);
+    formData.append('fullname', user.fullname);
+    formData.append('phonenumber', user.phonenumber);
+    formData.append('email', user.email);
+
+    // Thêm các tệp tin ảnh vào FormData
+    if (this.Image) {
+      formData.append('anhdaidien', this.Image);
+    }
+    if (this.bangTotNghiepYKhoaImage) {
+      formData.append('bangTotNghiepYKhoa', this.bangTotNghiepYKhoaImage);
+    }
+    if (this.chungChiHanhNgheImage) {
+      formData.append('chungChiHanhNghe', this.chungChiHanhNgheImage);
+    }
+    if (this.chungNhanChuyenKhoaImage) {
+      formData.append('chungNhanChuyenKhoa', this.chungNhanChuyenKhoaImage);
+    }
+
+    // Gửi FormData lên server
+    this.dataService.uploadUserInfo(user.id_user, formData).subscribe(
+      (response: any) => {
+        // Xử lý khi gửi thành công (nếu cần)
+        console.log('Đã gửi dữ liệu thành công:', response);
+      },
+      (error: any) => {
+        // Xử lý lỗi khi gửi dữ liệu
+        console.error('Lỗi khi gửi dữ liệu:', error);
+      }
+    );
   }
+
 
   onFileChange(event: any, field: string) {
     const file = event.target.files[0];
