@@ -212,25 +212,22 @@ onTrieuChungSelected(index: number, event: any) {
 
   
   saveNewBenh() {
-    console.log('Đã lưu bệnh mới:', this.newBenh);
+    //console.log('Đã lưu bệnh mới:', this.newBenh);
     this.dataService.addNewBenh(this.id, this.newBenh.value.ten_benh, this.newBenh.value.loai_he, this.newBenh.value.trieu_chung).subscribe(
       (response: any) => {
-        console.log(response.status);
-        if (response && response.status) {
-          var code = response.status;
-          console.log(code);
+        //console.log(response.status);
+        if (response && response.message === "Success") {
+          //var code = response.status;
+          //console.log(code);
   
-          if (code === 200) {
+         
             this.errorMessage = "Đăng ký thành công";
             console.log('Đã lưu bệnh mới:', this.newBenh);
   
             // Sau khi lưu, đặt lại trạng thái
             this.isAddingNewBenh = false;
            
-          } else {
-            // Handle the case when the status code is not 200
-            console.error('Unexpected status code:', code);
-          }
+          
         } else {
           // Handle the case when response or response.status is null or undefined
           console.error('');

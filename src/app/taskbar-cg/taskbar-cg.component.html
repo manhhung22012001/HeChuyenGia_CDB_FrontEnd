@@ -1,7 +1,7 @@
 <body>
   <header id="header" class="d-flex align-items-center">
     <div class="welcome">
-      Xin chào Bác Sĩ 
+      Xin chào Bác Sĩ
       <label class="user">{{fullname}}</label><br />
 
     </div>
@@ -110,28 +110,31 @@
       </select>
       <br>
       <!-- ... -->
-    <!-- Sửa lại cách kết nối form control cho mỗi ô nhập triệu chứng -->
-<div formArrayName="trieu_chung">
-  <label>Triệu chứng:</label>
-  <div *ngFor="let trieuChungControl of trieuChungControls; let i = index">
-    <div [formGroupName]="i">
-      <!-- Sử dụng formControlName để kết nối với từng control trong form -->
-      <input class="input" id="trieuChung{{i}}" formControlName="trieu_chung" name="trieuChung{{i}}" required
-        (keydown)="onKeyDown($event, i)" [matAutocomplete]="auto" (input)="onTrieuChungInput(i)" />
-      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onTrieuChungSelected(i,$event)">
-        <mat-option *ngFor="let suggestion of suggestedTrieuChung[i]" [value]="suggestion">
-          {{ suggestion }}
-        </mat-option>
-      </mat-autocomplete>
+      <!-- Sửa lại cách kết nối form control cho mỗi ô nhập triệu chứng -->
+      <div formArrayName="trieu_chung">
+        <label>Triệu chứng:</label>
+        <div *ngFor="let trieuChungControl of trieuChungControls; let i = index">
+          <div [formGroupName]="i">
+            <!-- Sử dụng formControlName để kết nối với từng control trong form -->
+            <input class="input" id="trieuChung{{i}}" formControlName="trieu_chung" name="trieuChung{{i}}" required
+              (keydown)="onKeyDown($event, i)" [matAutocomplete]="auto" (input)="onTrieuChungInput(i)" />
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onTrieuChungSelected(i,$event)">
+              <mat-option *ngFor="let suggestion of suggestedTrieuChung[i]" [value]="suggestion">
+                {{ suggestion }}
+              </mat-option>
+            </mat-autocomplete>
 
-      <button class="add" (click)="addNewTrieuChungIfLast(i)" *ngIf="i === trieuChungControls.length - 1">+</button>
-      <button class="sub" (click)="removeTrieuChung(i)" *ngIf="trieuChungControls.length > 1">-</button>
+            <button class="add" (click)="addNewTrieuChungIfLast(i)"
+              *ngIf="i === trieuChungControls.length - 1">+</button>
+            <button class="sub" (click)="removeTrieuChung(i)" *ngIf="trieuChungControls.length > 1">-</button>
 
-    </div>
-  </div>
-</div>
+          </div>
+        </div>
+      </div>
 
       <button class="save" type="submit">Lưu</button>
-      <div class="message-text">{{errorMessage}}</div>
+
     </form>
+    
   </div>
+  <div class="message-text">{{errorMessage}}</div>
