@@ -25,7 +25,7 @@ export class TaskbarCgComponent implements OnInit {
   isAddingNewBenh: boolean = false;
   errorMessage: string = '';
   newBenh: FormGroup;
-  suggestedTrieuChung: string[][] = [];
+  suggestedTrieuChung: any[][] = [];
   searchControl = new FormControl();
   
   
@@ -46,7 +46,7 @@ export class TaskbarCgComponent implements OnInit {
       loai_he: ['', Validators.required],
       trieu_chung: this.fb.array([this.createTrieuChungFormGroup()])
     });
-    this.setupSearch();
+  
 
 
   }
@@ -56,43 +56,39 @@ export class TaskbarCgComponent implements OnInit {
     
     const trieuChungArray = this.newBenh.get('trieu_chung') as FormArray;
     for (let i = 0; i < trieuChungArray.length; i++) {
-      this.suggestedTrieuChung.push([]);
-      
+      this.suggestedTrieuChung.push([]); // Tạo một mảng rỗng cho mỗi trường nhập
     }
   }
-  private setupSearch() {
-    this.searchControl.valueChanges
-      .pipe(
-        debounceTime(300),
-        distinctUntilChanged(),
-        switchMap((keyword) => this.dataService.searchTrieuChung(keyword))
-      )
-      .subscribe((suggestions) => {
-        this.suggestedTrieuChung[0] = suggestions; // Thay đổi chỉ số 0 nếu có nhiều hơn một ô input
-      });
-    }
+ 
     onKeyDown(event: KeyboardEvent, index: number) {
       // Kiểm tra nếu phím ấn là phím cách (Space)
       if (event.key === ' ') {
         // Gọi API tìm kiếm với từ khoá là giá trị hiện tại trong ô input
-        this.searchControl.valueChanges.subscribe((keyword) => {
-          // Ở đây, bạn có thể sử dụng 'value' để lấy keyword và thực hiện các xử lý cần thiết
-          console.log('Keyword:', keyword);
-          // Gọi API tìm kiếm hoặc thực hiện các xử lý khác dựa trên keyword
-          this.dataService.searchTrieuChung(keyword).subscribe((suggestions) => {
-            this.suggestedTrieuChung[index] = suggestions;
-          });
+        this.searchControl.valueChanges.pipe(
+          debounceTime(300),
+          distinctUntilChanged(),
+          switchMap((keyword) => this.dataService.searchTrieuChung(keyword))
+        ).subscribe((suggestions) => {
+          this.suggestedTrieuChung[index] = suggestions;
         });
-      
+    
+        // event.preventDefault(); // Ngăn chặn hành vi mặc định của phím cách trong input
+      }
     }
-  }
+    
  
   // Trong component của bạn
   createTrieuChungFormGroup(): FormGroup {
-    return this.fb.group({
+    const newTrieuChungGroup = this.fb.group({
       trieu_chung: ['', Validators.required]
     });
+  
+    // Tạo một mảng gợi ý mới cho ô nhập triệu chứng vừa được thêm vào
+    this.suggestedTrieuChung.push([]);
+  
+    return newTrieuChungGroup;
   }
+  
   // Thêm phương thức displayFn để hiển thị gợi ý trong dropdown
 displayFn(value: string): string {
   return value;
@@ -102,7 +98,11 @@ onTrieuChungInput(index: number) {
   const trieuChungArray = this.newBenh.get('trieu_chung') as FormArray;
   const trieuChungControl = trieuChungArray.controls[index].get('trieu_chung');
 
-  if (trieuChungControl && trieuChungControl.value && typeof trieuChungControl.value === 'string') {
+  if (
+    trieuChungControl &&
+    trieuChungControl.value &&
+    typeof trieuChungControl.value === 'string'
+  ) {
     this.dataService.searchTrieuChung(trieuChungControl.value).subscribe((suggestions) => {
       this.suggestedTrieuChung[index] = suggestions;
     });
@@ -110,9 +110,12 @@ onTrieuChungInput(index: number) {
 }
 
 onTrieuChungSelected(index: number, event: any) {
-  // Lấy giá trị gợi ý được chọn và đặt nó vào form control
-  this.searchControl.setValue(event.option.viewValue);
+  const selectedValue = event.option.viewValue;
+  this.searchControl.setValue(selectedValue);
+
+  this.suggestedTrieuChung[index] = [selectedValue];
 }
+
   logout() {
     localStorage.removeItem('token');
     this.authService.logout();
@@ -188,11 +191,19 @@ onTrieuChungSelected(index: number, event: any) {
     if (index === trieuChungArray.length - 1) {
       trieuChungArray.push(this.createTrieuChungFormGroup());
     }
+    
+    // Sau khi thêm mới, đảm bảo mảng suggestedTrieuChung có đúng số lượng ô nhập
+    if (!this.suggestedTrieuChung[index + 1]) {
+      this.suggestedTrieuChung.push([]);
+    }
   }
 
   removeTrieuChung(index: number): void {
     const trieuChungArray = this.newBenh.get('trieu_chung') as FormArray;
     trieuChungArray.removeAt(index);
+    
+    // Sau khi xóa, cũng xóa phần tử tương ứng trong mảng suggestedTrieuChung
+    this.suggestedTrieuChung.splice(index, 1);
   }
   get trieuChungControls() {
     return (this.newBenh.get('trieu_chung') as FormArray).controls;
@@ -204,6 +215,7 @@ onTrieuChungSelected(index: number, event: any) {
     console.log('Đã lưu bệnh mới:', this.newBenh);
     this.dataService.addNewBenh(this.id, this.newBenh.value.ten_benh, this.newBenh.value.loai_he, this.newBenh.value.trieu_chung).subscribe(
       (response: any) => {
+        console.log(response.status);
         if (response && response.status) {
           var code = response.status;
           console.log(code);
@@ -221,7 +233,7 @@ onTrieuChungSelected(index: number, event: any) {
           }
         } else {
           // Handle the case when response or response.status is null or undefined
-          console.error('Invalid response:', response);
+          console.error('');
         }
       },
       (error: HttpErrorResponse) => {
