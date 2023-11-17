@@ -20,7 +20,7 @@
   <!-- ======= Hero Section ======= -->
   <br>
   <br>
-  <div *ngIf="users">
+  <div [formGroup]="userForms">
     <h2>Danh Sách Người Dùng</h2>
     <table>
       <thead>
@@ -35,31 +35,33 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let user of users">
-          <td>{{user.id_user}}</td>
-          <td contenteditable="true" (input)="onFullnameChange($event, user)">{{user.fullname}}</td>
-          <td>{{getRoleName(user.role)}}</td>
-          <td contenteditable="true" (input)="onPhoneNumberChange($event, user)">{{user.phonenumber}}</td>
-          <td contenteditable="true" (input)="onEmailChange($event, user)">{{user.email}}</td>
-
-          <td>
-            <select [(ngModel)]="user.status" (change)="onStatusChange(user)" [disabled]="user.role !== '1'">
-              <option value="0">Not Active</option>
-              <option value="1">Active</option>
-            </select>
-            <span *ngIf="user.role !== '1'">Không thể sửa</span>
-          </td>
-          
-          <td>
-            <button (click)="deleteUser(user)">Xóa</button>
-            <button (click)="updateUser(user)">Sửa</button>
-          </td>
-        </tr>
+        <div formArrayName="users">
+          <div *ngFor="let user of usersFormArray.controls; let i = index" [formGroupName]="i">
+            <td>{{ user.value.id_user }}</td>
+            <td><input type="text"  (input)="onFullnameChange($event, user)" formControlName="fullname"></td>
+            <td>{{ user.value.role}}</td>
+            <td><input type="text" (input)="onPhoneNumberChange($event, user)" formControlName="phonenumber"></td>
+            <td><input type="text" (input)="onEmailChange($event, user)" formControlName="email"></td>
+            <td>
+              <select formControlName="status"  (change)="onStatusChange(i,user)" [disabled]="user.value.role !== '1'">
+                <!-- Options for status -->
+                <option value="0">Not Active</option>
+                <option value="1">Active</option>
+              </select>
+              <span *ngIf="user.value.role !== '1'">Không thể sửa</span>
+            </td>
+            <td>
+              <button (click)="deleteUser(user)">Xóa</button>
+              <button (click)="updateUser(i,user)">Sửa</button>
+            </td>
+          </div>
+        </div>
       </tbody>
+      
     </table>
     <div class="message-text" *ngIf="isEditing">{{message}}</div>
-
   </div>
+ 
 
   <button *ngIf="!ShowFrom" (click)="LoadForm()">Thêm Người Dùng</button>
   <br>

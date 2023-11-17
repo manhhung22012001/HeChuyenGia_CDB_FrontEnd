@@ -5,7 +5,7 @@ import { DataService } from '../data.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmComponent } from '../confirm/confirm.component';
 import { HttpErrorResponse } from '@angular/common/http';
-
+import { FormGroup, FormBuilder,FormControl,FormArray } from '@angular/forms';
 @Component({
   selector: 'app-taskbar-qtv',
   templateUrl: './taskbar-qtv.component.html',
@@ -30,25 +30,45 @@ export class TaskbarQtvComponent implements OnInit {
     role: '',
     status: ''
   };
-  constructor(private router: Router, private authService: AuthService, private dataService: DataService, private dialog: MatDialog) {
+  userForms!: FormGroup;
+
+  constructor(private formBuilder: FormBuilder,private router: Router, private authService: AuthService, private dataService: DataService, private dialog: MatDialog) {
     const token = localStorage.getItem('token');
     if (!token) {
       this.router.navigate(['/login']);
     }
     this.fullname = localStorage.getItem('fullname');
   }
+  ngOnInit() {
+    // Initialize your form group
+    this.userForms = this.formBuilder.group({
+      users: this.formBuilder.array([]) // Or initialize with default values
+    });
 
-  ngOnInit(): void {
+    // Load data into the form (Assuming this.dataService.getUsers() returns the data)
+    this.dataService.getUsers().subscribe((data: any[]) => {
+      data.forEach(user => {
+        this.addUserForm(user);
+      });
+    });
+  }
+  addUserForm(user: any) {
+    const userForm = this.formBuilder.group({
+      id_user: new FormControl(user.id_user),
+      fullname: new FormControl(user.fullname),
+      role: new FormControl(user.role),
+      phonenumber: new FormControl(user.phonenumber),
+      email: new FormControl(user.email),
+      status: new FormControl(user.status)
+      // Add other fields as needed
+    });
 
-    this.dataService.getUsers().subscribe(
-      data => {
-        this.users = data;
+    // Access the 'users' form array and push the new user form group
+    this.usersFormArray.push(userForm);
+  }
 
-      },
-      error => {
-        console.error('Error loading users data: ', error);
-      }
-    );
+  get usersFormArray() {
+    return this.userForms.get('users') as FormArray;
   }
   getRoleName(role: string): string {
     switch (role) {
@@ -133,20 +153,20 @@ export class TaskbarQtvComponent implements OnInit {
     this.router.navigate(['/' + this.id]);
   }
   onFullnameChange(event: any, user: any) {
-    user.fullname = event.target.innerText;
+    user.fullname = event.target.value;
   }
   onActiveChange(event: any, user: any) {
-    user.status = event.target.innerText;
+    user.status = event.target.value;
   }
-  onStatusChange(user: any) {
+  onStatusChange(index:number,user: any) {
     if (this.isEditing) {
       // Bạn có thể thêm xử lý khác nếu cần thiết trước khi gọi hàm updateUser
-      this.updateUser(user);
+      this.updateUser(index,user);
     }
   }
 
   onEmailChange(event: any, user: any) {
-    user.email = event.target.innerText;
+    user.email = event.target.value;
   }
 
 
@@ -155,13 +175,15 @@ export class TaskbarQtvComponent implements OnInit {
   // }
 
   onPhoneNumberChange(event: any, user: any) {
-    user.phonenumber = event.target.innerText;
+    user.phonenumber = event.target.value;
   }
 
-  deleteUser(users: any) {
-
-    if (users.id_user == this.authService.id_user) {
-      console.log(users.id_user);
+  deleteUser(user: any) {
+    console.log(user.value.id_user);
+    console.log(this.authService.id_user)
+    console.log(this.authService.getID())
+    if (user.value.id_user == this.authService.getID()) {
+      
       alert('Bạn không thể xóa tài khoản của chính mình.');
     }
     else {
@@ -176,11 +198,11 @@ export class TaskbarQtvComponent implements OnInit {
       dialogRef.afterClosed().subscribe(result => {
         if (result) {
           // Nếu người dùng chọn "Có", thực hiện xóa người dùng
-          const userId = users.id_user;
+          const userId = user.value.id_user;
           this.dataService.deleteUser(userId).subscribe(
             () => {
               // Xóa người dùng khỏi danh sách hiển thị
-              this.users = this.users.filter(u => u.id_user !== userId);
+              this.users = this.users.filter(u => u.value.id_user !== userId);
             },
             error => {
               console.error('Error deleting user: ', error);
@@ -190,23 +212,25 @@ export class TaskbarQtvComponent implements OnInit {
       });
     }
   }
-  updateUser(user: any) {
+  updateUser(index: number,user: any) {
     // Lấy ID người dùng cần cập nhật
-    const userId = user.id_user;
+    const userId = user.value.id_user;
+    console.log(userId);
 
     // Lấy thông tin người dùng từ form chỉnh sửa hoặc các trường khác trong user object
-    const updatedUser: any = {
-      id_user: userId, // Bạn cần chắc chắn rằng id_user được gán lại đúng giá trị
-      fullname: user.fullname, // Lấy từ form hoặc các trường thông tin khác
-      role: user.role,
-      phonenumber: user.phonenumber,
-      status: user.status,
-      email :user.email
+    const updatedUser = {
+      id_user: userId,
+      fullname: user.get('fullname')?.value,
+      role: user.get('role')?.value,
+      phonenumber: user.get('phonenumber')?.value,
+      status: user.get('status')?.value,
+      email: user.get('email')?.value
       // Thêm các trường thông tin khác nếu cần
     };
+    console.log(updatedUser);
 
     // Gọi hàm updateUser() trong dataService để gửi yêu cầu cập nhật
-    this.dataService.updateUser(userId, updatedUser).subscribe(
+    this.dataService.updateUser(userId,  updatedUser).subscribe(
       (response: any) => {
         this.message = "Cập Nhật Thông Tin Thành Công.";
         this.isEditing = true;

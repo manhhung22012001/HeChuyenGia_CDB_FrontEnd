@@ -345,19 +345,25 @@ td {
   padding: 8px;
   text-align: center;
   border: 1px solid #000;
-  /* width: calc(100% / 7); Chia đều chiều rộng cho 7 cột */
+   width: calc(100% / 7); /*Chia đều chiều rộng cho 7 cột */
 } 
-th:nth-child(1),
+th:nth-child(1){
+  width: 4.37%;
+}
 td:nth-child(1) {
   width: 5%;
 }
 
-th:nth-child(2),
+th:nth-child(2){
+  width: 15.4%;
+}
 td:nth-child(2) {
   width: 15%;
 }
 
-th:nth-child(3),
+th:nth-child(3){
+width: 9.8%;
+}
 td:nth-child(3) {
   width: 10%;
 }
@@ -367,17 +373,23 @@ td:nth-child(4) {
   width: 10%;
 }
 
-th:nth-child(5),
+th:nth-child(5){
+  width: 20.9%;
+}
 td:nth-child(5) {
   width: 20%;
 }
 
-th:nth-child(6),
+th:nth-child(6){
+  width: 15.45%;
+}
 td:nth-child(6) {
   width: 15%;
 }
 
-th:nth-child(7),
+th:nth-child(7){
+  width: 15.4%;
+}
 td:nth-child(7) {
   width: 15%;
 }
@@ -432,7 +444,7 @@ label {
     margin-bottom: 10px;
 }
 input, select {
-    width: 100%;
+    width: 90%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
