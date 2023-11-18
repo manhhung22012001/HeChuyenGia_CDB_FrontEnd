@@ -58,8 +58,7 @@ export class TaskbarCg0Component implements OnInit {
         }
       },
       (error: any) => {
-        // Xử lý lỗi nếu có
-        //console.error('Error fetching trieu chung:', error);
+        this.errorMessage="Bạn đã cập nhật thông tin rồi. Vui lòng đợi chúng tôi cập nhật!"
 
       }
     );

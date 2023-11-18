@@ -25,6 +25,7 @@
     <div class="user-info">
       <div><strong>Cập Nhật Thông Tin Để Thêm Bệnh</strong></div>
       <button (click)="updateUserInfo1()">Cập Nhật Ngay</button>
+      <div class="message-text">{{errorMessage}}</div>
       <div *ngIf="userInformation">
         <strong>Thông Tin Của Bạn.</strong>
         <br>
