@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
+// import { FileUploader } from 'ng2-file-upload';
+import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { DataService } from '../data.service';
+import { Observable } from 'rxjs';
+
 import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
 @Component({
   selector: 'app-taskbar-cg0',
@@ -17,12 +21,11 @@ export class TaskbarCg0Component implements OnInit {
   userDetail: any = {};
   showUpdateView: boolean = false;
   userInformation: any;
+  ReactiveForm: any = FormGroup;
+  errorMessage: string = '';
 
-  // Thêm các biến mới cho các đường dẫn ảnh
-  bangTotNghiepYKhoaImage: File | null = null;
-  chungChiHanhNgheImage: File | null = null;
-  chungNhanChuyenKhoaImage: File | null = null;
-  Image: File | null = null;
+  selectedFiles: { file: File, fieldName: string }[] = [];
+
   constructor(private router: Router, private authService: AuthService, private dataService: DataService, private fb: FormBuilder) {
 
     const token = localStorage.getItem('token');
@@ -33,14 +36,11 @@ export class TaskbarCg0Component implements OnInit {
     this.id = localStorage.getItem('id_user');
     this.fullname = localStorage.getItem('fullname');
 
-
-
-
+  }
+  ngOnInit(): void {
 
   }
-  ngOnInit() {
 
-  }
   updateUserInfo1() {
     console.log(this.id);
     this.dataService.getUserInfo(this.id).subscribe(
@@ -59,95 +59,49 @@ export class TaskbarCg0Component implements OnInit {
       },
       (error: any) => {
         // Xử lý lỗi nếu có
-        console.error('Error fetching trieu chung:', error);
+        //console.error('Error fetching trieu chung:', error);
 
       }
     );
 
   }
-  updateUserInfo(user: any) {
-    const formData = new FormData();
 
-    // Thêm thông tin người dùng vào FormData
-    //formData.append('id_user', user.id_user);
-    formData.append('fullname', user.fullname);
-    formData.append('phonenumber', user.phonenumber);
-    formData.append('email', user.email);
 
-    // Thêm các tệp tin ảnh vào FormData
-    if (this.Image) {
-      formData.append('anhdaidien', this.Image);
+  onSelectFile(event: any, fieldName: string) {
+    const files: FileList = event.target.files;
+    for (let i = 0; i < files.length; i++) {
+      this.selectedFiles.push({ file: files[i], fieldName: fieldName });
     }
-    if (this.bangTotNghiepYKhoaImage) {
-      formData.append('bangTotNghiepYKhoa', this.bangTotNghiepYKhoaImage);
-    }
-    if (this.chungChiHanhNgheImage) {
-      formData.append('chungChiHanhNghe', this.chungChiHanhNgheImage);
-    }
-    if (this.chungNhanChuyenKhoaImage) {
-      formData.append('chungNhanChuyenKhoa', this.chungNhanChuyenKhoaImage);
-    }
-
-    // Gửi FormData lên server
-    this.dataService.uploadUserInfo(user.id_user, formData).subscribe(
-      (response: any) => {
-        // Xử lý khi gửi thành công (nếu cần)
-        console.log('Đã gửi dữ liệu thành công:', response);
-      },
-      (error: any) => {
-        // Xử lý lỗi khi gửi dữ liệu
-        console.error('Lỗi khi gửi dữ liệu:', error);
-      }
-    );
   }
 
-
-  onFileChange(event: any, field: string) {
-    const file = event.target.files[0];
-
-    // Kiểm tra định dạng và kích thước của file
-    if (!this.isValidFile(file)) {
-      // Nếu không đúng, xóa giá trị file và thông báo cho người dùng
-      event.target.value = null;
-      alert('Vui lòng chọn file định dạng .png, .jpg, hoặc .pdf và có dung lượng dưới 2MB.');
+  saveForm() {
+    if (this.selectedFiles.length < 4) {
+      this.errorMessage = 'Hãy tải lên đủ 4 file.';
       return;
     }
-
-    // Lưu file vào biến tương ứng
-    switch (field) {
-      case 'bangTotNghiepYKhoa':
-        this.bangTotNghiepYKhoaImage = file;
-        break;
-      case 'chungChiHanhNghe':
-        this.chungChiHanhNgheImage = file;
-        break;
-      case 'chungNhanChuyenKhoa':
-        this.chungNhanChuyenKhoaImage = file;
-        break;
-      case 'anhdaidien':
-        this.Image = file;
-        break;
-      default:
-        break;
+  
+    const formData = new FormData();
+  
+    for (let i = 0; i < this.selectedFiles.length; i++) {
+      formData.append(this.selectedFiles[i].fieldName, this.selectedFiles[i].file);
     }
+  
+    // Gửi FormData lên server
+    this.dataService.uploadUserInfo(this.userInformation.id_user, formData).subscribe((response: any) => {
+      if (response && response.message === 'Success') {
+        this.errorMessage = 'Cập Nhật Thông Tin thành công! Hãy đợi chúng tôi kiểm tra thông tin của bạn.';
+        // Sau khi lưu, đặt lại trạng thái
+        this.showUpdateView = false;
+        // Mờ đi button
+        const saveButton = document.getElementById('saveButton') as HTMLButtonElement;
+        if (saveButton) {
+          saveButton.disabled = true;
+        }
+      } else {
+        // Handle the case when response or response.status is null or undefined
+        console.error('');
+      }
+    });
   }
 
-  // Kiểm tra định dạng và kích thước của file
-  isValidFile(file: File): boolean {
-    const allowedFormats = ['.png', '.jpg', '.pdf'];
-    const maxSize = 2 * 1024 * 1024; // 2MB
-
-    return (
-      file &&
-      allowedFormats.some(format => file.name.toLowerCase().endsWith(format)) &&
-      file.size <= maxSize
-    );
-  }
-
-  // Hàm để thực hiện tải ảnh lên server
-  uploadImages() {
-    // Bạn có thể sử dụng các biến (this.bangTotNghiepYKhoaImage, this.chungChiHanhNgheImage, this.chungNhanChuyenKhoaImage)
-    // để thực hiện quá trình tải lên ảnh và cập nhật dữ liệu trên server tùy ý.
-    // Hãy gọi các hàm xử lý tải ảnh và cập nhật dữ liệu từ đây.
-  }
 }

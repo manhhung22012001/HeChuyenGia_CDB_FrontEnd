@@ -102,6 +102,9 @@ input[type="file"] {
 small {
   color: red;
 }
+.required-label {
+  color: red;
+}
 
 button {
   background-color: #0066cc;

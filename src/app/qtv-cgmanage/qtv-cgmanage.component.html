@@ -1,1 +1,62 @@
-<p>qtv-cgmanage works!</p>
+<body>
+    <header id="header" class="d-flex align-items-center">
+        <div class="welcome">
+            Xin chào,<label class="user">{{fullname}}</label><br />
+
+        </div>
+
+        <nav id="navbar" class="navbar">
+            <ul>
+                <li class="dropdown">
+                    <a routerLink="/homepage"><span>Đăng xuất</span> <i class="bi bi-chevron-down"></i></a>
+                </li>
+            </ul>
+            <i class="bi bi-list mobile-nav-toggle"></i>
+        </nav><!-- .navbar -->
+    </header>
+
+    <br>
+    <br>
+
+    <form enctype="multipart/form-data">
+
+        <div class="user-info">
+            <div><strong>Thông tin Bác Sĩ</strong></div>
+
+            <!-- qtv-cgmanage.component.html -->
+
+            <div *ngIf="userDetails">
+                <h2>User Details</h2>
+                <p>ID: {{ userDetails.id_user }}</p>
+                <p>Fullname: {{ userDetails.fullname }}</p>
+                <p>Phone Number: {{ userDetails.phoneNumber }}</p>
+                <p>Email: {{ userDetails.email }}</p>
+
+                <!-- Hiển thị ảnh đại diện -->
+                <div>
+                    <strong>Ảnh đại diện:</strong>
+                    <img [src]="userDetails.image" alt="Avatar">
+                </div>
+
+                <!-- Hiển thị các liên kết đến tệp PDF hoặc văn bản -->
+                <div>
+                    <strong>Email:</strong>
+                    <a [href]="userDetails.bangTotNghiepYKhoa" target="_blank">Bang Tot Nghiep Y Khoa</a>
+                </div>
+                <div>
+                    <strong>Email:</strong>
+                    <a [href]="userDetails.chungChiHanhNghe" target="_blank">Chung Chi Hanh Nghe</a>
+                </div>
+                <div>
+                    <strong>Email:</strong>
+                    <a [href]="userDetails.chungNhanChuyenKhoa" target="_blank">Chung Nhan Chuyen Khoa</a>
+                </div>
+            </div>
+
+        </div>
+    </form>
+
+
+
+
+</body>

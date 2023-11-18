@@ -252,6 +252,23 @@ export class TaskbarQtvComponent implements OnInit {
     // Các hành động khác cần thiết khi bắt đầu chỉnh sửa, nếu có
   }
 
+  // your-component.ts
+CheckIn4(id_user: any) {
+  this.dataService.getUserInfo(id_user).subscribe(
+    (data) => {
+      console.log('User Details:', data);
+
+      // Lưu trữ dữ liệu trong DataService
+      this.dataService.setUserDetails(data);
+
+      // Chuyển sang component khác
+      this.router.navigate(['/qtv-cgmanage']);
+    },
+    (error) => {
+      console.error('Error:', error);
+    }
+  );
+}
 
 
 }

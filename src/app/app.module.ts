@@ -36,7 +36,9 @@ const appRoutes: Routes = [
   { path: 'homepage', component: HomepageComponent },
   { path: 'diagnosis', component: DiagnosisComponent },
   { path: 'comfirm', component: ConfirmComponent },
-  {path: 'forgotpass',component:ForgotpassComponent}
+  {path: 'forgotpass',component:ForgotpassComponent},
+  {path: 'qtv-cgmanage',component:QtvCgmanageComponent}
+
 ]
 @NgModule({
   declarations: [
@@ -56,6 +58,7 @@ const appRoutes: Routes = [
   imports: [
     BrowserModule,
     MatDialogModule,
+    // PdfViewerModule,
     ReactiveFormsModule,
 
     RouterModule.forRoot(

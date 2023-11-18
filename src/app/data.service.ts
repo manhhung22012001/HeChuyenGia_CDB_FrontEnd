@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders,HttpEvent,HttpRequest } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { AuthService } from './auth.service';
 
@@ -12,17 +12,25 @@ export class DataService {
   private rootURL = environment.baseUrl;
 
   constructor(private http: HttpClient, private authService: AuthService) { 
-    
+    this.http=http;
   }
 
   // Hàm này trả về các options cho HTTP requests, bao gồm Authorization header chứa token JWT
   private getHttpOptions(): { headers: HttpHeaders } {
     const token = localStorage.getItem('token'); // Lấy token từ localStorage
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}` // Thêm token vào Authorization header
     });
     return { headers: headers };
+  }
+  private userDetails: any;
+
+  setUserDetails(data: any) {
+    this.userDetails = data;
+  }
+
+  getUserDetails() {
+    return this.userDetails;
   }
 
   // Các hàm API của bạn với mã xác thực JWT
@@ -87,10 +95,12 @@ export class DataService {
     
     return this.http.get<any>(`${this.rootURL}/taskbar-cg/getuserdetail/${userId}`, httpOptions);
   }
+  
   uploadUserInfo(userId: number, formData: FormData): Observable<any> {
     const httpOptions = this.getHttpOptions();
     return this.http.post<any>(`${this.rootURL}/taskbar-cg0/userinfo/${userId}`, formData, httpOptions);
   }
+
   
 
 }

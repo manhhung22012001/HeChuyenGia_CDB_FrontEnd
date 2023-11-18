@@ -235,7 +235,7 @@ onTrieuChungSelected(index: number, event: any) {
       },
       (error: HttpErrorResponse) => {
         if (error.status === 400) {
-          this.errorMessage = "Tên đăng nhập đã tồn tại.";
+          this.errorMessage = "Đã xảy ra lỗi. Vui lòng thử lại sau.";
         } else {
           this.errorMessage = "Đã xảy ra lỗi. Vui lòng thử lại sau.";
         }
