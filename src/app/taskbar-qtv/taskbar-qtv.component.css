@@ -22,7 +22,7 @@ body {
   }
   
   #header {
-    background: #f6cdf5;
+    background:  #EEDCCE;
     transition: all 0.5s;
     z-index: 997;
     height: 86px;
@@ -338,32 +338,31 @@ th{
   padding: 8px;
   text-align: center;
   border: 1px solid #000;
-  width: calc(100% / 7);
-  background-color: rgb(250, 170, 170); /* Chia đều chiều rộng cho 7 cột */
+  width: calc(100% / 8);
+  background-color: rgb(250, 170, 170); 
 }
 td {
   padding: 8px;
   text-align: center;
   border: 1px solid #000;
-   width: calc(100% / 7); /*Chia đều chiều rộng cho 7 cột */
+   width: calc(100% / 8); 
 } 
-th:nth-child(1){
-  width: 4.37%;
+/* table tr:nth-child(even){
+  background-color: #B8E1FF;
 }
-td:nth-child(1) {
-  width: 5%;
+table tr:nth-child(odd) {
+  background-color: #ffffff;
+} */
+/* th:nth-child(1),td:nth-child(1) {
+  width: 5%px;
 }
 
-th:nth-child(2){
-  width: 15.4%;
-}
+th:nth-child(2),
 td:nth-child(2) {
   width: 15%;
 }
 
-th:nth-child(3){
-width: 9.8%;
-}
+th:nth-child(3),
 td:nth-child(3) {
   width: 10%;
 }
@@ -373,26 +372,24 @@ td:nth-child(4) {
   width: 10%;
 }
 
-th:nth-child(5){
-  width: 20.9%;
-}
+th:nth-child(5),
 td:nth-child(5) {
   width: 20%;
 }
 
-th:nth-child(6){
-  width: 15.45%;
-}
+th:nth-child(6),
 td:nth-child(6) {
   width: 15%;
 }
 
-th:nth-child(7){
-  width: 15.4%;
-}
+th:nth-child(7),
 td:nth-child(7) {
   width: 15%;
 }
+th:nth-child(8),
+td:nth-child(8) {
+  width: 10%;
+} */
 
 tr:nth-child(even) {
   background-color: #f2f2f2;
@@ -423,6 +420,12 @@ button:hover {
   border: 1px solid #1e1c1c;
   padding: 8px;
 }
+table input[type="text"] {
+  width: 80%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
 
   
   /* Style cho tiêu đề của danh sách người dùng */
@@ -437,7 +440,7 @@ button:hover {
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 10px;
-    background-color: #f8f8f8;
+    background-color: #ffffd8;
 }
 label {
     display: block;

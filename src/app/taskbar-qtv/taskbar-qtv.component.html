@@ -45,7 +45,7 @@
             <td><input type="text" (input)="onEmailChange($event, user)" formControlName="email"></td>
             <td>
               <select formControlName="status"  (change)="onStatusChange(i,user)" [disabled]="user.value.role !== '1'">
-                <!-- Options for status -->
+                <!-- Options fogit r status -->
                 <option value="0">Not Active</option>
                 <option value="1">Active</option>
               </select>

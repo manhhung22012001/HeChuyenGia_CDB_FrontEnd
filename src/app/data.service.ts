@@ -101,6 +101,9 @@ export class DataService {
     return this.http.post<any>(`${this.rootURL}/taskbar-cg0/userinfo/${userId}`, formData, httpOptions);
   }
 
-  
+  getFile(userId: number, urlFile:String ): Observable<any>{
+    const httpOptions = this.getHttpOptions();
+    return this.http.post<any>(`${this.rootURL}/taskbar-qtv/getFile/${userId}`, urlFile, httpOptions);
+  }
 
 }

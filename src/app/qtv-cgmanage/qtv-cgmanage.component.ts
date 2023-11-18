@@ -23,6 +23,17 @@ export class QtvCgmanageComponent {
     // Lấy dữ liệu từ queryParams
      // Lấy dữ liệu từ DataService
      this.userDetails = this.dataService.getUserDetails();
-     console.log('Received User Details:', this.userDetails);
-  }
+     const userId=this.userDetails.id_user;
+     var url:any={
+      anhdaidien:this.userDetails.anhdaidien,
+      bangTotNghiepYKhoa:this.userDetails.bangTotNghiepYKhoa,
+      chungChiHanhNghe:this.userDetails.chungChiHanhNghe,
+      chungNhanChuyenKhoa:this.userDetails.chungChiHanhNghe
+
+     }
+     this.dataService.getFile(userId,url).subscribe(
+      (response: any) => {
+        console.log(response);
+        })
+      }
 }

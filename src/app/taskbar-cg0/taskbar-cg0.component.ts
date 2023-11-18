@@ -47,10 +47,15 @@ export class TaskbarCg0Component implements OnInit {
       (userInfo: any) => {
         console.log(userInfo);
         if (userInfo) {
+          if(userInfo.bangTotNghiepYKhoa==null && userInfo.chungChiHanhNghe==null && userInfo.chungNhanChuyenKhoa ==null){
           // Show the update view
           this.showUpdateView = true;
 
-          this.userInformation = userInfo;
+          this.userInformation = userInfo;}
+          else
+          {
+            this.showUpdateView = false;
+          }
 
         } else {
           // Handle the case where user information is not available
