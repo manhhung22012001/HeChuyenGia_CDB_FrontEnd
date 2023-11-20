@@ -40,16 +40,16 @@
 
                 <!-- Hiển thị các liên kết đến tệp PDF hoặc văn bản -->
                 <div>
-                    <strong>Email:</strong>
+                    <strong>Bằng tốt nghiệp y khoa:</strong>
                     <a [href]="userDetails.bangTotNghiepYKhoa" target="_blank">Bang Tot Nghiep Y Khoa</a>
                 </div>
                 <div>
-                    <strong>Email:</strong>
+                    <strong>Chứng chỉ hành nghề:</strong>
                     <a [href]="userDetails.chungChiHanhNghe" target="_blank">Chung Chi Hanh Nghe</a>
                 </div>
                 <div>
-                    <strong>Email:</strong>
-                    <a [href]="userDetails.chungNhanChuyenKhoa" target="_blank">Chung Nhan Chuyen Khoa</a>
+                    <strong>Chứng nhận Chuyên Khoa:</strong>
+                    <a (click)="onLinkClick(userDetails.chungNhanChuyenKhoa)">Chung Nhan Chuyen Khoa</a>
                 </div>
             </div>
 

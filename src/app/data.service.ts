@@ -105,5 +105,9 @@ export class DataService {
     const httpOptions = this.getHttpOptions();
     return this.http.post<any>(`${this.rootURL}/taskbar-qtv/getFile/${userId}`, urlFile, httpOptions);
   }
+  getFileContent(filePath: string): Observable<any> {
+    const params = { filePath: filePath };
+    return this.http.get(`${this.rootURL}/taskbar-qtv/get-file-content`, { params: params, responseType: 'blob' });
+  }
 
 }

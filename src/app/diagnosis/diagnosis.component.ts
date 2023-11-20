@@ -23,11 +23,13 @@ export class DiagnosisComponent implements OnInit{
   disableBasicSymptoms: boolean = false;
   listTrieuChung: any[] = [];
   show:boolean=false;
-  
+  trieuChungOnly: any[] = [];
+  basicSymptomsInitialOnly: any[] = [];
+  disableSymptoms: boolean = false;
   selectedBenh: any; // Khai báo biến selectedBenh để lưu trữ bệnh được chọn
   hoveredBenh: any;
   selectedBenhs: any[] = [];
-
+  
 
   constructor(
     private DiagnosticService: DiagnosticService,
@@ -39,6 +41,15 @@ export class DiagnosisComponent implements OnInit{
         data => {
           this.trieuChungList = data;
           this.basicSymptomsInitial = [...this.trieuChungList];
+        },
+        error => {
+          console.error('Error loading trieu chung data: ', error);
+        }
+      );
+      this.DiagnosticService.getTrieuChungonly().subscribe(
+        data => {
+          this.trieuChungOnly = data;
+          this.basicSymptomsInitialOnly = [...this.trieuChungOnly];
         },
         error => {
           console.error('Error loading trieu chung data: ', error);
@@ -67,7 +78,30 @@ export class DiagnosisComponent implements OnInit{
     
       
     }
-    
+    diagnoseDiseaseonly() {
+      // lấy các mã tc đã chọn ở b1 cho vào mảng selectedSymptomCodes
+      const selectedSymptomCodes = this.trieuChungOnly
+      .filter(trieuChung => trieuChung.isSelected)
+      .map(trieuChung => trieuChung[0]);
+      this.disableSymptoms = true;
+      
+      
+      // Ghép mảng mã triệu chứng cơ bản và mã triệu chứng chi tiết
+      this.danh_sach_tc = [...selectedSymptomCodes];
+      console.log("Danh sach gui di la "+ this.danh_sach_tc)
+     
+      this.DiagnosticService.KQ_cdb(this.danh_sach_tc).subscribe(
+        data => {
+          this.ketqua = data;
+          this.showStep3=true;
+          // Nếu không có bệnh nào được tìm thấy, hiển thị tất cả các bệnh có chứa ít nhất một triệu chứng đã chọn
+         
+        },
+        error => {
+          console.error('Error loading detail symptoms: ', error);
+        }
+      );
+      }  
 
   diagnoseDisease() {
     // lấy các mã tc đã chọn ở b1 cho vào mảng selectedSymptomCodes
@@ -153,6 +187,37 @@ export class DiagnosisComponent implements OnInit{
     );
     
 
+  }
+  // onBasicSymptomChange() {
+  //   // Khi sự kiện thay đổi của checkbox triệu chứng cơ bản xảy ra
+  //   if (this.disableBasicSymptoms) {
+  //     this.trieuChungOnly.forEach(trieuChung => {
+  //       trieuChung.isSelected = false; // Bỏ chọn tất cả các triệu chứng riêng biệt
+  //     });
+  //     this.disableSymptoms = true; // Tắt tất cả checkbox triệu chứng riêng biệt
+  //   } else {
+  //     this.disableSymptoms = false; // Mở lại checkbox triệu chứng riêng biệt
+  //   }
+  // }
+  // onOnlySymptomChange() {
+  //   // Khi sự kiện thay đổi của checkbox triệu chứng cơ bản xảy ra
+  //   if (this.disableSymptoms) {
+  //     this.trieuChungList.forEach(trieuChung => {
+  //       trieuChung.isSelected = false; // Bỏ chọn tất cả các triệu chứng riêng biệt
+  //     });
+  //     this.disableBasicSymptoms = true; // Tắt tất cả checkbox triệu chứng riêng biệt
+  //   } else {
+  //     this.disableBasicSymptoms = false; // Mở lại checkbox triệu chứng riêng biệt
+  //   }
+  // }
+  toggleSymptomsSelection(isBasic: boolean) {
+    if (isBasic) {
+      this.disableSymptoms = true;
+      
+    } else {
+      this.disableSymptoms=false;
+      this.disableBasicSymptoms = true;
+    }
   }
 }
 

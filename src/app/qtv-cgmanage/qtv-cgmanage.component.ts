@@ -23,17 +23,25 @@ export class QtvCgmanageComponent {
     // Lấy dữ liệu từ queryParams
      // Lấy dữ liệu từ DataService
      this.userDetails = this.dataService.getUserDetails();
-     const userId=this.userDetails.id_user;
-     var url:any={
-      anhdaidien:this.userDetails.anhdaidien,
-      bangTotNghiepYKhoa:this.userDetails.bangTotNghiepYKhoa,
-      chungChiHanhNghe:this.userDetails.chungChiHanhNghe,
-      chungNhanChuyenKhoa:this.userDetails.chungChiHanhNghe
+    //  const userId=this.userDetails.id_user;
+    //  var url:any={
+    //   anhdaidien:this.userDetails.anhdaidien,
+    //   bangTotNghiepYKhoa:this.userDetails.bangTotNghiepYKhoa,
+    //   chungChiHanhNghe:this.userDetails.chungChiHanhNghe,
+    //   chungNhanChuyenKhoa:this.userDetails.chungChiHanhNghe
 
-     }
-     this.dataService.getFile(userId,url).subscribe(
-      (response: any) => {
-        console.log(response);
-        })
-      }
+    //  }
+    //  this.dataService.getFile(userId,url).subscribe(
+    //   (response: any) => {
+    //     console.log(response);
+    //     })
+    //   }
+   
+}
+onLinkClick(filePath: string) {
+  this.dataService.getFileContent(filePath).subscribe((data: Blob) => {
+    const fileURL = URL.createObjectURL(data);
+    window.open(fileURL); // Mở tệp trong tab mới
+  });
+}
 }

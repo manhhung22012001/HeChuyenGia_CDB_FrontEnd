@@ -1,18 +1,30 @@
   
  <div class="container">
   <h2>Bước 1: Chọn Triệu Chứng Cơ Bản</h2>
+  <div>
+  <h3>Triệu chứng cơ bản</h3>
   <div class="checkbox-group">
     <label *ngFor="let trieuChung of trieuChungList">
-      <input type="checkbox" [(ngModel)]="trieuChung.isSelected" [disabled]="disableBasicSymptoms">
+      <input type="checkbox" [(ngModel)]="trieuChung.isSelected" [disabled]="disableBasicSymptoms" (change)="toggleSymptomsSelection(true)">
       {{ trieuChung[1] }}
     </label>
   </div>
   <button (click)="loadDetailSymptoms()" *ngIf="!showStep2">Tiếp Theo</button>
+  </div>
+
+  <div>
+    <h3>Triệu chứng riêng biệt</h3>
+    <div class="checkbox-group">
+      <label *ngFor="let trieuChung of trieuChungOnly">
+        <input type="checkbox" [(ngModel)]="trieuChung.isSelected" [disabled]="disableSymptoms" (change)="toggleSymptomsSelection(false)">
+        {{ trieuChung[1] }}
+      </label>
+    </div>
+    <button (click)="diagnoseDiseaseonly()" *ngIf="!showStep3">Tiếp Theo</button>
+  </div>
+
 </div>
-
   
-
-    
 <div class ="container" *ngIf="showStep2">
       <h2>Bước 2: Chọn Triệu Chứng Chi Tiết</h2>
       <div class="checkbox-group">

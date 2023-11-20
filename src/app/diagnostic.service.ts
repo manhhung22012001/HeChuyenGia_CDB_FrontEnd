@@ -12,6 +12,9 @@ export class DiagnosticService {
   getTrieuChungWithCountGreaterThanSix(): Observable<any[]> {
     return this.http.post<any[]>(this.BASE_PATH +"/diagnosis/search1", {});
   }
+  getTrieuChungonly(): Observable<any[]> {
+    return this.http.post<any[]>(this.BASE_PATH +"/diagnosis/search11", {});
+  }
 
   // searchDiagnosis(selectedSymptomCodes: string[]): Observable<any[]> {
   //   return this.http.post<any[]>(this.BASE_PATH + "/diagnosis/search2", selectedSymptomCodes);

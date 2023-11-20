@@ -113,7 +113,7 @@ button:hover {
 }
 li .tc{
   margin-left: 30px;
-  column-count: 4;
+  /* column-count: 4; */
   column-gap: 20px;
 }
  .chitiet{
