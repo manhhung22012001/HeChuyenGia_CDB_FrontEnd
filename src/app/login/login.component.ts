@@ -97,6 +97,9 @@ export class LoginComponent implements OnInit {
     else if(this.userRole == 1 && this.authService.status==0){
       this.router.navigate(['/taskbar-cg0'])
     }
+    else if(this.userRole == 1 && this.authService.status==null){
+      this.router.navigate(['/taskbar-cg0'])
+    }
     else if (this.userRole == 2) {
       this.router.navigate(['/taskbar-ks'])
     }

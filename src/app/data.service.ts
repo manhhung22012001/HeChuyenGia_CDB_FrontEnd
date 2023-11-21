@@ -101,9 +101,11 @@ export class DataService {
     return this.http.post<any>(`${this.rootURL}/taskbar-cg0/userinfo/${userId}`, formData, httpOptions);
   }
 
-  getFile(userId: number, urlFile:String ): Observable<any>{
+  getFile(userId: number, user_Id: number): Observable<any> {
     const httpOptions = this.getHttpOptions();
-    return this.http.post<any>(`${this.rootURL}/taskbar-qtv/getFile/${userId}`, urlFile, httpOptions);
+    const endpoint = `${this.rootURL}/taskbar-qtv/getFile/${userId}?user_Id=${user_Id}`;
+  
+    return this.http.get(endpoint, httpOptions);
   }
   getFileContent(filePath: string): Observable<any> {
     const params = { filePath: filePath };
