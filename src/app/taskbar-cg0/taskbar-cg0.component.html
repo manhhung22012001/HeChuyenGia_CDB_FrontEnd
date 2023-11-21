@@ -63,6 +63,27 @@
             (change)="onSelectFile($event,'chungNhanChuyenKhoa')" style="height: 100%" name="chungNhanChuyenKhoa"
             multiple>
         </div>
+        <div>
+          <label>Chọn học hàm :
+            <select [(ngModel)]="userInformation.hocvi" name="role" required >
+              <option value="Giáo sư"> Giáo sư</option>
+              <option value="Phó giáo sư">Phó Giáo sư</option>
+              <option value="Không">Không</option>
+            </select>
+          </label>
+        </div>
+
+        <div>
+          <label>Chọn học vị :
+            <select [(ngModel)]="userInformation.hocham" name="role" required >
+              <option value="Bác sĩ"> Bác sĩ</option>
+              <option value="Thạc sĩ">Thạc sĩ</option>
+              <option value="Tiến sĩ">Tiến sĩ</option>
+              <option value="Tiến sĩ khoa học">Tiến sĩ khoa học</option>
+            </select>
+          </label>
+        </div>
+
 
         <br>
         <button type="submit" (click)="saveForm()" id="saveButton"> Lưu Thông Tin Cập nhật</button>

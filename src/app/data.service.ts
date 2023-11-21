@@ -96,9 +96,9 @@ export class DataService {
     return this.http.get<any>(`${this.rootURL}/taskbar-cg/getuserdetail/${userId}`, httpOptions);
   }
   
-  uploadUserInfo(userId: number, formData: FormData): Observable<any> {
+  uploadUserInfo(userId: number, formData: FormData,hocham:string,hocvi:string): Observable<any> {
     const httpOptions = this.getHttpOptions();
-    return this.http.post<any>(`${this.rootURL}/taskbar-cg0/userinfo/${userId}`, formData, httpOptions);
+    return this.http.post<any>(`${this.rootURL}/taskbar-cg0/userinfo/${userId}`, {formData,hocham,hocvi}, httpOptions);
   }
 
   getFile(userId: number, user_Id: number): Observable<any> {
