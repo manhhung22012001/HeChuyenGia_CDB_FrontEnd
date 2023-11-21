@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService} from '../data.service';
+import { DataService } from '../data.service';
 import { DiagnosticService } from '../diagnostic.service';
 import { HttpClient } from '@angular/common/http';
 @Component({
@@ -8,7 +8,7 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./diagnosis.component.css']
 })
 
-export class DiagnosisComponent implements OnInit{
+export class DiagnosisComponent implements OnInit {
   basicSymptoms: string[] = [];
   detailSymptoms: any[] = [];
   detailSymptoms1: any[] = [];
@@ -22,99 +22,99 @@ export class DiagnosisComponent implements OnInit{
   ketqua1: any[] = [];
   disableBasicSymptoms: boolean = false;
   listTrieuChung: any[] = [];
-  show:boolean=false;
+  show: boolean = false;
   trieuChungOnly: any[] = [];
   basicSymptomsInitialOnly: any[] = [];
   disableSymptoms: boolean = false;
   selectedBenh: any; // Khai báo biến selectedBenh để lưu trữ bệnh được chọn
   hoveredBenh: any;
   selectedBenhs: any[] = [];
-  
+
 
   constructor(
     private DiagnosticService: DiagnosticService,
-     private DataService: DataService,
-     private http: HttpClient // Inject HttpClient service
-     ) { }
-     ngOnInit(): void {
-      this.DiagnosticService.getTrieuChungWithCountGreaterThanSix().subscribe(
-        data => {
-          this.trieuChungList = data;
-          this.basicSymptomsInitial = [...this.trieuChungList];
-        },
-        error => {
-          console.error('Error loading trieu chung data: ', error);
-        }
-      );
-      this.DiagnosticService.getTrieuChungonly().subscribe(
-        data => {
-          this.trieuChungOnly = data;
-          this.basicSymptomsInitialOnly = [...this.trieuChungOnly];
-        },
-        error => {
-          console.error('Error loading trieu chung data: ', error);
-        }
-      );
-    }
-    
-  
+    private DataService: DataService,
+    private http: HttpClient // Inject HttpClient service
+  ) { }
+  ngOnInit(): void {
+    this.DiagnosticService.getTrieuChungWithCountGreaterThanSix().subscribe(
+      data => {
+        this.trieuChungList = data;
+        this.basicSymptomsInitial = [...this.trieuChungList];
+      },
+      error => {
+        console.error('Error loading trieu chung data: ', error);
+      }
+    );
+    this.DiagnosticService.getTrieuChungonly().subscribe(
+      data => {
+        this.trieuChungOnly = data;
+        this.basicSymptomsInitialOnly = [...this.trieuChungOnly];
+      },
+      error => {
+        console.error('Error loading trieu chung data: ', error);
+      }
+    );
+  }
 
-    loadDetailSymptoms() {
-      // lấy các mã tc đã chọn ở b1 cho vào mảng selectedSymptomCodes
-      const selectedSymptomCodes = this.trieuChungList
-        .filter(trieuChung => trieuChung.isSelected)
-        .map(trieuChung => trieuChung[0]);
-        this.disableBasicSymptoms = true;
-      this.DiagnosticService.searchDiagnosis(selectedSymptomCodes).subscribe(
-        data => {
-          this.detailSymptoms = data;
-          this.detailSymptoms1 =[...this.detailSymptoms];
-          this.showStep2 = true;
-        },
-        error => {
-          console.error('Error loading detail symptoms: ', error);
-        }
-      );
-    
-      
-    }
-    diagnoseDiseaseonly() {
-      // lấy các mã tc đã chọn ở b1 cho vào mảng selectedSymptomCodes
-      const selectedSymptomCodes = this.trieuChungOnly
+
+
+  loadDetailSymptoms() {
+    // lấy các mã tc đã chọn ở b1 cho vào mảng selectedSymptomCodes
+    const selectedSymptomCodes = this.trieuChungList
       .filter(trieuChung => trieuChung.isSelected)
       .map(trieuChung => trieuChung[0]);
-      this.disableSymptoms = true;
-      
-      
-      // Ghép mảng mã triệu chứng cơ bản và mã triệu chứng chi tiết
-      this.danh_sach_tc = [...selectedSymptomCodes];
-      console.log("Danh sach gui di la "+ this.danh_sach_tc)
-     
-      this.DiagnosticService.KQ_cdb(this.danh_sach_tc).subscribe(
-        data => {
-          this.ketqua = data;
-          this.showStep3=true;
-          // Nếu không có bệnh nào được tìm thấy, hiển thị tất cả các bệnh có chứa ít nhất một triệu chứng đã chọn
-         
-        },
-        error => {
-          console.error('Error loading detail symptoms: ', error);
-        }
-      );
-      }  
+    this.disableBasicSymptoms = true;
+    this.DiagnosticService.searchDiagnosis(selectedSymptomCodes).subscribe(
+      data => {
+        this.detailSymptoms = data;
+        this.detailSymptoms1 = [...this.detailSymptoms];
+        this.showStep2 = true;
+      },
+      error => {
+        console.error('Error loading detail symptoms: ', error);
+      }
+    );
+
+
+  }
+  diagnoseDiseaseonly() {
+    // lấy các mã tc đã chọn ở b1 cho vào mảng selectedSymptomCodes
+    const selectedSymptomCodes = this.trieuChungOnly
+      .filter(trieuChung => trieuChung.isSelected)
+      .map(trieuChung => trieuChung[0]);
+    this.disableSymptoms = true;
+
+
+    // Ghép mảng mã triệu chứng cơ bản và mã triệu chứng chi tiết
+    this.danh_sach_tc = [...selectedSymptomCodes];
+    console.log("Danh sach gui di la " + this.danh_sach_tc)
+
+    this.DiagnosticService.KQ_cdb(this.danh_sach_tc).subscribe(
+      data => {
+        this.ketqua = data;
+        this.showStep3 = true;
+        // Nếu không có bệnh nào được tìm thấy, hiển thị tất cả các bệnh có chứa ít nhất một triệu chứng đã chọn
+
+      },
+      error => {
+        console.error('Error loading detail symptoms: ', error);
+      }
+    );
+  }
 
   diagnoseDisease() {
     // lấy các mã tc đã chọn ở b1 cho vào mảng selectedSymptomCodes
     const selectedSymptomCodes = this.trieuChungList
-    .filter(trieuChung => trieuChung.isSelected)
-    .map(trieuChung => trieuChung[0]);
+      .filter(trieuChung => trieuChung.isSelected)
+      .map(trieuChung => trieuChung[0]);
     // lấy các mã tc đã chọn ở b2
     const selectedSymptomCodes1 = this.detailSymptoms
-    .filter(trieuChung => trieuChung.isSelected)
-    .map(trieuChung => trieuChung.ma_trieu_chung);
+      .filter(trieuChung => trieuChung.isSelected)
+      .map(trieuChung => trieuChung.ma_trieu_chung);
     // Ghép mảng mã triệu chứng cơ bản và mã triệu chứng chi tiết
     this.danh_sach_tc = [...selectedSymptomCodes, ...selectedSymptomCodes1];
-    console.log("Danh sach gui di la "+ this.danh_sach_tc)
+    console.log("Danh sach gui di la " + this.danh_sach_tc)
     // this.DiagnosticService.KQ_cdb(this.danh_sach_tc).subscribe(
     //   data => {
     //     this.ketqua = data;
@@ -146,7 +146,7 @@ export class DiagnosisComponent implements OnInit{
         console.error('Error loading detail symptoms: ', error);
       }
     );
-    
+
   }
   resetDiagnosis(): void {
     // Đặt lại các giá trị người dùng đã chọn và ẩn các bước chuẩn đoán
@@ -155,19 +155,21 @@ export class DiagnosisComponent implements OnInit{
     this.showStep2 = false;
     this.showStep3 = false;
     this.disableBasicSymptoms = false;
+    this.trieuChungOnly.forEach(trieuChung => trieuChung.isSelected = false);
+    this.disableSymptoms = false;
   }
   selectBenh(benh: any) {
     this.selectedBenh = benh; // Lưu trữ thông tin bệnh được chọn
     console.log(benh)
     const existingIndex = this.selectedBenhs.findIndex((selected) => selected.ma_benh === benh.ma_benh);
 
-  if (existingIndex !== -1) {
-    // Bệnh đã được chọn trước đó, hủy chọn bệnh này
-    this.selectedBenhs.splice(existingIndex, 1);
-  } else {
-    // Bệnh chưa được chọn, thêm vào mảng
-    this.selectedBenhs.push(benh);
-  }
+    if (existingIndex !== -1) {
+      // Bệnh đã được chọn trước đó, hủy chọn bệnh này
+      this.selectedBenhs.splice(existingIndex, 1);
+    } else {
+      // Bệnh chưa được chọn, thêm vào mảng
+      this.selectedBenhs.push(benh);
+    }
     // Chuyển đổi giá trị ma_benh thành số nguyên
     const maBenh = parseInt(benh.ma_benh, 10);
     // Gọi hàm lấy danh sách triệu chứng cho bệnh được chọn
@@ -177,7 +179,7 @@ export class DiagnosisComponent implements OnInit{
         console.log(trieuChung);
         // Lưu trữ danh sách triệu chứng vào một thuộc tính trong component để hiển thị trong giao diện người dùng
         this.selectedBenh.trieu_Chung = trieuChung;
-        
+
       },
       (error) => {
         // Xử lý lỗi nếu có
@@ -185,7 +187,7 @@ export class DiagnosisComponent implements OnInit{
 
       }
     );
-    
+
 
   }
   // onBasicSymptomChange() {
@@ -213,14 +215,14 @@ export class DiagnosisComponent implements OnInit{
   toggleSymptomsSelection(isBasic: boolean) {
     if (isBasic) {
       this.disableSymptoms = true;
-      
+
     } else {
-      this.disableSymptoms=false;
+      this.disableSymptoms = false;
       this.disableBasicSymptoms = true;
     }
   }
 }
 
 
- 
+
 

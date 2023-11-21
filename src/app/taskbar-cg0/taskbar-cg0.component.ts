@@ -42,17 +42,21 @@ export class TaskbarCg0Component implements OnInit {
   }
 
   updateUserInfo1() {
-    console.log(this.id);
+    //console.log(this.id);
     this.dataService.getUserInfo(this.id).subscribe(
       (userInfo: any) => {
         console.log(userInfo);
         if (userInfo) {
-         
+          if(userInfo.bangTotNghiepYKhoa==null && userInfo.chungChiHanhNghe==null && userInfo.chungNhanChuyenKhoa ==null){
           // Show the update view
           this.showUpdateView = true;
 
-          this.userInformation = userInfo;
-         
+          this.userInformation = userInfo;}
+          else
+          {
+            this.showUpdateView = false;
+            this.errorMessage="Bạn đã cập nhật thông tin rồi. Vui lòng đợi chúng tôi cập nhật!"
+          }
 
         } else {
           // Handle the case where user information is not available
@@ -76,9 +80,33 @@ export class TaskbarCg0Component implements OnInit {
   }
 
   saveForm() {
-   
+    if (this.selectedFiles.length < 4) {
+      this.errorMessage = 'Hãy tải lên đủ 4 file.';
+      return;
+    }
   
-   
+    const formData = new FormData();
+  
+    for (let i = 0; i < this.selectedFiles.length; i++) {
+      formData.append(this.selectedFiles[i].fieldName, this.selectedFiles[i].file);
+    }
+  
+    // Gửi FormData lên server
+    this.dataService.uploadUserInfo(this.userInformation.id_user, formData).subscribe((response: any) => {
+      if (response && response.message === 'Success') {
+        this.errorMessage = 'Cập Nhật Thông Tin thành công! Hãy đợi chúng tôi kiểm tra thông tin của bạn.';
+        // Sau khi lưu, đặt lại trạng thái
+        this.showUpdateView = false;
+        // Mờ đi button
+        const saveButton = document.getElementById('saveButton') as HTMLButtonElement;
+        if (saveButton) {
+          saveButton.disabled = true;
+        }
+      } else {
+        // Handle the case when response or response.status is null or undefined
+        console.error('');
+      }
+    });
   }
 
 }

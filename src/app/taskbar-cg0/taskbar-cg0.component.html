@@ -10,7 +10,7 @@
 
         <li><a class="nav-link scrollto active" routerLink="/diagnosis">Chuẩn đoán bệnh</a></li>
         <li class="dropdown">
-          <a routerLink=""><span>Đăng xuất</span> <i class="bi bi-chevron-down"></i></a>
+          <a routerLink="/homepage"><span>Đăng xuất</span> <i class="bi bi-chevron-down"></i></a>
         </li>
       </ul>
       <i class="bi bi-list mobile-nav-toggle"></i>
@@ -29,13 +29,40 @@
       <div *ngIf="userInformation">
         <strong>Thông Tin Của Bạn.</strong>
         <br>
-       
+        <strong class="required-label">Ảnh đại diện</strong>
+        <input type="file" class="from-control" accept="image/pdf" (change)="onSelectFile($event, 'anhdaidien')"
+          style="height: 100%" name="anhdaidien" multiple>
+
+
+
         <!-- ID, Fullname, Phone Number, Email -->
         <div><strong>ID:</strong> {{userInformation.id_user}}</div>
         <div><strong>Fullname:</strong> {{userInformation.fullname}}</div>
         <div><strong>Phone Number:</strong> {{userInformation.phonenumber}}</div>
         <div><strong>Email:</strong> {{userInformation.email}}</div>
-        <a href="https://forms.gle/YGJhxUG1G41DqPwK7" target="_blank">Tải lên chứng chỉ</a>
+
+        <!-- Bằng tốt nghiệp y khoa -->
+        <div>
+          <strong class="required-label">Bằng Tốt Nghiệp Y Khoa</strong>
+          <input type="file" class="from-control" accept="image/pdf"
+            (change)="onSelectFile($event,'bangTotNghiepYKhoa')" style="height: 100%" name="bangTotNghiepYKhoa"
+            multiple>
+        </div>
+
+        <!-- Chứng chỉ hành nghề -->
+        <div>
+          <strong class="required-label">Chứng Chỉ Hành Nghề</strong>
+          <input type="file" class="from-control" accept="image/pdf" (change)="onSelectFile($event,'chungChiHanhNghe')"
+            style="height: 100%" name="chungChiHanhNghe" multiple>
+        </div>
+
+        <!-- Chứng nhận chuyên khoa -->
+        <div>
+          <strong class="required-label">Chứng Nhận Chuyên Khoa</strong>
+          <input type="file" class="from-control" accept="image/pdf"
+            (change)="onSelectFile($event,'chungNhanChuyenKhoa')" style="height: 100%" name="chungNhanChuyenKhoa"
+            multiple>
+        </div>
 
         <br>
         <button type="submit" (click)="saveForm()" id="saveButton"> Lưu Thông Tin Cập nhật</button>
@@ -43,7 +70,7 @@
       </div>
     </div>
   </form>
-
+  <!-- <div class="message-text">{{errorMessage}}</div> -->
 
 
 
