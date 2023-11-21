@@ -51,10 +51,10 @@ export class QtvCgmanageComponent {
       (response: any) => {
         if (response) {
           const files = [
-            { data: response.anhdaidien, name: 'anhdaidien' },
-            { data: response.bangTotNghiepYKhoa, name: 'bangTotNghiepYKhoa' },
-            { data: response.chungChiHanhNghe, name: 'chungChiHanhNghe' },
-            { data: response.chungNhanChuyenKhoa, name: 'chungNhanChuyenKhoa' }
+            { data: response.anhdaidien, name: 'Ảnh đại diện' },
+            { data: response.bangTotNghiepYKhoa, name: 'Bằng Tốt Nghiệp Y Khoa' },
+            { data: response.chungChiHanhNghe, name: 'Chứng Chỉ Hành Nghề' },
+            { data: response.chungNhanChuyenKhoa, name: 'Chứng Nhận Chuyên Khoa' }
           ];
   
           files.forEach(file => {
