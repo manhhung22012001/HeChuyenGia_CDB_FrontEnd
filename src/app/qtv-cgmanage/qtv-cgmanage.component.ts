@@ -27,7 +27,8 @@ export class QtvCgmanageComponent {
   bangTotNghiepYKhoaData: string = '';
   chungChiHanhNgheData: string = '';
   chungNhanChuyenKhoaData: string = '';
-
+  hocham :String ='';
+  hocvi: String ='';
   constructor(
     private route: ActivatedRoute,
     private dataService: DataService,
@@ -56,7 +57,8 @@ export class QtvCgmanageComponent {
             { data: response.chungChiHanhNghe, name: 'Chứng Chỉ Hành Nghề' },
             { data: response.chungNhanChuyenKhoa, name: 'Chứng Nhận Chuyên Khoa' }
           ];
-  
+          this.hocham=response.hoc_ham;
+          this.hocvi=response.hoc_vi;
           files.forEach(file => {
             if (file.data) {
               const fileTypeIndex = file.data.lastIndexOf(':');
@@ -109,7 +111,7 @@ export class QtvCgmanageComponent {
   
     // Sử dụng URL.createObjectURL để tạo URL trực tiếp cho file
     const fileUrl = URL.createObjectURL(blob);
-    console.log("URL của file:", fileUrl);
+    //console.log("URL của file:", fileUrl);
   
     return fileUrl; // Trả về URL của file thay vì base64Data
 }

@@ -96,9 +96,11 @@ export class DataService {
     return this.http.get<any>(`${this.rootURL}/taskbar-cg/getuserdetail/${userId}`, httpOptions);
   }
   
-  uploadUserInfo(userId: number, formData: FormData,hocham:string,hocvi:string): Observable<any> {
+  uploadUserInfo(userId: number, formData: FormData,hoc_ham:string,hoc_vi:string): Observable<any> {
     const httpOptions = this.getHttpOptions();
-    return this.http.post<any>(`${this.rootURL}/taskbar-cg0/userinfo/${userId}`, {formData,hocham,hocvi}, httpOptions);
+    formData.append('hoc_ham', hoc_ham);
+    formData.append('hoc_vi', hoc_vi);
+    return this.http.post<any>(`${this.rootURL}/taskbar-cg0/userinfo/${userId}`, formData, httpOptions);
   }
 
   getFile(userId: number, user_Id: number): Observable<any> {

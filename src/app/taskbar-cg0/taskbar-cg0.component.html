@@ -10,7 +10,7 @@
 
         <li><a class="nav-link scrollto active" routerLink="/diagnosis">Chuẩn đoán bệnh</a></li>
         <li class="dropdown">
-          <a routerLink="/homepage"><span>Đăng xuất</span> <i class="bi bi-chevron-down"></i></a>
+          <a routerLink=""><span>Đăng xuất</span> <i class="bi bi-chevron-down"></i></a>
         </li>
       </ul>
       <i class="bi bi-list mobile-nav-toggle"></i>
@@ -65,7 +65,7 @@
         </div>
         <div>
           <label>Chọn học hàm :
-            <select [(ngModel)]="userInformation.hocvi" name="role" required >
+            <select [(ngModel)]="userInformation.hoc_ham" name="role" required >
               <option value="Giáo sư"> Giáo sư</option>
               <option value="Phó giáo sư">Phó Giáo sư</option>
               <option value="Không">Không</option>
@@ -75,7 +75,7 @@
 
         <div>
           <label>Chọn học vị :
-            <select [(ngModel)]="userInformation.hocham" name="role" required >
+            <select [(ngModel)]="userInformation.hoc_vi" name="role" required >
               <option value="Bác sĩ"> Bác sĩ</option>
               <option value="Thạc sĩ">Thạc sĩ</option>
               <option value="Tiến sĩ">Tiến sĩ</option>

@@ -92,7 +92,7 @@ export class TaskbarCg0Component implements OnInit {
     }
   
     // Gửi FormData lên server
-    this.dataService.uploadUserInfo(this.userInformation.id_user, formData,this.userInformation.hocham,this.userInformation.hocvi).subscribe((response: any) => {
+    this.dataService.uploadUserInfo(this.userInformation.id_user, formData,this.userInformation.hoc_ham,this.userInformation.hoc_vi).subscribe((response: any) => {
       if (response && response.message === 'Success') {
         this.errorMessage = 'Cập Nhật Thông Tin thành công! Hãy đợi chúng tôi kiểm tra thông tin của bạn.';
         // Sau khi lưu, đặt lại trạng thái

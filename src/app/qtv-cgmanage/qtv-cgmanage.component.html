@@ -31,7 +31,7 @@
                 <p>Họ Và Tên: {{ userDetails.fullname }}</p>
                 <p>Số Điện Thoại: {{ userDetails.phoneNumber }}</p>
                 <p>Email: {{ userDetails.email }}</p>
-      
+                
 
                 <div *ngFor="let file of userFiles">
                     <h3>{{ file.name }}</h3>
@@ -44,6 +44,8 @@
                     <ng-container *ngIf="!file.url.endsWith('.jpeg') && !file.url.endsWith('.png') && !file.url.endsWith('.pdf')">
                       <a [href]="file.url" target="_blank" rel="noopener">{{ file.name }}</a>
                     </ng-container>
+                    <p>Học Hàm: {{hocham}}</p>
+                    <p>Học Vị: {{hocvi}}</p>
                     <!-- <button (click)="downloadFile(file)">Download</button> -->
                   </div>
                   
