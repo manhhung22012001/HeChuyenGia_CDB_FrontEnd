@@ -49,5 +49,8 @@ export class DiagnosticService {
         })
       );
   }
-  
+  getTrieuChungByMaBenh(maBenh: number): Observable<any[]> {
+    
+    return this.http.get<any[]>(this.BASE_PATH + "/diagnosis/trieuchung/${maBenh}");
+  }
 }

@@ -71,9 +71,9 @@ export class DataService {
   }
 
   getTrieuChungByMaBenh(maBenh: number): Observable<any[]> {
-    const httpOptions = this.getHttpOptions();
-    return this.http.get<any[]>(`${this.rootURL}/taskbar-cg/trieuchung/${maBenh}`, httpOptions);
+    return this.http.get<any[]>(`${this.rootURL}/diagnosis/trieuchung/${maBenh}`);
   }
+  
   addNewBenh(userId: number, ten_benh: string, loai_he: string, trieu_chung: string[]): Observable<any> {
     const httpOptions = this.getHttpOptions();
     const requestBody = {
