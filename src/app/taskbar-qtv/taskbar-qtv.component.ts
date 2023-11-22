@@ -31,6 +31,8 @@ export class TaskbarQtvComponent implements OnInit {
     status: ''
   };
   userForms!: FormGroup;
+  updateMessages: string[] = [];
+
 
   constructor(private formBuilder: FormBuilder,private router: Router, private authService: AuthService, private dataService: DataService, private dialog: MatDialog) {
     const token = localStorage.getItem('token');
@@ -47,8 +49,9 @@ export class TaskbarQtvComponent implements OnInit {
 
     // Load data into the form (Assuming this.dataService.getUsers() returns the data)
     this.dataService.getUsers().subscribe((data: any[]) => {
-      data.forEach(user => {
+      data.forEach((user,index) => {
         this.addUserForm(user);
+       this.checkupdate(user.id_user,index)
       });
     });
   }
@@ -268,6 +271,22 @@ CheckIn4(id_user: any) {
       console.error('Error:', error);
     }
   );
+}
+
+checkupdate(id_user: any, index: number) {
+  this.dataService.getUserInfo(id_user).subscribe(
+    (data) => {
+      if (data.role == '1' && data.status=='0') {
+        if (data.bangTotNghiepYKhoa == null) {
+          this.updateMessages[index] = 'Chưa cập nhật thông tin';
+        } else {
+          this.updateMessages[index] = 'Đã cập nhật thông tin';
+        }
+      } else {
+        this.updateMessages[index] = '';
+      }
+    }
+  )
 }
 
 

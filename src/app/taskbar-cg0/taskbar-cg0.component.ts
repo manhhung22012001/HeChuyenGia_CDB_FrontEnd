@@ -23,6 +23,7 @@ export class TaskbarCg0Component implements OnInit {
   userInformation: any;
   ReactiveForm: any = FormGroup;
   errorMessage: string = '';
+  isBangTotNghiepYKhoaSelected: boolean = false;
 
   selectedFiles: { file: File, fieldName: string }[] = [];
 
@@ -77,15 +78,20 @@ export class TaskbarCg0Component implements OnInit {
     for (let i = 0; i < files.length; i++) {
       this.selectedFiles.push({ file: files[i], fieldName: fieldName });
     }
+    if (fieldName === 'bangTotNghiepYKhoa') {
+      // Check if a file is selected for "Bằng Tốt Nghiệp Y Khoa"
+      this.isBangTotNghiepYKhoaSelected = event.target.files && event.target.files.length > 0;
+    }
   }
 
   saveForm() {
-    if (this.selectedFiles.length < 4) {
-      this.errorMessage = 'Hãy tải lên đủ 4 file.';
-      return;
+    if (!this.isBangTotNghiepYKhoaSelected) {
+      // Display an error message or handle the lack of selection as desired
+      this.errorMessage = 'Vui lòng chọn Bằng Tốt Nghiệp Y Khoa';
+      return; // Prevent further execution
     }
-  
-    const formData = new FormData();
+  else
+    {const formData = new FormData();
   
     for (let i = 0; i < this.selectedFiles.length; i++) {
       formData.append(this.selectedFiles[i].fieldName, this.selectedFiles[i].file);
@@ -107,6 +113,6 @@ export class TaskbarCg0Component implements OnInit {
         console.error('');
       }
     });
-  }
+  }}
 
 }

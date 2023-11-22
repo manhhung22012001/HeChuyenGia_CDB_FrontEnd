@@ -120,3 +120,20 @@ li .tc{
     text-decoration: underline; /* Thêm gạch chân */
     font-style: italic; /* In nghiêng */
   }
+  .symptom-section {
+    margin-bottom: 20px; /* Khoảng cách giữa hai phần */
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .symptom-section h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    font-style: italic;
+    font-weight: bold;
+    text-align: center;
+    padding-bottom: 10px;
+  }
+  
+ 

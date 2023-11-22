@@ -29,6 +29,8 @@ export class DiagnosisComponent implements OnInit {
   selectedBenh: any; // Khai báo biến selectedBenh để lưu trữ bệnh được chọn
   hoveredBenh: any;
   selectedBenhs: any[] = [];
+  showbasic :boolean=true;
+  showonly:boolean=true;
 
 
   constructor(
@@ -65,6 +67,7 @@ export class DiagnosisComponent implements OnInit {
       .filter(trieuChung => trieuChung.isSelected)
       .map(trieuChung => trieuChung[0]);
     this.disableBasicSymptoms = true;
+    this.showonly=false;
     this.DiagnosticService.searchDiagnosis(selectedSymptomCodes).subscribe(
       data => {
         this.detailSymptoms = data;
@@ -84,7 +87,7 @@ export class DiagnosisComponent implements OnInit {
       .filter(trieuChung => trieuChung.isSelected)
       .map(trieuChung => trieuChung[0]);
     this.disableSymptoms = true;
-
+this.showbasic=false;
 
     // Ghép mảng mã triệu chứng cơ bản và mã triệu chứng chi tiết
     this.danh_sach_tc = [...selectedSymptomCodes];
@@ -157,6 +160,8 @@ export class DiagnosisComponent implements OnInit {
     this.disableBasicSymptoms = false;
     this.trieuChungOnly.forEach(trieuChung => trieuChung.isSelected = false);
     this.disableSymptoms = false;
+    this.showbasic=true;
+    this.showonly=true;
   }
   selectBenh(benh: any) {
     this.selectedBenh = benh; // Lưu trữ thông tin bệnh được chọn

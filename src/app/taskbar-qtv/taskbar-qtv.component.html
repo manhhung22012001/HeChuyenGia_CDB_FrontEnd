@@ -20,19 +20,20 @@
   <!-- ======= Hero Section ======= -->
   <br>
   <br>
-  <div [formGroup]="userForms">
+  <div class ="tables-container" [formGroup]="userForms">
     <h2>Danh Sách Người Dùng</h2>
-    <table>
+    <table >
       <thead>
         <tr>
           <th>ID</th>
-          <th>Fullname</th>
-          <th>Role</th>
-          <th>Phone Number</th>
+          <th>Họ tên</th>
+          <th>Quyền</th>
+          <th>Số điện thoại</th>
           <th>Email</th>
-          <th>Status</th>
+          <th>Trạng thái</th>
+          <th>Cập nhật thông tin</th>
           <th>Thông tin chi tiết</th>
-          <th>Active</th>
+          <th>Hành động</th>
         </tr>
       </thead>
       <tbody>
@@ -50,6 +51,9 @@
                 <option value="1">Active</option>
               </select>
               <span *ngIf="user.value.role !== '1'">Không thể sửa</span>
+            </td>
+            <td  >
+                {{updateMessages[i]}}
             </td>
             <td (click)="CheckIn4(user.value.id_user)">
               Xem thông tin chi tiết
