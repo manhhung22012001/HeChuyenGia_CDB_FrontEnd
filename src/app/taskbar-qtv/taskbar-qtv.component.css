@@ -330,11 +330,12 @@ input[type="submit"]:hover {
 /* CSS */
 /* Style cho bảng */
 table {
-  width: 80%;
+  width: 99%;
   border-collapse: collapse;
-  margin-left: 100px;
-  overflow-y: auto;
-  overflow-x: auto;
+  margin-left: 0px;
+  margin-right: 0px;
+  /* overflow-y: auto;
+  overflow-x: auto; */
 }
 /* Trong file CSS hoặc style.scss của Angular */
 
