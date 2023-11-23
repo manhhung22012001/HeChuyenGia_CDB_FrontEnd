@@ -65,6 +65,10 @@ export class DataService {
     const httpOptions = this.getHttpOptions();
     return this.http.get<any[]>(`${this.rootURL}/taskbar-cg/getall`, httpOptions);
   }
+  gettrieuchungcu(): Observable<any[]> {
+    const httpOptions = this.getHttpOptions();
+    return this.http.get<any[]>(`${this.rootURL}/taskbar-qtv/getallTrieuChungCu`, httpOptions);
+  }
   getBenhbyhe(loai_he:number):Observable<any[]>{
     const httpOptions = this.getHttpOptions();
     return this.http.get<any[]>(`${this.rootURL}/taskbar-cg/getall12/${loai_he}`, httpOptions);
@@ -73,7 +77,12 @@ export class DataService {
   getTrieuChungByMaBenh(maBenh: number): Observable<any[]> {
     return this.http.get<any[]>(`${this.rootURL}/diagnosis/trieuchung/${maBenh}`);
   }
-  
+  getTrieuChungByMaBenhMoi(ma_benh_moi: number,id_user:number): Observable<any> {
+    const httpOptions = this.getHttpOptions();
+    const endpoint = `${this.rootURL}/taskbar-qtv/trieuchungmoi/${id_user}?ma_benh_moi=${ma_benh_moi}`;
+    return this.http.get(endpoint, httpOptions);
+   
+  }
   addNewBenh(userId: number, ten_benh: string, loai_he: string, trieu_chung: string[],trang_thai:string): Observable<any> {
     const httpOptions = this.getHttpOptions();
     const requestBody = {
@@ -113,6 +122,10 @@ export class DataService {
   getFileContent(filePath: string): Observable<any> {
     const params = { filePath: filePath };
     return this.http.get(`${this.rootURL}/taskbar-qtv/get-file-content`, { params: params, responseType: 'blob' });
+  }
+  getnewbenh(): Observable<any[]> {
+    const httpOptions = this.getHttpOptions();
+    return this.http.get<any[]>(`${this.rootURL}/taskbar-qtv/getallBenhMoi`, httpOptions);
   }
 
 }

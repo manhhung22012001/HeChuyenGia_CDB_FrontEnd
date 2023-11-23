@@ -490,6 +490,20 @@ thead {
   
   background-color: white; /* Màu nền phải khác màu nền của bảng */
 }
+.flex-container {
+  display: flex;
+  height: 100%; /* Set height of the container to fill the screen */
+}
+
+/* Style for each tables-container */
+.tables-container {
+  flex: 1; /* Each container takes equal space */
+  border: 1px solid #ccc; /* Optional: Add border for visualization */
+  margin: 5px; /* Optional: Add margin between containers */
+  overflow-y: auto; /* Add vertical scrollbar if content exceeds */
+}
+
+/* CSS khác cần thiết cho bảng */
 
 
 

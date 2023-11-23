@@ -8,9 +8,10 @@
 
     <nav id="navbar" class="navbar">
       <ul>
-
+        <li><a class="nav-link scrollto active" (click)="pheduyetBenh()">Phê duyệt bệnh mới</a></li>
 
         <li class="dropdown">
+          
           <a (click)="logout()"><span>Đăng xuất</span> <i class="bi bi-chevron-down"></i></a>
         </li>
       </ul>
@@ -104,6 +105,91 @@
     </div>
     <button (click)="addNewUser()">Thêm</button>
   </form>
+  <div class="flex-container">
+  <div *ngIf="PheduyetBenh" class="container" data-aos="zoom-out" data-aos-delay="100">
+    <div class="tables-container">
+      <div class="table">
+        <div *ngIf="benhs">
+          <h2>Danh Sách Bệnh</h2>
+
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Tên Bệnh</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let benh of benhs" (click)="selectBenh(benh)"
+                [ngClass]="{'selected-row': benh === selectedBenh, 'hover-row': benh === hoveredBenh}"
+                (mouseenter)="hoveredBenh = benh" (mouseleave)="hoveredBenh = null">
+                <td>{{benh.ma_benh}}</td>
+                <td>{{benh.ten_benh}}</td>
+                <!-- <td>{{benh[0]}}</td>
+                <td>{{benh[1]}}</td> -->
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+    <div class="tables-container">
+      <div class="table">
+        <div *ngIf="listTrieuChung">
+          <h2>Danh Sách Trieu Chứng</h2>
+
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Tên Triệu Chứng</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let benh of listTrieuChung"
+                [ngClass]="{'selected-row': benh === selectedBenh, 'hover-row': benh === hoveredBenh}"
+                (mouseenter)="hoveredBenh = benh" (mouseleave)="hoveredBenh = null">
+                <td>{{benh[0]}}</td>
+                <td>{{benh[1]}}</td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+    <div class="tables-container">
+      <div class="table">
+        <div *ngIf="trieuchung">
+          <h2>Danh Sách Trieu Chứng</h2>
+
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Tên Triệu Chứng</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let trieuchung of trieuchung">
+                <td>{{trieuchung.ma_trieu_chung}}</td>
+                <td>{{trieuchung.ten_trieu_chung}}</td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  </div>
 
 
 

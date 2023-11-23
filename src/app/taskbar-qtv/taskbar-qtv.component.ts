@@ -32,6 +32,12 @@ export class TaskbarQtvComponent implements OnInit {
   };
   userForms!: FormGroup;
   updateMessages: string[] = [];
+  PheduyetBenh:boolean=false;
+  benhs: any[] = [];
+  listTrieuChung: any[] = [];
+  selectedBenh: any; 
+  hoveredBenh: any;
+  trieuchung:any[]=[];
 
 
   constructor(private formBuilder: FormBuilder,private router: Router, private authService: AuthService, private dataService: DataService, private dialog: MatDialog) {
@@ -288,6 +294,49 @@ checkupdate(id_user: any, index: number) {
       }
     }
   )
+}
+pheduyetBenh(){
+this.PheduyetBenh=true;
+this.dataService.getnewbenh().subscribe(
+  response  => {
+    console.log(response);
+    this.benhs = response;
+  },
+  error => {
+    console.error('Error loading users data: ', error);
+  }
+)
+this.dataService.gettrieuchungcu().subscribe(
+  response =>{
+    console.log(response);
+    this.trieuchung=response;
+  },
+  error => {
+    console.error('Error loading users data: ', error);
+  }
+)
+
+}
+selectBenh(benh: any) {
+  this.selectedBenh = benh; // Lưu trữ thông tin bệnh được chọn
+  console.log(benh)
+  // Chuyển đổi giá trị ma_benh thành số nguyên
+  const maBenh = parseInt(benh.ma_benh_moi, 10);
+  // Gọi hàm lấy danh sách triệu chứng cho bệnh được chọn
+  this.dataService.getTrieuChungByMaBenhMoi(benh.ma_benh_moi,this.authService.getID()).subscribe(
+    (trieuChung: any[]) => {
+      // Xử lý dữ liệu triệu chứng trả về từ API (trieuChung)
+      console.log(trieuChung);
+      // Lưu trữ danh sách triệu chứng vào một thuộc tính trong component để hiển thị trong giao diện người dùng
+      this.listTrieuChung = trieuChung;
+    },
+    (error) => {
+      // Xử lý lỗi nếu có
+      console.error('Error fetching trieu chung:', error);
+
+    }
+  );
+
 }
 
 
