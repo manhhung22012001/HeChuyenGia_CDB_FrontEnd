@@ -74,12 +74,13 @@ export class DataService {
     return this.http.get<any[]>(`${this.rootURL}/diagnosis/trieuchung/${maBenh}`);
   }
   
-  addNewBenh(userId: number, ten_benh: string, loai_he: string, trieu_chung: string[]): Observable<any> {
+  addNewBenh(userId: number, ten_benh: string, loai_he: string, trieu_chung: string[],trang_thai:string): Observable<any> {
     const httpOptions = this.getHttpOptions();
     const requestBody = {
       ten_benh: ten_benh,
       loai_he: loai_he,
-      trieu_chung: trieu_chung
+      trieu_chung: trieu_chung,
+      trang_thai:trang_thai
     };
   
     return this.http.post<any>(`${this.rootURL}/taskbar-cg/add-benh-va-trieu-chung/${userId}`, requestBody, httpOptions);

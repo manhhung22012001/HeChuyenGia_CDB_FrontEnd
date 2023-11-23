@@ -180,6 +180,11 @@ onTrieuChungSelected(index: number, event: any) {
 
   addNewBenh() {
     this.isAddingNewBenh = true;
+    this.newBenh = this.fb.group({
+      ten_benh: ['', Validators.required],
+      loai_he: ['', Validators.required],
+      trieu_chung: this.fb.array([this.createTrieuChungFormGroup()])
+    });
   }
   updateTrieuChung(value: string, index: number): void {
     const trieuChungArray = this.newBenh.get('trieu_chung') as FormArray;
@@ -213,7 +218,8 @@ onTrieuChungSelected(index: number, event: any) {
   
   saveNewBenh() {
     //console.log('Đã lưu bệnh mới:', this.newBenh);
-    this.dataService.addNewBenh(this.id, this.newBenh.value.ten_benh, this.newBenh.value.loai_he, this.newBenh.value.trieu_chung).subscribe(
+    const status='0';
+    this.dataService.addNewBenh(this.id, this.newBenh.value.ten_benh, this.newBenh.value.loai_he, this.newBenh.value.trieu_chung,status).subscribe(
       (response: any) => {
         //console.log(response.status);
         if (response && response.message === "Success") {

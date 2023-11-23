@@ -206,6 +206,7 @@ export class TaskbarQtvComponent implements OnInit {
             () => {
               // Xóa người dùng khỏi danh sách hiển thị
               this.users = this.users.filter(u => u.value.id_user !== userId);
+              this.ngOnInit();
             },
             error => {
               console.error('Error deleting user: ', error);
