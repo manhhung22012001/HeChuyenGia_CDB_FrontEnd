@@ -8,10 +8,11 @@
 
     <nav id="navbar" class="navbar">
       <ul>
-        <li><a class="nav-link scrollto active" (click)="pheduyetBenh()">Phê duyệt bệnh mới</a></li>
+        <li><a class="a" (click)="pheduyetUser()" >Quản lý người dùng</a></li>
+        <li><a class="ab" (click)="pheduyetBenh()" >Phê duyệt bệnh mới</a></li>
 
         <li class="dropdown">
-          
+
           <a (click)="logout()"><span>Đăng xuất</span> <i class="bi bi-chevron-down"></i></a>
         </li>
       </ul>
@@ -21,176 +22,181 @@
   <!-- ======= Hero Section ======= -->
   <br>
   <br>
-  <h2>Danh Sách Người Dùng</h2>
-  <div class ="tables-container" [formGroup]="userForms" style="overflow-x: auto; overflow-y: auto; max-height: 400px;">
-    
-    <table >
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Họ tên</th>
-          <th>Quyền</th>
-          <th>Số điện thoại</th>
-          <th>Email</th>
-          <th>Trạng thái</th>
-          <th>Cập nhật thông tin</th>
-          <th>Thông tin chi tiết</th>
-          <th>Hành động</th>
-        </tr>
-      </thead>
-      <tbody>
-        <div formArrayName="users">
-          <div *ngFor="let user of usersFormArray.controls; let i = index" [formGroupName]="i">
-            <td>{{ user.value.id_user }}</td>
-            <td><input type="text"  (input)="onFullnameChange($event, user)" formControlName="fullname"></td>
-            <td>{{ user.value.role}}</td>
-            <td><input type="text" (input)="onPhoneNumberChange($event, user)" formControlName="phonenumber"></td>
-            <td><input type="text" (input)="onEmailChange($event, user)" formControlName="email"></td>
-            <td>
-              <ng-container *ngIf="user.value.role === '1'; else blankCell">
-                <select formControlName="status" (change)="onStatusChange(i, user)">
-                  <option value="0">Not Active</option>
-                  <option value="1">Active</option>
-                </select>
-              </ng-container>
-              <ng-template #blankCell></ng-template>
-            </td>
-            
-            <td  >
+  <section *ngIf="pheDuyetUser" class="a">
+    <h2>Danh Sách Người Dùng</h2>
+    <div class="tables-container" [formGroup]="userForms"
+      style="overflow-x: auto; overflow-y: auto; max-height: 400px;">
+
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Họ tên</th>
+            <th>Quyền</th>
+            <th>Số điện thoại</th>
+            <th>Email</th>
+            <th>Trạng thái</th>
+            <th>Cập nhật thông tin</th>
+            <th>Thông tin chi tiết</th>
+            <th>Hành động</th>
+          </tr>
+        </thead>
+        <tbody>
+          <div formArrayName="users">
+            <div *ngFor="let user of usersFormArray.controls; let i = index" [formGroupName]="i">
+              <td>{{ user.value.id_user }}</td>
+              <td><input type="text" (input)="onFullnameChange($event, user)" formControlName="fullname"></td>
+              <td>{{ user.value.role}}</td>
+              <td><input type="text" (input)="onPhoneNumberChange($event, user)" formControlName="phonenumber"></td>
+              <td><input type="text" (input)="onEmailChange($event, user)" formControlName="email"></td>
+              <td>
+                <ng-container *ngIf="user.value.role === '1'; else blankCell">
+                  <select formControlName="status" (change)="onStatusChange(i, user)">
+                    <option value="0">Not Active</option>
+                    <option value="1">Active</option>
+                  </select>
+                </ng-container>
+                <ng-template #blankCell></ng-template>
+              </td>
+
+              <td>
                 {{updateMessages[i]}}
-            </td>
-            <td (click)="CheckIn4(user.value.id_user)">
-              Xem thông tin chi tiết
-            </td>
-            <td>
-              <button (click)="deleteUser(user)">Xóa</button>
-              <button (click)="updateUser(i,user)">Sửa</button>
-            </td>
+              </td>
+              <td (click)="CheckIn4(user.value.id_user)">
+                Xem thông tin chi tiết
+              </td>
+              <td>
+                <button (click)="deleteUser(user)">Xóa</button>
+                <button (click)="updateUser(i,user)">Sửa</button>
+              </td>
+            </div>
           </div>
-        </div>
-      </tbody>
-      
-    </table>
-    <div class="message-text" *ngIf="isEditing">{{message}}</div>
-  </div>
- 
+        </tbody>
 
-  <button *ngIf="!ShowFrom" (click)="LoadForm()">Thêm Người Dùng</button>
-  <br>
-  <br>
+      </table>
+      <div class="message-text" *ngIf="isEditing">{{message}}</div>
+    </div>
 
-  <form *ngIf="ShowFrom">
-    <label>Fullname: <input [(ngModel)]="newUser.fullname" name="fullname" required></label><br>
-    <label>Phone Number: <input [(ngModel)]="newUser.phonenumber" name="phonenumber" required
-        pattern="[0-9]{10}"></label><br>
-    <label>Email: <input [(ngModel)]="newUser.email" name="email" required
-        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"></label><br>
-    <label>Username: <input [(ngModel)]="newUser.username" name="username" required></label><br>
-    <label>Password: <input type="password" [(ngModel)]="newUser.password" name="password" required></label><br>
-    <label>Chọn chức vụ :
-      <select [(ngModel)]="newUser.role" name="role" required (change)="onRoleChange1()">
-        <option value="1">Chuyên gia</option>
-        <option value="2">Kỹ sư</option>
-        <option value="3">Quản trị viên</option>
-      </select>
-    </label>
 
-    <div [hidden]="!showStatusDropdown">
-      <label>Trạng Thái :
-        <select [(ngModel)]="newUser.status" name="status" required>
-          <option value="1">Active</option>
-          <option value="0">Not Active</option>
+    <button *ngIf="!ShowFrom" (click)="LoadForm()">Thêm Người Dùng</button>
+    <br>
+    <br>
+
+    <form *ngIf="ShowFrom">
+      <label>Fullname: <input [(ngModel)]="newUser.fullname" name="fullname" required></label><br>
+      <label>Phone Number: <input [(ngModel)]="newUser.phonenumber" name="phonenumber" required
+          pattern="[0-9]{10}"></label><br>
+      <label>Email: <input [(ngModel)]="newUser.email" name="email" required
+          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"></label><br>
+      <label>Username: <input [(ngModel)]="newUser.username" name="username" required></label><br>
+      <label>Password: <input type="password" [(ngModel)]="newUser.password" name="password" required></label><br>
+      <label>Chọn chức vụ :
+        <select [(ngModel)]="newUser.role" name="role" required (change)="onRoleChange1()">
+          <option value="1">Chuyên gia</option>
+          <option value="2">Kỹ sư</option>
+          <option value="3">Quản trị viên</option>
         </select>
       </label>
-    </div>
-    <button (click)="addNewUser()">Thêm</button>
-  </form>
-  <div class="flex-container">
-  <div *ngIf="PheduyetBenh" class="container" data-aos="zoom-out" data-aos-delay="100">
-    <div class="tables-container">
-      <div class="table">
-        <div *ngIf="benhs">
-          <h2>Danh Sách Bệnh</h2>
 
-          <table>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Tên Bệnh</th>
+      <div [hidden]="!showStatusDropdown">
+        <label>Trạng Thái :
+          <select [(ngModel)]="newUser.status" name="status" required>
+            <option value="1">Active</option>
+            <option value="0">Not Active</option>
+          </select>
+        </label>
+      </div>
+      <button (click)="addNewUser()">Thêm</button>
+    </form>
+  </section>
 
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let benh of benhs" (click)="selectBenh(benh)"
-                [ngClass]="{'selected-row': benh === selectedBenh, 'hover-row': benh === hoveredBenh}"
-                (mouseenter)="hoveredBenh = benh" (mouseleave)="hoveredBenh = null">
-                <td>{{benh.ma_benh}}</td>
-                <td>{{benh.ten_benh}}</td>
-                <!-- <td>{{benh[0]}}</td>
+  <section *ngIf="pheDuyetBenh" class="ab">
+    <div class="flex-container">
+      <div *ngIf="PheduyetBenh" class="container" data-aos="zoom-out" data-aos-delay="100">
+        <div class="tables-container">
+          <div class="table">
+            <div *ngIf="benhs">
+              <h2>Danh Sách Bệnh</h2>
+
+              <table>
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Tên Bệnh</th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let benh of benhs" (click)="selectBenh(benh)"
+                    [ngClass]="{'selected-row': benh === selectedBenh, 'hover-row': benh === hoveredBenh}"
+                    (mouseenter)="hoveredBenh = benh" (mouseleave)="hoveredBenh = null">
+                    <td>{{benh.ma_benh_moi}}</td>
+                    <td>{{benh.ten_benh_moi}}</td>
+                    <!-- <td>{{benh[0]}}</td>
                 <td>{{benh[1]}}</td> -->
-              </tr>
+                  </tr>
 
-            </tbody>
-          </table>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+        <div class="tables-container">
+          <div class="table">
+            <div *ngIf="listTrieuChung">
+              <h2>Danh Sách Trieu Chứng</h2>
+
+              <table>
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Tên Triệu Chứng</th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let benh of listTrieuChung"
+                    [ngClass]="{'selected-row': benh === selectedBenh, 'hover-row': benh === hoveredBenh}"
+                    (mouseenter)="hoveredBenh = benh" (mouseleave)="hoveredBenh = null">
+                    <td>{{benh[0]}}</td>
+                    <td>{{benh[1]}}</td>
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+        <div class="tables-container">
+          <div class="table">
+            <div *ngIf="trieuchung">
+              <h2>Danh Sách Trieu Chứng</h2>
+
+              <table>
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Tên Triệu Chứng</th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let trieuchung of trieuchung">
+                    <td>{{trieuchung.ma_trieu_chung}}</td>
+                    <td>{{trieuchung.ten_trieu_chung}}</td>
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+
         </div>
       </div>
-
     </div>
-    <div class="tables-container">
-      <div class="table">
-        <div *ngIf="listTrieuChung">
-          <h2>Danh Sách Trieu Chứng</h2>
-
-          <table>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Tên Triệu Chứng</th>
-
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let benh of listTrieuChung"
-                [ngClass]="{'selected-row': benh === selectedBenh, 'hover-row': benh === hoveredBenh}"
-                (mouseenter)="hoveredBenh = benh" (mouseleave)="hoveredBenh = null">
-                <td>{{benh[0]}}</td>
-                <td>{{benh[1]}}</td>
-              </tr>
-
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-    </div>
-    <div class="tables-container">
-      <div class="table">
-        <div *ngIf="trieuchung">
-          <h2>Danh Sách Trieu Chứng</h2>
-
-          <table>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Tên Triệu Chứng</th>
-
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let trieuchung of trieuchung">
-                <td>{{trieuchung.ma_trieu_chung}}</td>
-                <td>{{trieuchung.ten_trieu_chung}}</td>
-              </tr>
-
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-    </div>
-  </div>
-  </div>
-
+  </section>
 
 
 

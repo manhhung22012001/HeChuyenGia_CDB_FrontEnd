@@ -20,6 +20,8 @@ export class TaskbarQtvComponent implements OnInit {
   fullname: any;
   message: string = '';
   isEditing: boolean = false;
+  pheDuyetBenh: boolean=false;
+  pheDuyetUser :boolean=false;
   loggedInUserId = this.authService.id_user;
   newUser: any = {
     fullname: '',
@@ -48,6 +50,11 @@ export class TaskbarQtvComponent implements OnInit {
     this.fullname = localStorage.getItem('fullname');
   }
   ngOnInit() {
+    
+  }
+  pheduyetUser(){
+    this.pheDuyetBenh =false;
+    this.pheDuyetUser =true;
     // Initialize your form group
     this.userForms = this.formBuilder.group({
       users: this.formBuilder.array([]) // Or initialize with default values
@@ -296,6 +303,8 @@ checkupdate(id_user: any, index: number) {
   )
 }
 pheduyetBenh(){
+  this.pheDuyetBenh =true;
+    this.pheDuyetUser =false;
 this.PheduyetBenh=true;
 this.dataService.getnewbenh().subscribe(
   response  => {
