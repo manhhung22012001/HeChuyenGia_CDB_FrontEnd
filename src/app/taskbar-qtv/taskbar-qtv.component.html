@@ -46,13 +46,15 @@
             <td><input type="text" (input)="onPhoneNumberChange($event, user)" formControlName="phonenumber"></td>
             <td><input type="text" (input)="onEmailChange($event, user)" formControlName="email"></td>
             <td>
-              <select formControlName="status"  (change)="onStatusChange(i,user)" [disabled]="user.value.role !== '1'">
-                <!-- Options fogit r status -->
-                <option value="0">Not Active</option>
-                <option value="1">Active</option>
-              </select>
-              <span *ngIf="user.value.role !== '1'">Không thể sửa</span>
+              <ng-container *ngIf="user.value.role === '1'; else blankCell">
+                <select formControlName="status" (change)="onStatusChange(i, user)">
+                  <option value="0">Not Active</option>
+                  <option value="1">Active</option>
+                </select>
+              </ng-container>
+              <ng-template #blankCell></ng-template>
             </td>
+            
             <td  >
                 {{updateMessages[i]}}
             </td>

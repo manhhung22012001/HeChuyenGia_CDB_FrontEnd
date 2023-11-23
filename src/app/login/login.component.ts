@@ -21,6 +21,7 @@ export class LoginComponent implements OnInit {
   successMessage: string | undefined;
   invalidLogin = false;
   loginSuccess = false;
+  
   userRole: number;
 
   loginForm: any = this.fb.group({
