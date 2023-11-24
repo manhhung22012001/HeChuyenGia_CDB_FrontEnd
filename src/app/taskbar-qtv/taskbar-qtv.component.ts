@@ -347,6 +347,35 @@ selectBenh(benh: any) {
   );
 
 }
+// Trong file TypeScript của bạn
+editSymptom(benh: any) {
+  benh.isEditing = true;
+}
+
+saveEditedSymptom(benh: any) {
+  // Lưu thay đổi vào cơ sở dữ liệu hoặc nơi bạn muốn
+  const updatedTC={
+    ma_trieu_chung_moi:benh[0],
+    ten_trieu_chung_moi:benh[1],
+    trang_thai:'1',
+    ma_benh_moi: this.selectedBenh.ma_benh_moi
+  }
+  console.log(updatedTC);
+  this.dataService.savenewtrieuchung(this.authService.getID(),updatedTC).subscribe(
+    (response: any) => {
+      console.log(response)
+      this.message = "Cập Nhật Thông Tin Thành Công.";
+      
+    },
+    error => {
+      this.message = "Cập Nhật Thông Tin Thất Bại.";
+      
+      // Xử lý lỗi, ví dụ: hiển thị thông báo lỗi cho người dùng
+    }
+  );
+  console.log('Đã lưu:', benh);
+  benh.isEditing = false; // Kết thúc chỉnh sửa
+}
 
 
 }

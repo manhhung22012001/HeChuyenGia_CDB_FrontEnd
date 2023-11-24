@@ -339,7 +339,15 @@ table {
 }
 /* Trong file CSS hoặc style.scss của Angular */
 
+a.detail-link {
+  color: blue; /* Màu chữ của liên kết */
+  text-decoration: underline; /* Gạch chân cho liên kết */
+  cursor: pointer; /* Con trỏ chuột thành dạng bấm vào */
+}
 
+a.detail-link:hover {
+  text-decoration: none; /* Loại bỏ gạch chân khi hover */
+}
 
 th{
   /* padding: 8px; */
@@ -489,6 +497,47 @@ thead {
   top: 0;
   
   background-color: white; /* Màu nền phải khác màu nền của bảng */
+}
+.ab {
+  width: 100%; /* To fill the width of the container */
+  display: flex;
+  overflow-x: auto; /* Add horizontal scrollbar if content exceeds */
+}
+
+.flex-container {
+  display: flex;
+  flex: 1;
+  overflow-x: auto; /* Add horizontal scrollbar if content exceeds */
+}
+
+.tables-container {
+  
+  max-height: 500px;
+  flex: 1; /* Each container takes equal space */
+  border: 1px solid #ccc; /* Optional: Add border for visualization */
+  margin: 5px; /* Optional: Add margin between containers */
+  overflow-y: auto; /* Add vertical scrollbar if content exceeds */
+}
+
+.table {
+  width: 100%; /* Ensure tables fill their containers */
+}
+
+.tb {
+  width: 100%; /* Ensure tables fill their containers */
+  border-collapse: collapse; /* Optional: Collapse table borders */
+}
+
+/* Style for table headers */
+.tb th {
+  text-align: center; /* Optional: Adjust header text alignment */
+  background-color: #f2f2f2; /* Optional: Header background color */
+  width: calc(100%/2);
+}
+.tb td {
+  text-align: center; /* Optional: Adjust header text alignment */
+  background-color: #f2f2f2; /* Optional: Header background color */
+  width: calc(100%/2);
 }
 
 

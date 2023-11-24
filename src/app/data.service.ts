@@ -127,5 +127,9 @@ export class DataService {
     const httpOptions = this.getHttpOptions();
     return this.http.get<any[]>(`${this.rootURL}/taskbar-qtv/getallBenhMoi`, httpOptions);
   }
-
+savenewtrieuchung(userId: number, updatedTC: any): Observable<any> {
+  const httpOptions = this.getHttpOptions();
+  const url = `${this.rootURL}/taskbar-qtv/edit-benh-moi-va-trieu-chung-moi/${userId}`;
+  return this.http.put<any>(url, updatedTC, httpOptions);
+}
 }

@@ -63,8 +63,8 @@
                 {{updateMessages[i]}}
               </td>
               <td (click)="CheckIn4(user.value.id_user)">
-                Xem thông tin chi tiết
-              </td>
+                <a class="detail-link">Xem thông tin chi tiết</a>
+               </td>
               <td>
                 <button (click)="deleteUser(user)">Xóa</button>
                 <button (click)="updateUser(i,user)">Sửa</button>
@@ -118,7 +118,7 @@
             <div *ngIf="benhs">
               <h2>Danh Sách Bệnh</h2>
 
-              <table>
+              <table class="tb">
                 <thead>
                   <tr>
                     <th>ID</th>
@@ -147,7 +147,7 @@
             <div *ngIf="listTrieuChung">
               <h2>Danh Sách Trieu Chứng</h2>
 
-              <table>
+              <table class="tb">
                 <thead>
                   <tr>
                     <th>ID</th>
@@ -160,7 +160,10 @@
                     [ngClass]="{'selected-row': benh === selectedBenh, 'hover-row': benh === hoveredBenh}"
                     (mouseenter)="hoveredBenh = benh" (mouseleave)="hoveredBenh = null">
                     <td>{{benh[0]}}</td>
-                    <td>{{benh[1]}}</td>
+                    <td (click)="editSymptom(benh)">
+                      <span *ngIf="!benh.isEditing">{{ benh[1] }}</span>
+                      <input *ngIf="benh.isEditing" type="text" [(ngModel)]="benh[1]" (keyup.enter)="saveEditedSymptom(benh)">
+                    </td>
                   </tr>
 
                 </tbody>
@@ -172,11 +175,11 @@
         <div class="tables-container">
           <div class="table">
             <div *ngIf="trieuchung">
-              <h2>Danh Sách Trieu Chứng</h2>
+              <h2>Danh Sách Trieu Chứng Cũ</h2>
 
-              <table>
+              <table class="tb">
                 <thead>
-                  <tr>
+                  <tr >
                     <th>ID</th>
                     <th>Tên Triệu Chứng</th>
 
