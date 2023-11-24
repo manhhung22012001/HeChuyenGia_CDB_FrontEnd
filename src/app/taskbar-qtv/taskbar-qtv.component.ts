@@ -353,29 +353,30 @@ editSymptom(benh: any) {
 }
 
 saveEditedSymptom(benh: any) {
-  // Lưu thay đổi vào cơ sở dữ liệu hoặc nơi bạn muốn
-  const updatedTC={
-    ma_trieu_chung_moi:benh[0],
-    ten_trieu_chung_moi:benh[1],
-    trang_thai:'1',
-    ma_benh_moi: this.selectedBenh.ma_benh_moi
-  }
-  console.log(updatedTC);
-  this.dataService.savenewtrieuchung(this.authService.getID(),updatedTC).subscribe(
+  const updatedTC = {
+    ma_trieu_chung_moi: benh[0], // Chỉnh sửa cách truy cập thuộc tính tùy thuộc vào cấu trúc dữ liệu của bạn
+    ten_trieu_chung_moi: benh[1], // Chỉnh sửa cách truy cập thuộc tính tùy thuộc vào cấu trúc dữ liệu của bạn
+    ma_benh_moi: this.selectedBenh.ma_benh_moi,
+    trang_thai: '1'
+  };
+  console.log("DL gửi đi"+ updatedTC. ma_benh_moi);
+  console.log("DL gửi đi"+ updatedTC.trang_thai);
+  console.log("DL gửi đi"+ updatedTC.ma_trieu_chung_moi);
+  console.log("DL gửi đi"+ updatedTC.ten_trieu_chung_moi);
+  this.dataService.savenewtrieuchung(this.authService.getID(), updatedTC).subscribe(
     (response: any) => {
-      console.log(response)
+      console.log(response);
       this.message = "Cập Nhật Thông Tin Thành Công.";
-      
     },
     error => {
       this.message = "Cập Nhật Thông Tin Thất Bại.";
-      
-      // Xử lý lỗi, ví dụ: hiển thị thông báo lỗi cho người dùng
+      // Xử lý lỗi
     }
   );
-  console.log('Đã lưu:', benh);
-  benh.isEditing = false; // Kết thúc chỉnh sửa
+
+  benh.isEditing = false; // Đặt isEditing về false để kết thúc chỉnh sửa
 }
+
 
 
 }
