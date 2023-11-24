@@ -8,26 +8,105 @@
 
     <nav id="navbar" class="navbar">
       <ul>
-        <li><a class="nav-link scrollto active" href="#addRuleSection">Thêm luật</a></li>
-        <li><a class="nav-link scrollto active" href="#addDiseaseSection">Thêm Bệnh Mới</a></li>
-        <li><a class="nav-link scrollto active" routerLink="/diagnosis">Chuẩn đoán bệnh</a></li>
+        <li><a class="a" (click)="themLuatMoi()" >Thêm luật</a></li>
+        <li><a class="ab" (click)="themBenhMoi()" >Thêm Bệnh</a></li>
 
         <li class="dropdown">
+
           <a (click)="logout()"><span>Đăng xuất</span> <i class="bi bi-chevron-down"></i></a>
-
         </li>
-
       </ul>
       <i class="bi bi-list mobile-nav-toggle"></i>
     </nav><!-- .navbar -->
   </header>
-  <div id="addRuleSection">
-    <!-- Nội dung của phần thêm luật -->
-  </div>
+  <!-- ======= Hero Section ======= -->
+  <br>
+  <br>
+  <section *ngIf="themLuat" class="a">
+    
+  </section>
 
-  <!-- Thẻ div dưới đây cần có id tương ứng -->
-  <div id="addDiseaseSection">
-    <!-- Nội dung của phần thêm bệnh mới -->
-  </div>
+  <section *ngIf="themBenh" class="ab">
+    <div class="flex-container">
+      <div *ngIf="themBenh" class="container" data-aos="zoom-out" data-aos-delay="100">
+        <div class="tables-container">
+          <div class="table">
+            <div *ngIf="benhs">
+              <h2>Danh Sách Bệnh</h2>
+
+              <table class="tb">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Tên Bệnh</th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let benh of benhs" (click)="selectBenh(benh)"
+                    [ngClass]="{'selected-row': benh === selectedBenh, 'hover-row': benh === hoveredBenh}"
+                    (mouseenter)="hoveredBenh = benh" (mouseleave)="hoveredBenh = null">
+                    <td>{{benh.ma_benh_moi}}</td>
+                    <td>{{benh.ten_benh_moi}}</td>
+                    
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+        <div class="tables-container">
+          <div class="table">
+            <div *ngIf="listTrieuChung">
+              <h2>Danh Sách Trieu Chứng</h2>
+
+              <table class="tb">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Tên Triệu Chứng</th>
+                    <th>Check</th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let benh of listTrieuChung, let i=index"
+                    [ngClass]="{'selected-row': benh === selectedBenh, 'hover-row': benh === hoveredBenh}"
+                    (mouseenter)="hoveredBenh = benh" (mouseleave)="hoveredBenh = null">
+                    <td>{{benh[0]}}</td>
+                    <td >
+                      <span *ngIf="!benh.isEditing">{{ benh[1] }}</span>
+                      <input *ngIf="benh.isEditing" type="text" [(ngModel)]="benh[1]" >
+                     
+                    </td>
+                    <td>
+                      <span>
+                        {{ check[i] === null ? 'N/A' : (check[i] != null ? check[i] : 'Other value') }}
+                        <!-- Điều chỉnh 'N/A', '7', 'Other value' theo nhu cầu -->
+                      </span>
+                    </td>
+                    <td>
+                      
+                    </td>
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+        
+      </div>
+    </div>
+  </section>
+
+
+
+
+
+  <!-- End Hero -->
 
 </body>

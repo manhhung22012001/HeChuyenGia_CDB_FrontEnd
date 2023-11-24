@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders,HttpEvent,HttpRequest } from '@angular/common/http';
+import { HttpClient, HttpHeaders,HttpEvent,HttpRequest, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { AuthService } from './auth.service';
 
@@ -134,5 +134,15 @@ savenewtrieuchung(userId: number, updatedTC: any): Observable<any> {
   return this.http.put<any>(url, updatedTC, httpOptions);
 }
 
-  
+checkTrieuChung(userId: number, trieuChungTraVe: any[]): Observable<any> {
+  const httpOptions = this.getHttpOptions();
+  const url = `${this.rootURL}/taskbar-ks/checkTC/${userId}`;
+
+  // Chuyển đổi mảng triệu chứng thành mảng tên triệu chứng
+  const tenTrieuChung = trieuChungTraVe.map(tc => tc[1]).join('');
+
+  const params = new HttpParams().set('ten_trieu_chung', tenTrieuChung);
+
+  return this.http.get(url, { params, ...httpOptions });
+}
 }

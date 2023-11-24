@@ -19,6 +19,7 @@ export class TaskbarQtvComponent implements OnInit {
   showStatusDropdown: boolean = false;
   fullname: any;
   message: string = '';
+  Emessage: string = '';
   isEditing: boolean = false;
   pheDuyetBenh: boolean=false;
   pheDuyetUser :boolean=false;
@@ -366,10 +367,11 @@ saveEditedSymptom(benh: any) {
   this.dataService.savenewtrieuchung(this.authService.getID(), updatedTC).subscribe(
     (response: any) => {
       console.log(response);
-      this.message = "Cập Nhật Thông Tin Thành Công.";
+      if(response.message=='Success'){
+      this.Emessage = "Cập Nhật Thông Tin Thành Công.";}
     },
     error => {
-      this.message = "Cập Nhật Thông Tin Thất Bại.";
+      this.Emessage = "Cập Nhật Thông Tin Thất Bại.";
       // Xử lý lỗi
     }
   );

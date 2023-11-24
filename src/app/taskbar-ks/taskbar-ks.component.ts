@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
+import { DataService } from '../data.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmComponent } from '../confirm/confirm.component';
+import { HttpErrorResponse } from '@angular/common/http';
+import { FormGroup, FormBuilder,FormControl,FormArray } from '@angular/forms';
 @Component({
   selector: 'app-taskbar-ks',
   templateUrl: './taskbar-ks.component.html',
@@ -9,17 +14,25 @@ import { AuthService } from '../auth.service';
 export class TaskbarKsComponent implements OnInit{
   id: any;
   fullname :any;
+  themLuat: boolean=false;
+  themBenh :boolean=false;
+  listTrieuChung: any[] = [];
+  benhs: any[] = [];
+  trieuchung:any[]=[];
+  selectedBenh: any; 
+  hoveredBenh: any;
+  trieuChungTraVe: any[] = []; 
+  check:any[]=[]
   
-  
-  constructor(private router: Router, private authService: AuthService) {
+  constructor(private formBuilder: FormBuilder,private router: Router, private authService: AuthService, private dataService: DataService, private dialog: MatDialog) {
     const token = localStorage.getItem('token');
     if (!token) {
       this.router.navigate(['/login']);
     }
     this.fullname = localStorage.getItem('fullname');
-   }
-
-  ngOnInit(): void {
+  }
+  ngOnInit() {
+    
   }
   logout() {
     localStorage.removeItem('token');
@@ -29,5 +42,75 @@ export class TaskbarKsComponent implements OnInit{
   tabChange(key: any) {
     this.id = key;
     this.router.navigate(['/' + this.id]);
+  }
+  themLuatMoi(){
+    this.themBenh=false;
+    this.themLuat=true;
+  }
+  
+
+  themBenhMoi(){
+    this.themBenh=true;
+    this.themLuat=false;
+  this.dataService.getnewbenh().subscribe(
+    response  => {
+      console.log(response);
+      this.benhs = response;
+    },
+    error => {
+      console.error('Error loading users data: ', error);
+    }
+  )
+  this.dataService.gettrieuchungcu().subscribe(
+    response =>{
+      console.log(response);
+      this.trieuchung=response;
+    },
+    error => {
+      console.error('Error loading users data: ', error);
+    }
+  )
+  
+  }
+  selectBenh(benh: any) {
+    this.selectedBenh = benh; // Lưu trữ thông tin bệnh được chọn
+    console.log(benh)
+    // Chuyển đổi giá trị ma_benh thành số nguyên
+    const maBenh = parseInt(benh.ma_benh_moi, 10);
+    // Gọi hàm lấy danh sách triệu chứng cho bệnh được chọn
+    this.dataService.getTrieuChungByMaBenhMoi(benh.ma_benh_moi,this.authService.getID()).subscribe(
+      (trieuChung: any[]) => {
+        // Xử lý dữ liệu triệu chứng trả về từ API (trieuChung)
+        console.log(trieuChung);
+        // Lưu trữ danh sách triệu chứng vào một thuộc tính trong component để hiển thị trong giao diện người dùng
+        this.listTrieuChung = trieuChung;
+        this.trieuChungTraVe = trieuChung;
+        // Gửi selectedTrieuChung đến API CheckTc
+        this.sendSelectedTrieuChungToAPI();
+      },
+      (error) => {
+        // Xử lý lỗi nếu có
+        console.error('Error fetching trieu chung:', error);
+  
+      }
+    );
+  
+  }
+  sendSelectedTrieuChungToAPI() {
+    console.log(this.authService.getID())
+    console.log(this.trieuChungTraVe);
+    // Gọi API CheckTc và gửi danh sách triệu chứng đã chọn
+    this.dataService.checkTrieuChung(this.authService.getID(), this.trieuChungTraVe).subscribe(
+      (response: any) => {
+        // Xử lý response từ API nếu cần
+        console.log('Response from CheckTc API:', response);
+        this.check=response.message;
+        console.log(this.check);
+      },
+      (error) => {
+        // Xử lý lỗi nếu có
+        console.error('Error sending selected trieu chung to API:', error);
+      }
+    );
   }
 }
