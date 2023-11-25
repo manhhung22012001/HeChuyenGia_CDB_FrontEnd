@@ -74,7 +74,8 @@
                 <tbody>
                   <tr *ngFor="let benh of listTrieuChung, let i=index"
                     [ngClass]="{'selected-row': benh === selectedBenh, 'hover-row': benh === hoveredBenh}"
-                    (mouseenter)="hoveredBenh = benh" (mouseleave)="hoveredBenh = null" (click)="selectTrieuChung(benh)">
+                    (mouseenter)="hoveredBenh = benh" (mouseleave)="hoveredBenh = null"(click)="!benh.isClicked && selectTrieuChung(benh)" >
+                    
                     <td>{{benh[0]}}</td>
                     <td>
                       <span *ngIf="!benh.isEditing">{{ benh[1] }}</span>
@@ -82,12 +83,13 @@
 
                     </td>
                     <td>
-                      <span>
+                      <span >
                         {{ check[i] === null ? 'TC không tồn tại' : (check[i] != null ? 'Mã TC trong CSDL: '+check[i] :
                         'Other value') }}
                         <!-- Điều chỉnh 'N/A', '7', 'Other value' theo nhu cầu -->
                       </span>
                     </td>
+                  
 
                   </tr>
 
@@ -111,10 +113,12 @@
                 <tbody>
                   <tr *ngFor="let trieuChung of newBenh.trieuChung">
                     <td>{{ trieuChung.tenBenh }}</td>
+                    <td>{{trieuChung.tenTrieuChung}}</td>
                     
                   </tr>
                 </tbody>
               </table>
+              <button (click)="SaveNewBenh()">Lưu</button>
             </div>
           </div>
 
