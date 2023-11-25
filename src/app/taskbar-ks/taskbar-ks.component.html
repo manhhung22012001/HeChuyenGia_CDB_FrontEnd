@@ -8,8 +8,8 @@
 
     <nav id="navbar" class="navbar">
       <ul>
-        <li><a class="a" (click)="themLuatMoi()" >Thêm luật</a></li>
-        <li><a class="ab" (click)="themBenhMoi()" >Thêm Bệnh</a></li>
+        <li><a class="a" (click)="themLuatMoi()">Thêm luật</a></li>
+        <li><a class="ab" (click)="themBenhMoi()">Thêm Bệnh</a></li>
 
         <li class="dropdown">
 
@@ -23,7 +23,7 @@
   <br>
   <br>
   <section *ngIf="themLuat" class="a">
-    
+
   </section>
 
   <section *ngIf="themBenh" class="ab">
@@ -48,7 +48,7 @@
                     (mouseenter)="hoveredBenh = benh" (mouseleave)="hoveredBenh = null">
                     <td>{{benh.ma_benh_moi}}</td>
                     <td>{{benh.ten_benh_moi}}</td>
-                    
+
                   </tr>
 
                 </tbody>
@@ -57,7 +57,7 @@
           </div>
 
         </div>
-        <div class="tables-container">
+        <div class="tables-container" *ngIf="selectedBenh1">
           <div class="table">
             <div *ngIf="listTrieuChung">
               <h2>Danh Sách Trieu Chứng</h2>
@@ -74,31 +74,52 @@
                 <tbody>
                   <tr *ngFor="let benh of listTrieuChung, let i=index"
                     [ngClass]="{'selected-row': benh === selectedBenh, 'hover-row': benh === hoveredBenh}"
-                    (mouseenter)="hoveredBenh = benh" (mouseleave)="hoveredBenh = null">
+                    (mouseenter)="hoveredBenh = benh" (mouseleave)="hoveredBenh = null" (click)="selectTrieuChung(benh)">
                     <td>{{benh[0]}}</td>
-                    <td >
+                    <td>
                       <span *ngIf="!benh.isEditing">{{ benh[1] }}</span>
-                      <input *ngIf="benh.isEditing" type="text" [(ngModel)]="benh[1]" >
-                     
+                      <input *ngIf="benh.isEditing" type="text" [(ngModel)]="benh[1]">
+
                     </td>
                     <td>
                       <span>
-                        {{ check[i] === null ? 'N/A' : (check[i] != null ? check[i] : 'Other value') }}
+                        {{ check[i] === null ? 'TC không tồn tại' : (check[i] != null ? 'Mã TC trong CSDL: '+check[i] :
+                        'Other value') }}
                         <!-- Điều chỉnh 'N/A', '7', 'Other value' theo nhu cầu -->
                       </span>
                     </td>
-                    <td>
-                      
-                    </td>
+
                   </tr>
 
+                </tbody>
+              </table>
+
+            </div>
+
+          </div>
+          <button (click)="showNewBenhDetails()">Thêm bệnh mới</button>
+          <div *ngIf="selectedBenh12">
+            <div *ngIf="newBenh">
+              <h2>Thông tin bệnh mới</h2>
+              <table class="new-tb">
+                <thead>
+                  <tr>
+                    <th>Tên Bệnh Mới</th>
+                    <td>Tên TC mới</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let trieuChung of newBenh.trieuChung">
+                    <td>{{ trieuChung.tenBenh }}</td>
+                    
+                  </tr>
                 </tbody>
               </table>
             </div>
           </div>
 
+
         </div>
-        
       </div>
     </div>
   </section>
