@@ -145,15 +145,15 @@ checkTrieuChung(userId: number, trieuChungTraVe: any[]): Observable<any> {
 
   return this.http.get(url, { params, ...httpOptions });
 }
-SaveNewBenh(userId:number,ten_benh: string, loai_he: string, trieuChungList: { trieu_chung: string }[]): Observable<any> {
+SaveNewBenh(userId: number, ten_benh: string, loai_he: string, trieuChungList: { trieu_chung: string }[]): Observable<any> {
   const httpOptions = this.getHttpOptions();
   const requestBody = {
     ten_benh: ten_benh,
     loai_he: loai_he,
-    trieu_chung: trieuChungList,
-   
+    trieu_chung: trieuChungList
   };
 
   return this.http.post<any>(`${this.rootURL}/taskbar-ks/add-Benh-and_TC/${userId}`, requestBody, httpOptions);
 }
+
 }

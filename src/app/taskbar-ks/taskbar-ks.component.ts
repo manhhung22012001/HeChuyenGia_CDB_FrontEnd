@@ -26,8 +26,11 @@ export class TaskbarKsComponent implements OnInit {
   selectedBenh1: boolean = false;
   selectedBenh12: boolean = false;
   newBenh: any;
-  isClicked:boolean=true;
-   tenBenhDaLay:boolean = false;
+  isClicked: boolean = true;
+  tenBenhDaLay: boolean = false;
+  selectedTenBenh: string = ''; // Lưu tên bệnh đã chọn
+  selectedTrieuChung: any[] = []; // Lưu danh sách triệu chứng đã chọn
+
   constructor(private formBuilder: FormBuilder, private router: Router, private authService: AuthService, private dataService: DataService, private dialog: MatDialog) {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -121,69 +124,70 @@ export class TaskbarKsComponent implements OnInit {
     );
   }
   // Thêm vào class TaskbarKsComponent
-  showNewBenhDetails() {
-    this.selectedBenh12 = true;
-    if (this.selectedBenh) {
-      // const tenBenhDaChon = this.selectedBenh.ten_benh_moi;
-      const newBenh = {
-        // trieuChung: [{ tenBenh: tenBenhDaChon }]
-        trieuChung: [{  }]
-      };
-      this.newBenh = newBenh;
+// Trong hàm showNewBenhDetails
+showNewBenhDetails() {
+  this.selectedBenh12 = true;
+  if (this.selectedBenh) {
+    const newBenh = {
+      trieuChung: [] // Thêm triệu chứng vào đây nếu có
+    };
+    this.newBenh = newBenh;
+    this.selectedTrieuChung = []; // Khởi tạo mảng chứa các triệu chứng đã chọn
+    this.selectedTenBenh = ''; // Đặt lại giá trị của tên bệnh đã chọn
+  }
+}
+
+selectTrieuChung(benh: any) {
+  //console.log("Tên bệnh " + this.selectedTenBenh);
+  //console.log("Danh sách TC: " + this.selectedTrieuChung);
+  if (!benh.isClicked) {
+    benh.isClicked = true; // Đánh dấu triệu chứng là đã chọn
+    if (this.newBenh) {
+      if (!this.selectedTenBenh) {
+        this.selectedTenBenh = this.selectedBenh?.ten_benh_moi || '';
+      }
+      
+      this.selectedTrieuChung.push({
+        tenBenh: this.selectedTenBenh,
+        tenTrieuChung: benh[1]
+      });
+      
+      console.log("a"+this.selectedTrieuChung);
+      
     }
   }
-  selectTrieuChung(benh: any) {
-    if (!benh.isClicked) {
-      benh.isClicked = true; // Đánh dấu triệu chứng là đã chọn
-      if (this.newBenh) {
-       
-        
-        if (!this.tenBenhDaLay) {
-          this.newBenh.trieuChung.push({
-            tenBenh: this.selectedBenh.ten_benh_moi,
-            tenTrieuChung: benh[1]
-          });
-          this.tenBenhDaLay = true; // Đã lấy tên bệnh
-        } else {
-          this.newBenh.trieuChung.push({
-            tenTrieuChung: benh[1]
-          });
-        }
-        console.log(this.newBenh.trieuChung)
+}
+
+SaveNewBenh() {
+  const trieuChungList = this.selectedTrieuChung.map((item) => ({
+    trieu_chung: item.tenTrieuChung
+  }));
+
+  this.dataService
+    .SaveNewBenh(
+      this.authService.getID(),
+      this.selectedTenBenh,
+      this.selectedBenh.loai_he,
+      trieuChungList
+    ).subscribe(
+    (response: any) => {
+      if (response && response.message === "Success") {
+        console.log('Đã lưu bệnh mới:', this.newBenh.trieuChung);
+        // Sau khi lưu thành công, đặt lại trạng thái (nếu cần)
+        this.showNewBenhDetails(); // Đặt lại trạng thái sau khi lưu thành công
+      } else {
+        console.error('');
+      }
+    },
+    (error: HttpErrorResponse) => {
+      if (error.status === 400) {
+        // Xử lý lỗi khi cần thiết
+      } else {
+        // Xử lý lỗi khi cần thiết
       }
     }
-  }
-  SaveNewBenh() {
-    //console.log('Đã lưu bệnh mới:', this.newBenh);
-    console.log(this.newBenh.trieuChung.tenBenh)
-    this.dataService.SaveNewBenh(this.authService.getID(),this.newBenh.trieuChung.tenBenh, this.selectedBenh.loai_he, this.newBenh.trieuChung.tenTrieuChung).subscribe(
-      (response: any) => {
-        //console.log(response.status);
-        if (response && response.message === "Success") {
-          //var code = response.status;
-          //console.log(code);
-  
-         
-            console.log('Đã lưu bệnh mới:', this.newBenh.trieuChung);
-  
-            // Sau khi lưu, đặt lại trạng thái
-           
-           
-          
-        } else {
-          // Handle the case when response or response.status is null or undefined
-          console.error('');
-        }
-      },
-      (error: HttpErrorResponse) => {
-        if (error.status === 400) {
-          
-        } else {
-          
-        }
-      }
-    );
-  }
-  
+  );
+}
+
 
 }

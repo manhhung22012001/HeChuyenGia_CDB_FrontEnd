@@ -39,7 +39,7 @@
                   <tr>
                     <th>ID</th>
                     <th>Tên Bệnh</th>
-
+                    <!-- cần thêm cột loại hệ ở đây -->
                   </tr>
                 </thead>
                 <tbody>
@@ -108,10 +108,11 @@
                   <tr>
                     <th>Tên Bệnh Mới</th>
                     <td>Tên TC mới</td>
+                    <!-- cần thêm cột loại hệ ở đây -->
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let trieuChung of newBenh.trieuChung">
+                  <tr *ngFor="let trieuChung of selectedTrieuChung">
                     <td>{{ trieuChung.tenBenh }}</td>
                     <td>{{trieuChung.tenTrieuChung}}</td>
                     
@@ -119,6 +120,10 @@
                 </tbody>
               </table>
               <button (click)="SaveNewBenh()">Lưu</button>
+              <!-- thêm phần hỏi xem có chắc chắn lưu không -->
+              <!-- Bảng bệnh mới thêm cột xem đã lưu vào csdl chính chưa -->
+              <!-- cg gửi bệnh mới đến thì thêm 1 trường gửi vào mặc định là chưa thêm vào csdl -->
+              <!-- khi nhấn button lưu ở trên thì gửi 1 trường mặc định vào bảng bệnh mới là đã lưu vào cơ sở dữ liệu -->
             </div>
           </div>
 
