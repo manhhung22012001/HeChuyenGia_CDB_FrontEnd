@@ -83,13 +83,14 @@ export class DataService {
     return this.http.get(endpoint, httpOptions);
    
   }
-  addNewBenh(userId: number, ten_benh: string, loai_he: string, trieu_chung: string[],trang_thai:string): Observable<any> {
+  addNewBenh(userId: number, ten_benh: string, loai_he: string, trieu_chung: string[],trang_thai:string,ghi_chu:string): Observable<any> {
     const httpOptions = this.getHttpOptions();
     const requestBody = {
       ten_benh: ten_benh,
       loai_he: loai_he,
       trieu_chung: trieu_chung,
-      trang_thai:trang_thai
+      trang_thai:trang_thai,
+      ghi_chu:ghi_chu
     };
   
     return this.http.post<any>(`${this.rootURL}/taskbar-cg/add-benh-va-trieu-chung/${userId}`, requestBody, httpOptions);
@@ -145,12 +146,14 @@ checkTrieuChung(userId: number, trieuChungTraVe: any[]): Observable<any> {
 
   return this.http.get(url, { params, ...httpOptions });
 }
-SaveNewBenh(userId: number, ten_benh: string, loai_he: string, trieuChungList: { trieu_chung: string }[]): Observable<any> {
+// SaveNewBenh(userId: number, ten_benh: string, loai_he: string, trieuChungList: { trieu_chung: string }[],ghi_chu:String, ma_benh_moi:number): Observable<any> {
+  SaveNewBenh(userId: number, ten_benh: string, loai_he: string, trieuChungList: { trieu_chung: string }[],ghi_chu:String): Observable<any> {
   const httpOptions = this.getHttpOptions();
   const requestBody = {
     ten_benh: ten_benh,
     loai_he: loai_he,
-    trieu_chung: trieuChungList
+    trieu_chung: trieuChungList,
+    ghi_chu:ghi_chu
   };
 
   return this.http.post<any>(`${this.rootURL}/taskbar-ks/add-Benh-and_TC/${userId}`, requestBody, httpOptions);

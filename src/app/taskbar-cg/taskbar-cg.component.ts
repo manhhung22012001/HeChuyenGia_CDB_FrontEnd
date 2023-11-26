@@ -27,10 +27,6 @@ export class TaskbarCgComponent implements OnInit {
   newBenh: FormGroup;
   suggestedTrieuChung: any[][] = [];
   searchControl = new FormControl();
-  
-  
-
-  
 
   constructor(private router: Router, private authService: AuthService, private dataService: DataService,private fb: FormBuilder) {
 
@@ -46,11 +42,8 @@ export class TaskbarCgComponent implements OnInit {
       loai_he: ['', Validators.required],
       trieu_chung: this.fb.array([this.createTrieuChungFormGroup()])
     });
-  
 
-
-  }
-  
+  }  
 
   ngOnInit() {
     
@@ -76,7 +69,6 @@ export class TaskbarCgComponent implements OnInit {
       }
     }
     
- 
   // Trong component của bạn
   createTrieuChungFormGroup(): FormGroup {
     const newTrieuChungGroup = this.fb.group({
@@ -149,6 +141,7 @@ onTrieuChungSelected(index: number, event: any) {
       this.dataService.getBenh().subscribe(
         data => {
           this.benhs = data;
+          
         },
         error => {
           console.error('Error loading users data: ', error);
@@ -158,7 +151,7 @@ onTrieuChungSelected(index: number, event: any) {
   }
   selectBenh(benh: any) {
     this.selectedBenh = benh; // Lưu trữ thông tin bệnh được chọn
-    console.log(benh)
+    
     // Chuyển đổi giá trị ma_benh thành số nguyên
     const maBenh = parseInt(benh.ma_benh, 10);
     // Gọi hàm lấy danh sách triệu chứng cho bệnh được chọn
@@ -219,7 +212,8 @@ onTrieuChungSelected(index: number, event: any) {
   saveNewBenh() {
     //console.log('Đã lưu bệnh mới:', this.newBenh);
     const status='0';
-    this.dataService.addNewBenh(this.id, this.newBenh.value.ten_benh, this.newBenh.value.loai_he, this.newBenh.value.trieu_chung,status).subscribe(
+    const ghi_chu='Chưa thêm vào CSDL';
+    this.dataService.addNewBenh(this.id, this.newBenh.value.ten_benh, this.newBenh.value.loai_he, this.newBenh.value.trieu_chung,status,ghi_chu).subscribe(
       (response: any) => {
         //console.log(response.status);
         if (response && response.message === "Success") {

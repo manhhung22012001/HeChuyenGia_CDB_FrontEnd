@@ -4,6 +4,7 @@ import { AuthService } from '../auth.service';
 import { DataService } from '../data.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmComponent } from '../confirm/confirm.component';
+
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormGroup, FormBuilder, FormControl, FormArray } from '@angular/forms';
 @Component({
@@ -13,6 +14,7 @@ import { FormGroup, FormBuilder, FormControl, FormArray } from '@angular/forms';
 })
 export class TaskbarKsComponent implements OnInit {
   id: any;
+  ma_benh_moi: any;
   fullname: any;
   themLuat: boolean = false;
   themBenh: boolean = false;
@@ -30,7 +32,8 @@ export class TaskbarKsComponent implements OnInit {
   tenBenhDaLay: boolean = false;
   selectedTenBenh: string = ''; // Lưu tên bệnh đã chọn
   selectedTrieuChung: any[] = []; // Lưu danh sách triệu chứng đã chọn
-
+  showTrieuChung: boolean = false; // Thêm biến showTrieuChung
+  showAddNewButton: boolean = false;
   constructor(private formBuilder: FormBuilder, private router: Router, private authService: AuthService, private dataService: DataService, private dialog: MatDialog) {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -60,6 +63,7 @@ export class TaskbarKsComponent implements OnInit {
   themBenhMoi() {
     this.themBenh = true;
     this.themLuat = false;
+    this.showTrieuChung = true;
     this.dataService.getnewbenh().subscribe(
       response => {
         console.log(response);
@@ -124,70 +128,108 @@ export class TaskbarKsComponent implements OnInit {
     );
   }
   // Thêm vào class TaskbarKsComponent
-// Trong hàm showNewBenhDetails
-showNewBenhDetails() {
-  this.selectedBenh12 = true;
-  if (this.selectedBenh) {
-    const newBenh = {
-      trieuChung: [] // Thêm triệu chứng vào đây nếu có
-    };
-    this.newBenh = newBenh;
-    this.selectedTrieuChung = []; // Khởi tạo mảng chứa các triệu chứng đã chọn
-    this.selectedTenBenh = ''; // Đặt lại giá trị của tên bệnh đã chọn
-  }
-}
+  // Trong hàm showNewBenhDetails
+  showNewBenhDetails() {
+    // this.selectedBenh12 = true;
+    // this.showTrieuChung = true;
 
-selectTrieuChung(benh: any) {
-  //console.log("Tên bệnh " + this.selectedTenBenh);
-  //console.log("Danh sách TC: " + this.selectedTrieuChung);
-  if (!benh.isClicked) {
-    benh.isClicked = true; // Đánh dấu triệu chứng là đã chọn
-    if (this.newBenh) {
-      if (!this.selectedTenBenh) {
-        this.selectedTenBenh = this.selectedBenh?.ten_benh_moi || '';
+    if (this.selectedBenh) {
+      this.showAddNewButton = this.selectedBenh.ghi_chu === 'Chưa thêm vào CSDL';
+      this.selectedBenh12 = true;
+      this.showTrieuChung = true;
+      const newBenh = {
+        trieuChung: [] // Thêm triệu chứng vào đây nếu có
+      };
+      this.newBenh = newBenh;
+      this.selectedTrieuChung = []; // Khởi tạo mảng chứa các triệu chứng đã chọn
+      this.selectedTenBenh = ''; // Đặt lại giá trị của tên bệnh đã chọn
+    }
+
+  }
+
+  selectTrieuChung(benh: any) {
+    if (!benh.isClicked) {
+      if (this.newBenh) {
+        if (!this.selectedTenBenh) {
+          this.selectedTenBenh = this.selectedBenh?.ten_benh_moi || '';
+        }
+  
+        // Kiểm tra nếu triệu chứng không phải là "TC không tồn tại"
+        if (this.check[this.listTrieuChung.indexOf(benh)] == null) {
+          this.selectedTrieuChung.push({
+            tenBenh: this.selectedTenBenh,
+            tenTrieuChung: benh[1]
+          });
+        }
       }
-      
-      this.selectedTrieuChung.push({
-        tenBenh: this.selectedTenBenh,
-        tenTrieuChung: benh[1]
-      });
-      
-      console.log("a"+this.selectedTrieuChung);
-      
+  
+      benh.isClicked = true; // Đánh dấu triệu chứng là đã chọn
     }
   }
-}
+  
+  selectBenh1(benh: any) {
+    this.ma_benh_moi = benh.ma_benh_moi; // Lưu ID của bệnh được chọn
+    // Các thao tác khác nếu cần
+  }
 
-SaveNewBenh() {
-  const trieuChungList = this.selectedTrieuChung.map((item) => ({
-    trieu_chung: item.tenTrieuChung
-  }));
+  SaveNewBenh() {
+    const trieuChungList = this.selectedTrieuChung.map((item) => ({
+      trieu_chung: item.tenTrieuChung
+    }));
+    const ghi_chu = "Đã lưu vào CSDL";
+    const dialogRef = this.dialog.open(ConfirmComponent, {
+      width: '550px',
 
-  this.dataService
-    .SaveNewBenh(
-      this.authService.getID(),
-      this.selectedTenBenh,
-      this.selectedBenh.loai_he,
-      trieuChungList
-    ).subscribe(
-    (response: any) => {
-      if (response && response.message === "Success") {
-        console.log('Đã lưu bệnh mới:', this.newBenh.trieuChung);
-        // Sau khi lưu thành công, đặt lại trạng thái (nếu cần)
-        this.showNewBenhDetails(); // Đặt lại trạng thái sau khi lưu thành công
-      } else {
-        console.error('');
+      data: { message: 'Thông báo! Bạn có chắc chắn muốn lưu Bệnh mới?' }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // Gửi yêu cầu lưu thông tin khi người dùng xác nhận
+        this.dataService
+          .SaveNewBenh(
+            this.authService.getID(),
+            this.selectedTenBenh,
+            this.selectedBenh.loai_he,
+            trieuChungList,
+            ghi_chu
+          )
+          .subscribe(
+            (response: any) => {
+
+              // Xử lý kết quả từ API sau khi lưu
+              this.dialog.open(ConfirmComponent, {
+                width: '550px',
+                data: { message: 'Thêm Bệnh Thành công', okButton: true }
+              });
+              this.themBenhMoi();
+              this.showAddNewButton = false;
+            },
+            (error: HttpErrorResponse) => {
+              // Xử lý lỗi nếu có
+              this.dialog.open(ConfirmComponent, {
+                width: '550px',
+                data: { message: 'Thêm Bệnh Không Thành công', okButton: true }
+
+              });
+              this.themBenhMoi();
+            }
+          );
       }
-    },
-    (error: HttpErrorResponse) => {
-      if (error.status === 400) {
-        // Xử lý lỗi khi cần thiết
-      } else {
-        // Xử lý lỗi khi cần thiết
+    });
+  }
+  getBenhList() {
+    this.dataService.getnewbenh().subscribe(
+      response => {
+        console.log(response);
+        this.benhs = response;
+      },
+      error => {
+        console.error('Error loading users data: ', error);
       }
-    }
-  );
-}
+    )
+  }
+
 
 
 }

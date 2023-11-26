@@ -26,7 +26,7 @@
 
   </section>
 
-  <section *ngIf="themBenh" class="ab">
+  <section *ngIf="themBenh " class="ab">
     <div class="flex-container">
       <div *ngIf="themBenh" class="container" data-aos="zoom-out" data-aos-delay="100">
         <div class="tables-container">
@@ -39,17 +39,36 @@
                   <tr>
                     <th>ID</th>
                     <th>Tên Bệnh</th>
+                    <th>Loại Hệ</th>
+                    <th>ID Chuyên Gia</th>
+                    <th>Tên Chuyên Gia</th>
+                    <th>Ghi chú</th>
+                    <th>Thêm Bệnh</th>
                     <!-- cần thêm cột loại hệ ở đây -->
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let benh of benhs" (click)="selectBenh(benh)"
+                  <tr *ngFor="let benh of benhs" (click)="selectBenh(benh); selectBenh1(benh.ma_benh_moi)"
                     [ngClass]="{'selected-row': benh === selectedBenh, 'hover-row': benh === hoveredBenh}"
                     (mouseenter)="hoveredBenh = benh" (mouseleave)="hoveredBenh = null">
-                    <td>{{benh.ma_benh_moi}}</td>
-                    <td>{{benh.ten_benh_moi}}</td>
+                    <td>{{ benh.ma_benh_moi }}</td>
+                    <td>{{ benh.ten_benh_moi }}</td>
+                    <td>
+                      <ng-container *ngIf="benh.loai_he == 1; else otherType">{{ 'Hệ hô hấp trên' }}</ng-container>
+                      <ng-template #otherType>{{ 'Hệ hô hấp dưới' }}</ng-template>
+                    </td>
+                    <td>{{ benh.userEntity.id_user }}</td>
+                    <td>{{ benh.userEntity.fullname }}</td>
+                    <td>
+                      {{ benh.ghi_chu }}
 
+                    </td>
+                    <td>
+                      <button *ngIf="benh.ghi_chu === 'Chưa thêm vào CSDL'" (click)="showNewBenhDetails()">Thêm bệnh
+                        mới</button>
+                    </td>
                   </tr>
+
 
                 </tbody>
               </table>
@@ -68,14 +87,16 @@
                     <th>ID</th>
                     <th>Tên Triệu Chứng</th>
                     <th>Check</th>
+                    <th>Thêm Triệu Chứng</th>
 
                   </tr>
                 </thead>
                 <tbody>
                   <tr *ngFor="let benh of listTrieuChung, let i=index"
                     [ngClass]="{'selected-row': benh === selectedBenh, 'hover-row': benh === hoveredBenh}"
-                    (mouseenter)="hoveredBenh = benh" (mouseleave)="hoveredBenh = null"(click)="!benh.isClicked && selectTrieuChung(benh)" >
-                    
+                    (mouseenter)="hoveredBenh = benh" (mouseleave)="hoveredBenh = null"
+                    (click)="showTrieuChung && !benh.isClicked && selectTrieuChung(benh)">
+
                     <td>{{benh[0]}}</td>
                     <td>
                       <span *ngIf="!benh.isEditing">{{ benh[1] }}</span>
@@ -83,13 +104,23 @@
 
                     </td>
                     <td>
-                      <span >
+                      <span>
                         {{ check[i] === null ? 'TC không tồn tại' : (check[i] != null ? 'Mã TC trong CSDL: '+check[i] :
                         'Other value') }}
                         <!-- Điều chỉnh 'N/A', '7', 'Other value' theo nhu cầu -->
                       </span>
                     </td>
-                  
+                    <!-- ... -->
+                    <td>
+                      <span *ngIf="check[i] == null">
+                        <button *ngIf="!benh.isClicked" (click)="selectTrieuChung(benh)">Chọn</button>
+                        <span *ngIf="benh.isClicked">Đã Chọn</span> <!-- Đây là nội dung "Đã Chọn" -->
+                      </span>
+                    </td>
+
+                    <!-- ... -->
+
+
 
                   </tr>
 
@@ -99,7 +130,10 @@
             </div>
 
           </div>
-          <button (click)="showNewBenhDetails()">Thêm bệnh mới</button>
+
+          <!-- <button (click)="showNewBenhDetails()" >Thêm bệnh mới</button> -->
+
+
           <div *ngIf="selectedBenh12">
             <div *ngIf="newBenh">
               <h2>Thông tin bệnh mới</h2>
@@ -115,7 +149,7 @@
                   <tr *ngFor="let trieuChung of selectedTrieuChung">
                     <td>{{ trieuChung.tenBenh }}</td>
                     <td>{{trieuChung.tenTrieuChung}}</td>
-                    
+
                   </tr>
                 </tbody>
               </table>
