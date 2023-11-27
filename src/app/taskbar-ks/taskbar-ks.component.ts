@@ -38,7 +38,10 @@ export class TaskbarKsComponent implements OnInit {
   isAddNewBenhClicked: boolean = false;
   isAddedNewBenh: boolean = false;
   ghi_chu_sau_khi_sua: String ='';
-  ten_benh:string[]=[];
+  addrule:boolean=false;
+  selectBenhaddrule: any;
+  trieuchungaddrule:any;
+
   constructor(private formBuilder: FormBuilder, private router: Router, private authService: AuthService, private dataService: DataService, private dialog: MatDialog) {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -185,15 +188,19 @@ export class TaskbarKsComponent implements OnInit {
         if (!this.selectedTenBenh) {
           this.selectedTenBenh = this.selectedBenh?.ten_benh_moi || '';
         }
+        this.selectedTrieuChung.push({
+             tenBenh: this.selectedTenBenh,
+              tenTrieuChung: benh[1]
 
         // Kiểm tra nếu triệu chứng không phải là "TC không tồn tại"
-        if (this.check[this.listTrieuChung.indexOf(benh)] == null) {
-          this.selectedTrieuChung.push({
-            tenBenh: this.selectedTenBenh,
-            tenTrieuChung: benh[1]
-          });
-        }
-      }
+        // if (this.check[this.listTrieuChung.indexOf(benh)] == null) {
+        //   this.selectedTrieuChung.push({
+        //     tenBenh: this.selectedTenBenh,
+        //     tenTrieuChung: benh[1]
+        //   });
+        // }
+      });
+    }
 
       benh.isClicked = true; // Đánh dấu triệu chứng là đã chọn
     }
@@ -204,16 +211,16 @@ export class TaskbarKsComponent implements OnInit {
     // Các thao tác khác nếu cần
   }
 
-  SaveNewBenh() {
+  SaveNewBenh(benh:any) {
     const trieuChungList = this.selectedTrieuChung.map((item) => ({
       trieu_chung: item.tenTrieuChung
     }));
     const ghi_chu = "Đã lưu vào CSDL";
    // this.ghi_chu_sau_khi_sua = this.benhs.map(benh => benh.ghi_chu as string);
 
-    // console.log("ghi chú" +this.benhs.map(benh => benh.ghi_chu));
-    [this.ghi_chu_sau_khi_sua]=this.benhs.map(benh => benh.ghi_chu);
-    if (this.ghi_chu_sau_khi_sua.includes("Chưa thêm vào CSDL")) {
+    console.log("ghi chú" +benh.ghi_chu);
+    
+    if (benh.ghi_chu.includes("Chưa thêm vào CSDL")) {
       const dialogRef = this.dialog.open(ConfirmComponent, {
         width: '550px',
         data: { message: 'Thông báo! Bạn có chắc chắn muốn lưu Bệnh mới?' }
@@ -283,9 +290,14 @@ export class TaskbarKsComponent implements OnInit {
       }
     )
   }
-  themLuat123(maBenh: number) {
+  themLuat123(benh:any) {
     // Thực hiện thêm luật với mã bệnh được chọn (maBenh)
     // Gọi API hoặc xử lý tương ứng ở đây
+    this.addrule=true;
+    this.selectBenhaddrule=benh;
+    this.getTC(this.selectBenhaddrule);
+    
+ 
   }
 
   // Phương thức này được gọi sau khi nhận được dữ liệu từ API
@@ -308,5 +320,22 @@ export class TaskbarKsComponent implements OnInit {
     });
   }
   
+getTC(benh:any){
+  this.dataService.getTrieuChungByMaBenh(benh.ma_benh).subscribe(
+    (trieuChung: any[]) => {
+      // Xử lý dữ liệu triệu chứng trả về từ API (trieuChung)
+      console.log(trieuChung);
+      // Lưu trữ danh sách triệu chứng vào một thuộc tính trong component để hiển thị trong giao diện người dùng
+      this.trieuchungaddrule = trieuChung;
 
+    },
+    (error) => {
+      // Xử lý lỗi nếu có
+      console.error('Error fetching trieu chung:', error);
+
+    }
+  );
+
+  
+}
 }
