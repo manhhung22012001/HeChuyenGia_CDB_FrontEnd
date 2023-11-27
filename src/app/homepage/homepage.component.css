@@ -2,7 +2,7 @@
   background: rgb(249, 248, 248) ;
   transition: all 0.5s;
   z-index: 997;
-  height: 100px;
+  height: 80px;
   box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
   display: flex;
   justify-content: space-between;
@@ -10,14 +10,26 @@
   padding: 0 20px;
   border-radius: 0px;
   position: fixed; 
-  width: 97.8%;
+  width: 97.5%;
 }
 
 #header.fixed-top {
   height: 70px;
   box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
 }
+.logo img {
+  vertical-align: middle; /* Căn chữ theo trục đứng giữa hình ảnh */
+}
 
+.logo a {
+  display: flex; /* Sử dụng flexbox để căn giữa nội dung theo chiều dọc */
+  align-items: center; /* Căn theo trục đứng */
+}
+
+.logo span {
+  margin-left: 20px; /* Để khoảng cách giữa ảnh và chữ */
+  font-size: 18px; /* Điều chỉnh kích thước chữ nếu cần */
+}
 #header .logo {
   font-size: 30px;
   margin: 0;

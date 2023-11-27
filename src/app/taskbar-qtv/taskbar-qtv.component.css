@@ -280,6 +280,20 @@ table {
 }
 
 /* Trong file CSS hoặc style.scss của Angular */
+.selected-row {
+  background-color: #cce5ff;
+  /* Màu nền khi hàng được chọn */
+  transition: background-color 0.3s ease;
+  /* Hiệu ứng chuyển đổi màu nền trong 0.3 giây */
+}
+
+/* styles.css hoặc styles.scss */
+.hover-row:hover {
+  background-color: #ffffcc;
+  /* Màu nền khi chuột hover lên hàng */
+  transition: background-color 0.3s ease;
+  /* Hiệu ứng chuyển đổi màu nền trong 0.3 giây */
+}
 
 a.detail-link {
 color: blue; /* Màu chữ của liên kết */
@@ -481,7 +495,6 @@ text-align: center; /* Optional: Adjust header text alignment */
 background-color: #f2f2f2; /* Optional: Header background color */
 width: calc(100%/2);
 }
-
 
 
 

@@ -32,7 +32,7 @@
         <div class="tables-container">
           <div class="table">
             <div *ngIf="benhs">
-              <h2>Danh Sách Bệnh</h2>
+              <h2>Danh Sách Các Bệnh Mới</h2>
 
               <table class="tb">
                 <thead>
@@ -40,38 +40,41 @@
                     <th>ID</th>
                     <th>Tên Bệnh</th>
                     <th>Loại Hệ</th>
+                    <th>Trạng Thái</th>
                     <th>ID Chuyên Gia</th>
                     <th>Tên Chuyên Gia</th>
                     <th>Ghi chú</th>
                     <th>Thêm Bệnh</th>
-                    <!-- cần thêm cột loại hệ ở đây -->
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let benh of benhs" (click)="selectBenh(benh); selectBenh1(benh.ma_benh_moi)"
-                    [ngClass]="{'selected-row': benh === selectedBenh, 'hover-row': benh === hoveredBenh}"
-                    (mouseenter)="hoveredBenh = benh" (mouseleave)="hoveredBenh = null">
-                    <td>{{ benh.ma_benh_moi }}</td>
-                    <td>{{ benh.ten_benh_moi }}</td>
-                    <td>
-                      <ng-container *ngIf="benh.loai_he == 1; else otherType">{{ 'Hệ hô hấp trên' }}</ng-container>
-                      <ng-template #otherType>{{ 'Hệ hô hấp dưới' }}</ng-template>
-                    </td>
-                    <td>{{ benh.userEntity.id_user }}</td>
-                    <td>{{ benh.userEntity.fullname }}</td>
-                    <td>
-                      {{ benh.ghi_chu }}
-
-                    </td>
-                    <td>
-                      <button *ngIf="benh.ghi_chu === 'Chưa thêm vào CSDL'" (click)="showNewBenhDetails()">Thêm bệnh
-                        mới</button>
-                    </td>
-                  </tr>
-
-
+                  <ng-container *ngFor="let benh of benhs">
+                    <tr *ngIf="benh.trang_thai == 1" (click)="selectBenh(benh); selectBenh1(benh.ma_benh_moi)"
+                      [ngClass]="{'selected-row': benh === selectedBenh, 'hover-row': benh === hoveredBenh}"
+                      (mouseenter)="hoveredBenh = benh" (mouseleave)="hoveredBenh = null">
+                      <!-- Các ô dữ liệu -->
+                      <td>{{ benh.ma_benh_moi }}</td>
+                      <td>{{ benh.ten_benh_moi }}</td>
+                      <td>
+                        <ng-container *ngIf="benh.loai_he == 1; else otherType">{{ 'Hệ hô hấp trên' }}</ng-container>
+                        <ng-template #otherType>{{ 'Hệ hô hấp dưới' }}</ng-template>
+                      </td>
+                      <td>Đã Sửa</td>
+                      <td>{{ benh.userEntity.id_user }}</td>
+                      <td>{{ benh.userEntity.fullname }}</td>
+                      <td>{{ benh.ghi_chu }}</td>
+                      <td>
+                        <button *ngIf="selectedBenh && selectedBenh.ma_benh_moi === benh.ma_benh_moi && benh.ghi_chu === 'Chưa thêm vào CSDL'"
+                          (click)="showNewBenhDetails(); isAddNewBenhClicked = true;">Thêm bệnh mới</button>
+                        <ng-container *ngIf="!selectedBenh || (selectedBenh && selectedBenh.ma_benh_moi !== benh.ma_benh_moi)">
+                          Có thể thêm
+                        </ng-container>
+                      </td>
+                    </tr>
+                  </ng-container>
                 </tbody>
               </table>
+
             </div>
           </div>
 
@@ -113,11 +116,10 @@
                     <!-- ... -->
                     <td>
                       <span *ngIf="check[i] == null">
-                        <button *ngIf="!benh.isClicked" (click)="selectTrieuChung(benh)">Chọn</button>
-                        <span *ngIf="benh.isClicked">Đã Chọn</span> <!-- Đây là nội dung "Đã Chọn" -->
+                        <button *ngIf="isAddNewBenhClicked && !benh.isClicked" (click)="selectTrieuChung(benh)">Chọn</button>
+                        <span *ngIf="benh.isClicked">Đã Chọn</span> <!-- Nội dung "Đã Chọn" -->
                       </span>
                     </td>
-
                     <!-- ... -->
 
 

@@ -70,7 +70,19 @@ body {
 .dropdown i {
   margin-left: 5px;
 }
+.logo img {
+  vertical-align: middle; /* Căn chữ theo trục đứng giữa hình ảnh */
+}
 
+.logo a {
+  display: flex; /* Sử dụng flexbox để căn giữa nội dung theo chiều dọc */
+  align-items: center; /* Căn theo trục đứng */
+}
+
+.logo span {
+  margin-left: 10px; /* Để khoảng cách giữa ảnh và chữ */
+  font-size: 18px; /* Điều chỉnh kích thước chữ nếu cần */
+}
 /* Mobile Nav Toggle Styling */
 .mobile-nav-toggle {
   color: #fff; /* Màu chữ trắng */

@@ -369,6 +369,7 @@ saveEditedSymptom(benh: any) {
       console.log(response);
       if(response.message=='Success'){
       this.Emessage = "Cập Nhật Thông Tin Thành Công.";}
+      this.pheduyetBenh();
     },
     error => {
       this.Emessage = "Cập Nhật Thông Tin Thất Bại.";
