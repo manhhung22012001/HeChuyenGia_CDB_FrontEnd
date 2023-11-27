@@ -23,7 +23,53 @@
   <br>
   <br>
   <section *ngIf="themLuat" class="a">
+    <div class="flex-container">
+      <div  class="container" data-aos="zoom-out" data-aos-delay="100">
+        <div class="tables-container">
+          <div class="table">
+            <div *ngIf="benhss">
+              <h2>Danh Sách Các Bệnh Mới</h2>
 
+              <table class="tb">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Tên Bệnh</th>
+                    <th>Loại Hệ</th>
+                    <th>Trạng Thái</th>
+                    <th>Thêm Bệnh</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <ng-container *ngFor="let benh of benhss">
+                    <tr >
+                      <!-- Các ô dữ liệu -->
+                      <td>{{ benh.ma_benh }}</td>
+                      <td>{{ benh.ten_benh }}</td>
+                      <td>
+                        <ng-container *ngIf="benh.loai_he == 1; else otherType">{{ 'Hệ hô hấp trên' }}</ng-container>
+                        <ng-template #otherType>{{ 'Hệ hô hấp dưới' }}</ng-template>
+                      </td>
+                      <td>Đã Sửa</td>
+                     
+                      <td>
+                        <!-- <button *ngIf="selectedBenh && selectedBenh.ma_benh_moi === benh.ma_benh_moi && benh.ghi_chu === 'Chưa thêm vào CSDL'"
+                          (click)="showNewBenhDetails(); isAddNewBenhClicked = true;">Thêm bệnh mới</button>
+                        <ng-container *ngIf="!selectedBenh || (selectedBenh && selectedBenh.ma_benh_moi !== benh.ma_benh_moi)">
+                          Có thể thêm
+                        </ng-container> -->
+                      </td>
+                    </tr>
+                  </ng-container>
+                </tbody>
+              </table>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
   </section>
 
   <section *ngIf="themBenh " class="ab">

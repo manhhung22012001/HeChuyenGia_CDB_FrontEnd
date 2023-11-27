@@ -158,5 +158,13 @@ checkTrieuChung(userId: number, trieuChungTraVe: any[]): Observable<any> {
 
   return this.http.post<any>(`${this.rootURL}/taskbar-ks/add-Benh-and_TC/${userId}`, requestBody, httpOptions);
 }
+postBenh(ten_benh:any[]):Observable<any> {
+  const httpOptions = this.getHttpOptions();
+  const requestBody = {
+    ten_benh: ten_benh  
+  };
+
+  return this.http.post<any>(`${this.rootURL}/taskbar-ks/lay-danh-sach-benh-da-co-luat`, requestBody, httpOptions);
+}
 
 }

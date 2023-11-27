@@ -20,6 +20,7 @@ export class TaskbarKsComponent implements OnInit {
   themBenh: boolean = false;
   listTrieuChung: any[] = [];
   benhs: any[] = [];
+  benhss:any[]=[];
   trieuchung: any[] = [];
   selectedBenh: any;
   hoveredBenh: any;
@@ -37,6 +38,7 @@ export class TaskbarKsComponent implements OnInit {
   isAddNewBenhClicked: boolean = false;
   isAddedNewBenh: boolean = false;
   ghi_chu_sau_khi_sua: String ='';
+  ten_benh:string[]=[];
   constructor(private formBuilder: FormBuilder, private router: Router, private authService: AuthService, private dataService: DataService, private dialog: MatDialog) {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -60,6 +62,29 @@ export class TaskbarKsComponent implements OnInit {
   themLuatMoi() {
     this.themBenh = false;
     this.themLuat = true;
+    this.dataService.getBenh().subscribe(
+      data => {
+        this.benhss = data;
+        console.log(data);
+        const tenBenhArray = this.benhss.map(benh => benh.ten_benh);
+
+    // Gửi danh sách tên bệnh đi cùng một lúc thông qua postBenh
+    this.dataService.postBenh(tenBenhArray).subscribe(
+      response => {
+        // Xử lý phản hồi từ việc gửi dữ liệu
+        console.log('Data posted successfully: ', response);
+      },
+      error => {
+        console.error('Error posting data: ', error);
+      }
+    );
+        
+      },
+      error => {
+        console.error('Error loading users data: ', error);
+      }
+    )
+    
   }
 
 
@@ -184,7 +209,8 @@ export class TaskbarKsComponent implements OnInit {
     const ghi_chu = "Đã lưu vào CSDL";
    // this.ghi_chu_sau_khi_sua = this.benhs.map(benh => benh.ghi_chu as string);
 
-    console.log("ghi chú" +this.benhs.map(benh => benh.ghi_chu));
+    // console.log("ghi chú" +this.benhs.map(benh => benh.ghi_chu));
+    [this.ghi_chu_sau_khi_sua]=this.benhs.map(benh => benh.ghi_chu);
     if (this.ghi_chu_sau_khi_sua.includes("Chưa thêm vào CSDL")) {
       const dialogRef = this.dialog.open(ConfirmComponent, {
         width: '550px',
@@ -257,5 +283,6 @@ export class TaskbarKsComponent implements OnInit {
   }
 
 
+  
 
 }
