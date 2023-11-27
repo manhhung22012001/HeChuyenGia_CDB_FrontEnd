@@ -42,27 +42,27 @@
                 </thead>
                 <tbody>
                   <ng-container *ngFor="let benh of benhss">
-                    <tr >
-                      <!-- Các ô dữ liệu -->
+                    <tr>
                       <td>{{ benh.ma_benh }}</td>
                       <td>{{ benh.ten_benh }}</td>
                       <td>
                         <ng-container *ngIf="benh.loai_he == 1; else otherType">{{ 'Hệ hô hấp trên' }}</ng-container>
                         <ng-template #otherType>{{ 'Hệ hô hấp dưới' }}</ng-template>
                       </td>
-                      <td>Đã Sửa</td>
-                     
                       <td>
-                        <!-- <button *ngIf="selectedBenh && selectedBenh.ma_benh_moi === benh.ma_benh_moi && benh.ghi_chu === 'Chưa thêm vào CSDL'"
-                          (click)="showNewBenhDetails(); isAddNewBenhClicked = true;">Thêm bệnh mới</button>
-                        <ng-container *ngIf="!selectedBenh || (selectedBenh && selectedBenh.ma_benh_moi !== benh.ma_benh_moi)">
-                          Có thể thêm
-                        </ng-container> -->
+                        <!-- Hiển thị Trạng thái -->
+                        <span *ngIf="benh.da_co_luat; else chuaCoLuat">Đã có Luật</span>
+                        <ng-template #chuaCoLuat>Chưa có Luật</ng-template>
+                      </td>
+                      <td>
+                        <!-- Hiển thị button Thêm Luật dựa trên Trạng thái -->
+                        <button *ngIf="!benh.da_co_luat" (click)="themLuat123(benh.ma_benh)">Thêm Luật</button>
                       </td>
                     </tr>
                   </ng-container>
                 </tbody>
               </table>
+              
 
             </div>
           </div>

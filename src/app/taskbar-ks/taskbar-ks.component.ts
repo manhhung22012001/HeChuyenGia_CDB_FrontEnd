@@ -67,25 +67,27 @@ export class TaskbarKsComponent implements OnInit {
         this.benhss = data;
         console.log(data);
         const tenBenhArray = this.benhss.map(benh => benh.ten_benh);
-
-    // Gửi danh sách tên bệnh đi cùng một lúc thông qua postBenh
-    this.dataService.postBenh(tenBenhArray).subscribe(
-      response => {
-        // Xử lý phản hồi từ việc gửi dữ liệu
-        console.log('Data posted successfully: ', response);
-      },
-      error => {
-        console.error('Error posting data: ', error);
-      }
-    );
-        
+  
+        // Gửi danh sách tên bệnh đi cùng một lúc thông qua postBenh
+        this.dataService.postBenh(tenBenhArray).subscribe(
+          response => {
+            // Xử lý phản hồi từ việc gửi dữ liệu
+            console.log('Data posted successfully: ', response);
+            
+            // Gọi phương thức xử lý dữ liệu từ API
+            this.xuLyDuLieuTuAPI(response.data); // Giả sử response.data chứa dữ liệu từ API
+          },
+          error => {
+            console.error('Error posting data: ', error);
+          }
+        );
       },
       error => {
         console.error('Error loading users data: ', error);
       }
-    )
-    
+    );
   }
+  
 
 
   themBenhMoi() {
@@ -281,8 +283,30 @@ export class TaskbarKsComponent implements OnInit {
       }
     )
   }
+  themLuat123(maBenh: number) {
+    // Thực hiện thêm luật với mã bệnh được chọn (maBenh)
+    // Gọi API hoặc xử lý tương ứng ở đây
+  }
 
+  // Phương thức này được gọi sau khi nhận được dữ liệu từ API
+  xuLyDuLieuTuAPI(dataFromAPI: any[]) {
+    // Lặp qua dữ liệu từ API và so sánh với dữ liệu có sẵn trong bảng
+    this.benhss.forEach((benh) => {
+      const matchingData = dataFromAPI.find((item) => item.ma_benh == benh.ma_benh);
 
+      // Nếu tìm thấy mã bệnh tương ứng
+      if (matchingData) {
+        // Kiểm tra và gán giá trị Trạng thái (đã có luật hay chưa)
+        benh.da_co_luat = false; // hoặc false tùy thuộc vào dữ liệu từ API
+
+        // Nếu muốn lấy thông tin khác từ API gán vào benh (ví dụ: thông tin luật)
+        // benh.thong_tin_luat = matchingData.thong_tin_luat;
+      } else {
+        // Nếu không tìm thấy mã bệnh, mặc định là chưa có luật
+        benh.da_co_luat = true;
+      }
+    });
+  }
   
 
 }
