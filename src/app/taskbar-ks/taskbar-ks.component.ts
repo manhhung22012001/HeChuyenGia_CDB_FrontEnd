@@ -32,7 +32,8 @@ export class TaskbarKsComponent implements OnInit {
   isClicked: boolean = true;
   tenBenhDaLay: boolean = false;
   selectedTenBenh: string = ''; // Lưu tên bệnh đã chọn
-  selectedTrieuChung: any[] = []; // Lưu danh sách triệu chứng đã chọn
+  selectedTrieuChung: any[] = [];
+  selectedMaTC: any[] = []; // Lưu danh sách triệu chứng đã chọn
   showTrieuChung: boolean = false; // Thêm biến showTrieuChung
   showAddNewButton: boolean = false;
   isAddNewBenhClicked: boolean = false;
@@ -188,21 +189,22 @@ export class TaskbarKsComponent implements OnInit {
         if (!this.selectedTenBenh) {
           this.selectedTenBenh = this.selectedBenh?.ten_benh_moi || '';
         }
-        this.selectedTrieuChung.push({
-             tenBenh: this.selectedTenBenh,
-              tenTrieuChung: benh[1]
-
-        // Kiểm tra nếu triệu chứng không phải là "TC không tồn tại"
-        // if (this.check[this.listTrieuChung.indexOf(benh)] == null) {
-        //   this.selectedTrieuChung.push({
-        //     tenBenh: this.selectedTenBenh,
-        //     tenTrieuChung: benh[1]
-        //   });
-        // }
-      });
-    }
-
-      benh.isClicked = true; // Đánh dấu triệu chứng là đã chọn
+  
+        if (this.check[this.listTrieuChung.indexOf(benh)] === null) {
+          // Thêm tenTrieuChung vào selectedTrieuChung nếu check[i] là null
+          this.selectedTrieuChung.push({
+            tenBenh: this.selectedTenBenh,
+            tenTrieuChung: benh[1]
+          });
+        } else {
+          // Thêm giá trị của check[i] vào mảng khác nếu check[i] không phải là null
+          // Thay 'selected' bằng tên mảng bạn muốn lưu giá trị nếu chúng không phải là null
+          this.selectedMaTC.push(this.check[this.listTrieuChung.indexOf(benh)]);
+        }
+      }
+  console.log(this.selectedTrieuChung);
+  console.log(this.selectedMaTC);
+      benh.isClicked = true; // Đánh dấu triệu chứng đã được chọn
     }
   }
 
@@ -214,6 +216,9 @@ export class TaskbarKsComponent implements OnInit {
   SaveNewBenh(benh:any) {
     const trieuChungList = this.selectedTrieuChung.map((item) => ({
       trieu_chung: item.tenTrieuChung
+    }));
+    const MaList = this.selectedMaTC.map((item) => ({
+      ma_trieu_chung: item.maTrieuChung
     }));
     const ghi_chu = "Đã lưu vào CSDL";
    // this.ghi_chu_sau_khi_sua = this.benhs.map(benh => benh.ghi_chu as string);
@@ -228,7 +233,7 @@ export class TaskbarKsComponent implements OnInit {
   
       dialogRef.afterClosed().subscribe(result => {
         if (result) {
-          this.saveBenh(trieuChungList, ghi_chu);
+          this.saveBenh(trieuChungList,MaList, ghi_chu);
         }
       });
     } else {
@@ -243,13 +248,14 @@ export class TaskbarKsComponent implements OnInit {
     }
   }
   
-  saveBenh(trieuChungList: any, ghi_chu: string) {
+  saveBenh(trieuChungList: any,MaList:any, ghi_chu: string) {
     this.dataService
       .SaveNewBenh(
         this.authService.getID(),
         this.selectedTenBenh,
         this.selectedBenh.loai_he,
         trieuChungList,
+        MaList,
         ghi_chu
       )
       .subscribe(

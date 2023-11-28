@@ -147,12 +147,13 @@ checkTrieuChung(userId: number, trieuChungTraVe: any[]): Observable<any> {
   return this.http.get(url, { params, ...httpOptions });
 }
 // SaveNewBenh(userId: number, ten_benh: string, loai_he: string, trieuChungList: { trieu_chung: string }[],ghi_chu:String, ma_benh_moi:number): Observable<any> {
-  SaveNewBenh(userId: number, ten_benh: string, loai_he: string, trieuChungList: { trieu_chung: string }[],ghi_chu:String): Observable<any> {
+  SaveNewBenh(userId: number, ten_benh: string, loai_he: string, trieuChungList: { trieu_chung: string }[],MaList:{ma_trieu_chung:number}[],ghi_chu:String): Observable<any> {
   const httpOptions = this.getHttpOptions();
   const requestBody = {
     ten_benh: ten_benh,
     loai_he: loai_he,
     trieu_chung: trieuChungList,
+    ma_trieu_chung:MaList,
     ghi_chu:ghi_chu
   };
 
