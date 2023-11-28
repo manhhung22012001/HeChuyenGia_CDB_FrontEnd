@@ -190,13 +190,13 @@ export class TaskbarKsComponent implements OnInit {
           this.selectedTenBenh = this.selectedBenh?.ten_benh_moi || '';
         }
   
-        if (this.check[this.listTrieuChung.indexOf(benh)] === null) {
+        
           // Thêm tenTrieuChung vào selectedTrieuChung nếu check[i] là null
           this.selectedTrieuChung.push({
             tenBenh: this.selectedTenBenh,
             tenTrieuChung: benh[1]
           });
-        } else {
+         if(this.check[this.listTrieuChung.indexOf(benh)] != null){
           // Thêm giá trị của check[i] vào mảng khác nếu check[i] không phải là null
           // Thay 'selected' bằng tên mảng bạn muốn lưu giá trị nếu chúng không phải là null
           this.selectedMaTC.push(this.check[this.listTrieuChung.indexOf(benh)]);
@@ -217,13 +217,12 @@ export class TaskbarKsComponent implements OnInit {
     const trieuChungList = this.selectedTrieuChung.map((item) => ({
       trieu_chung: item.tenTrieuChung
     }));
-    const MaList = this.selectedMaTC.map((item) => ({
-      ma_trieu_chung: item.maTrieuChung
-    }));
+    const MaList = this.selectedMaTC;
+    console.log(MaList)
     const ghi_chu = "Đã lưu vào CSDL";
    // this.ghi_chu_sau_khi_sua = this.benhs.map(benh => benh.ghi_chu as string);
 
-    console.log("ghi chú" +benh.ghi_chu);
+  
     
     if (benh.ghi_chu.includes("Chưa thêm vào CSDL")) {
       const dialogRef = this.dialog.open(ConfirmComponent, {
@@ -249,6 +248,7 @@ export class TaskbarKsComponent implements OnInit {
   }
   
   saveBenh(trieuChungList: any,MaList:any, ghi_chu: string) {
+    console.log(MaList)
     this.dataService
       .SaveNewBenh(
         this.authService.getID(),
@@ -268,6 +268,7 @@ export class TaskbarKsComponent implements OnInit {
               okButton: true
             }
           });
+          console.log(response)
           this.themBenhMoi();
           this.showAddNewButton = false;
         },
