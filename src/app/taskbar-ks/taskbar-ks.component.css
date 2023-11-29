@@ -105,13 +105,26 @@
 /* CSS cho bảng */
 .tables-container {
   margin-bottom: 20px;
+  display: flex;
 }
 
+
+.tb {
+  /* Các thuộc tính CSS cho bảng */
+  width: 100%; /* Đảm bảo bảng chiếm đầy đủ không gian của div chứa nó */
+  border-collapse: collapse; /* Nếu bạn muốn loại bỏ khoảng cách giữa các ô */
+}
+
+.tb th,
+.tb td {
+  border: 1px solid #ccc; /* Đường viền của ô */
+  padding: 8px; /* Khoảng cách bên trong ô */
+}
 .table {
   
   width: 100%;
   cursor: pointer; 
- 
+ flex:1;
   border-collapse: collapse;
   border: 1px solid #ddd;
   table-layout: fixed; /* Đặt kích thước cố định cho các cột */
@@ -143,12 +156,28 @@ input[type="text"] {
   padding: 5px;
   box-sizing: border-box;
 }
+/* Định dạng cho .additional-info */
 .additional-info {
-  /* Đặt các thuộc tính CSS để định dạng dòng thông tin bổ sung ở bên phải */
-  /* Ví dụ: */
-  flex: 0 0 50%; /* Độ rộng của dòng thông tin */
-  /*text-align: right; /* Căn lề phải */
-  /* Điều chỉnh các thuộc tính khác nếu cần thiết */
-  padding-top: 10px;
-  text-align: center;
+  margin-top: 20px; /* Khoảng cách với các phần tử khác */
+  background-color: #f5f5f5; /* Màu nền */
+  padding: 10px; /* Khoảng cách bên trong */
+  border-radius: 5px; /* Bo góc */
 }
+
+/* Định dạng cho nút "Lưu" */
+.additional-info button {
+  padding: 8px 15px; /* Kích thước */
+  background-color: #3498db; /* Màu nền */
+  color: #fff; /* Màu chữ */
+  border: none; /* Loại bỏ đường viền */
+  border-radius: 3px; /* Bo góc */
+  cursor: pointer; /* Hình con trỏ khi rê chuột */
+  margin-top: 10px; /* Khoảng cách từ nội dung trên xuống nút */
+}
+
+/* Định dạng cho nút "Lưu" khi bị vô hiệu hóa */
+.additional-info button[disabled] {
+  background-color: #ccc; /* Màu nền khi bị vô hiệu hóa */
+  cursor: not-allowed; /* Hình con trỏ không cho phép khi bị vô hiệu hóa */
+}
+

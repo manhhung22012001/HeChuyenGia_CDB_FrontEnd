@@ -43,6 +43,7 @@ export class TaskbarKsComponent implements OnInit {
   selectBenhaddrule: any;
   trieuchungaddrule:any;
   saverule1: boolean = false;
+  messageaddrule1:string=''
 
   constructor(private formBuilder: FormBuilder, private router: Router, private authService: AuthService, private dataService: DataService, private dialog: MatDialog) {
     const token = localStorage.getItem('token');
@@ -103,7 +104,7 @@ export class TaskbarKsComponent implements OnInit {
       response => {
         console.log(response);
         this.benhs = response;
-        this.saverule1=true;
+        
         
       },
       error => {
@@ -214,10 +215,13 @@ export class TaskbarKsComponent implements OnInit {
     // Các thao tác khác nếu cần
   }
   saveruletype1(){
-    this.dataService.saveruletype1(this.authService.getID(),1,this.selectBenhaddrule.ma_benh,this.trieuchungaddrule).subscribe(
+    const MaArray= this.trieuchungaddrule.map((trieuchung: any[]) =>trieuchung[0]);
+    console.log(MaArray)
+    this.dataService.saveruletype1(this.authService.getID(),1,this.selectBenhaddrule.ma_benh,MaArray).subscribe(
       response =>{
         console.log("done");
-        
+        this.saverule1=true;
+        this.messageaddrule1='Thêm luật loại 1 thành công'
       }
     ),
     (error: HttpErrorResponse) => {

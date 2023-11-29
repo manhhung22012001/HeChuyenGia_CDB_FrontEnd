@@ -30,7 +30,7 @@
             <div *ngIf="benhss">
               <h2>Danh Sách Các Bệnh Mới</h2>
 
-              <table class="tb">
+              <table class="b">
                 <thead>
                   <tr>
                     <th>ID</th>
@@ -42,6 +42,7 @@
                 </thead>
                 <tbody>
                   <ng-container *ngFor="let benh of benhss">
+                    <ng-container *ngIf="!benh.da_co_luat">
                     <tr>
                       <td>{{ benh.ma_benh }}</td>
                       <td>{{ benh.ten_benh }}</td>
@@ -60,6 +61,7 @@
                       </td>
                     </tr>
                   </ng-container>
+                </ng-container>
                 </tbody>
               </table>
               
@@ -132,7 +134,7 @@
                           = B{{ selectBenhaddrule.ma_benh }}
                           <button (click)="saveruletype1()" [disabled]="saverule1">Lưu</button>
                       </h3>
-                      
+                      <span>{{messageaddrule1}}</span>
                   </div>
                   
               </ng-container>
