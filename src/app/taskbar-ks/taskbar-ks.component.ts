@@ -42,6 +42,7 @@ export class TaskbarKsComponent implements OnInit {
   addrule:boolean=false;
   selectBenhaddrule: any;
   trieuchungaddrule:any;
+  saverule1: boolean = false;
 
   constructor(private formBuilder: FormBuilder, private router: Router, private authService: AuthService, private dataService: DataService, private dialog: MatDialog) {
     const token = localStorage.getItem('token');
@@ -102,7 +103,7 @@ export class TaskbarKsComponent implements OnInit {
       response => {
         console.log(response);
         this.benhs = response;
-        
+        this.saverule1=true;
         
       },
       error => {
@@ -211,6 +212,18 @@ export class TaskbarKsComponent implements OnInit {
   selectBenh1(benh: any) {
     this.ma_benh_moi = benh.ma_benh_moi; // Lưu ID của bệnh được chọn
     // Các thao tác khác nếu cần
+  }
+  saveruletype1(){
+    this.dataService.saveruletype1(this.authService.getID(),1,this.selectBenhaddrule.ma_benh,this.trieuchungaddrule).subscribe(
+      response =>{
+        console.log("done");
+        
+      }
+    ),
+    (error: HttpErrorResponse) => {
+      console.error('Error loading data: ', error);
+    }
+
   }
 
   SaveNewBenh(benh:any) {

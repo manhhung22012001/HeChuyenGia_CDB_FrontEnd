@@ -143,3 +143,12 @@ input[type="text"] {
   padding: 5px;
   box-sizing: border-box;
 }
+.additional-info {
+  /* Đặt các thuộc tính CSS để định dạng dòng thông tin bổ sung ở bên phải */
+  /* Ví dụ: */
+  flex: 0 0 50%; /* Độ rộng của dòng thông tin */
+  /*text-align: right; /* Căn lề phải */
+  /* Điều chỉnh các thuộc tính khác nếu cần thiết */
+  padding-top: 10px;
+  text-align: center;
+}

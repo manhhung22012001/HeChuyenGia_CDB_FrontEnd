@@ -121,8 +121,23 @@
   
                   </tbody>
                 </table>
+                <ng-container *ngIf="trieuchungaddrule && trieuchungaddrule.length > 0">
+                  <div class="additional-info">
+                      <h3>Luật loại 1: 
+                          
+                          <ng-container *ngFor="let trieuchung of trieuchungaddrule; let last = last">
+                             TC{{ trieuchung[0] }}
+                              <span *ngIf="!last"> + </span>
+                          </ng-container>
+                          = B{{ selectBenhaddrule.ma_benh }}
+                          <button (click)="saveruletype1()" [disabled]="saverule1">Lưu</button>
+                      </h3>
+                      
+                  </div>
+                  
+              </ng-container>
               </div>
-  
+             
             </div>
 
         </div>
