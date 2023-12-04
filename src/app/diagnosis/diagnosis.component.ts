@@ -29,9 +29,9 @@ export class DiagnosisComponent implements OnInit {
   selectedBenh: any; // Khai báo biến selectedBenh để lưu trữ bệnh được chọn
   hoveredBenh: any;
   selectedBenhs: any[] = [];
-  showbasic :boolean=true;
-  showonly:boolean=true;
-
+  showbasic: boolean = true;
+  showonly: boolean = true;
+  showKQ: boolean = true;
 
   constructor(
     private DiagnosticService: DiagnosticService,
@@ -67,7 +67,7 @@ export class DiagnosisComponent implements OnInit {
       .filter(trieuChung => trieuChung.isSelected)
       .map(trieuChung => trieuChung[0]);
     this.disableBasicSymptoms = true;
-    this.showonly=false;
+    this.showonly = false;
     this.DiagnosticService.searchDiagnosis(selectedSymptomCodes).subscribe(
       data => {
         this.detailSymptoms = data;
@@ -87,13 +87,13 @@ export class DiagnosisComponent implements OnInit {
       .filter(trieuChung => trieuChung.isSelected)
       .map(trieuChung => trieuChung[0]);
     this.disableSymptoms = true;
-this.showbasic=false;
-
+    this.showbasic = false;
+    this.showKQ=false;
     // Ghép mảng mã triệu chứng cơ bản và mã triệu chứng chi tiết
     this.danh_sach_tc = [...selectedSymptomCodes];
-    console.log("Danh sach gui di la " + this.danh_sach_tc)
+    console.log("Danh sach gui di rieng biet la " + this.danh_sach_tc)
 
-    this.DiagnosticService.KQ_cdb(this.danh_sach_tc).subscribe(
+    this.DiagnosticService.KQ_cdb1(this.danh_sach_tc).subscribe(
       data => {
         this.ketqua = data;
         this.showStep3 = true;
@@ -107,6 +107,7 @@ this.showbasic=false;
   }
 
   diagnoseDisease() {
+    this.showKQ=false;
     // lấy các mã tc đã chọn ở b1 cho vào mảng selectedSymptomCodes
     const selectedSymptomCodes = this.trieuChungList
       .filter(trieuChung => trieuChung.isSelected)
@@ -117,7 +118,7 @@ this.showbasic=false;
       .map(trieuChung => trieuChung.ma_trieu_chung);
     // Ghép mảng mã triệu chứng cơ bản và mã triệu chứng chi tiết
     this.danh_sach_tc = [...selectedSymptomCodes, ...selectedSymptomCodes1];
-    console.log("Danh sach gui di la " + this.danh_sach_tc)
+    console.log("Danh sach gui di bthg la " + this.danh_sach_tc)
     // this.DiagnosticService.KQ_cdb(this.danh_sach_tc).subscribe(
     //   data => {
     //     this.ketqua = data;
@@ -130,7 +131,7 @@ this.showbasic=false;
     this.DiagnosticService.KQ_cdb(this.danh_sach_tc).subscribe(
       data => {
         this.ketqua = data;
-        console.log("lenght: "+this.ketqua.length);
+        console.log("lenght: " + this.ketqua.length);
         // Nếu không có bệnh nào được tìm thấy, hiển thị tất cả các bệnh có chứa ít nhất một triệu chứng đã chọn
         if (this.ketqua.length === 0) {
           this.DiagnosticService.KQ_cdb1(this.danh_sach_tc).subscribe(
@@ -161,8 +162,9 @@ this.showbasic=false;
     this.disableBasicSymptoms = false;
     this.trieuChungOnly.forEach(trieuChung => trieuChung.isSelected = false);
     this.disableSymptoms = false;
-    this.showbasic=true;
-    this.showonly=true;
+    this.showbasic = true;
+    this.showonly = true;
+    this.showKQ=true;
   }
   selectBenh(benh: any) {
     this.selectedBenh = benh; // Lưu trữ thông tin bệnh được chọn
@@ -226,6 +228,9 @@ this.showbasic=false;
       this.disableSymptoms = false;
       this.disableBasicSymptoms = true;
     }
+  }
+  X(){
+    this.loadDetailSymptoms();
   }
 }
 

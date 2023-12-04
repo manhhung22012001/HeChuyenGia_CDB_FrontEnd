@@ -2,6 +2,8 @@
 body, h1, h2, p, ul, li {
     margin: 0;
     padding: 0;
+    
+  
   }
   
   body {
@@ -10,7 +12,7 @@ body, h1, h2, p, ul, li {
   }
   
   .container {
-    max-width: 100%;
+    max-width: 50%;
     margin: 0 auto;
     padding: 20px;
     background-color: #fff;
@@ -136,4 +138,52 @@ li .tc{
     padding-bottom: 10px;
   }
   
- 
+ /* Style for the list of diseases */
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li.kq {
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+/* Style for the "Chi tiết" link */
+a.chitiet {
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+/* Style for the detailed information about the disease */
+div.selected-info {
+  margin-top: 10px;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+/* Style for the detailed disease name */
+h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+/* Style for the list of symptoms */
+ul.symptoms {
+  list-style: disc;
+  margin-left: 20px;
+}
+
+li.tc {
+  margin-bottom: 5px;
+}
+/* CSS for the detailed symptom list */
+.show-symptoms {
+  display: block;
+  background-color: rgb(235, 235, 171);
+  padding: 10px;
+  margin-top: 10px;
+}

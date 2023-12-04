@@ -1,54 +1,61 @@
-  
- <div class="container">
-  <h2>Bước 1: Chọn Triệu Chứng Cơ Bản</h2>
-  <div class="symptom-section" *ngIf="showbasic">
-  <h3>Triệu chứng cơ bản</h3>
-  <div class="checkbox-group">
-    <label *ngFor="let trieuChung of trieuChungList">
-      <input type="checkbox" [(ngModel)]="trieuChung.isSelected" [disabled]="disableBasicSymptoms" (change)="toggleSymptomsSelection(true)">
-      {{ trieuChung[1] }}
-    </label>
-  </div>
-  <button (click)="loadDetailSymptoms()" *ngIf="!showStep2">Tiếp Theo</button>
-  </div>
-
-  <div class="symptom-section" *ngIf="showonly">
-    <h3>Triệu chứng riêng biệt</h3>
-    <div class="checkbox-group">
-      <label *ngFor="let trieuChung of trieuChungOnly">
-        <input type="checkbox" [(ngModel)]="trieuChung.isSelected" [disabled]="disableSymptoms" (change)="toggleSymptomsSelection(false)">
-        {{ trieuChung[1] }}
-      </label>
-    </div>
-    <button (click)="diagnoseDiseaseonly()" *ngIf="!showStep3">Tiếp Theo</button>
-  </div>
-
-</div>
-  
-<div class ="container" *ngIf="showStep2">
-      <h2>Bước 2: Chọn Triệu Chứng Chi Tiết</h2>
+<div *ngIf="showKQ">
+  <div class="container">
+    <h2>Hãy Chọn Triệu Chứng</h2>
+    <div class="symptom-section" *ngIf="showbasic">
+      <h3>Triệu chứng cơ bản</h3>
       <div class="checkbox-group">
-              <label *ngFor="let trieuChung of detailSymptoms1">
-                <input type="checkbox" [(ngModel)]="trieuChung.isSelected"> {{ trieuChung.ten_trieu_chung }}</label>
+        <label *ngFor="let trieuChung of trieuChungList">
+          <!-- <input type="checkbox" [(ngModel)]="trieuChung.isSelected" [disabled]="disableBasicSymptoms" -->
+          <input type="checkbox" [(ngModel)]="trieuChung.isSelected" 
+            (change)="toggleSymptomsSelection(true)">
+          {{ trieuChung[1] }}
+        </label>
       </div>
-      <button (click)="diagnoseDisease()" *ngIf="!showStep3">Chuẩn Đoán Bệnh</button>
+      <button (click)="loadDetailSymptoms()" *ngIf="!showStep2">Tiếp Theo</button>
+    </div>
+
+    <div class="symptom-section" *ngIf="showonly">
+      <h3>Triệu chứng riêng biệt</h3>
+      <div class="checkbox-group">
+        <label *ngFor="let trieuChung of trieuChungOnly">
+          <!-- <input type="checkbox" [(ngModel)]="trieuChung.isSelected" [disabled]="disableSymptoms" -->
+          <input type="checkbox" [(ngModel)]="trieuChung.isSelected"
+            (change)="toggleSymptomsSelection(false)">
+          {{ trieuChung[1] }}
+        </label>
+      </div>
+      <button (click)="diagnoseDiseaseonly()" *ngIf="!showStep3">Chuẩn Đoán Bệnh</button>
+    </div>
+
+  </div>
+
+  <div class="container" *ngIf="showStep2">
+    <h2>Hãy Chọn Triệu Chứng Chi Tiết</h2>
+    <div class="checkbox-group">
+      <label *ngFor="let trieuChung of detailSymptoms1">
+        <input type="checkbox" [(ngModel)]="trieuChung.isSelected"> {{ trieuChung.ten_trieu_chung }}</label>
+    </div>
+    <button (click)="diagnoseDisease()" *ngIf="!showStep3">Chuẩn Đoán Bệnh</button>
+  </div>
 </div>
-    
 <div class="container" *ngIf="showStep3">
-  <h2>Bước 3: Kết Quả Chuẩn Đoán</h2>
+  <h2>Kết Quả Chuẩn Đoán</h2>
+  <h1>Lưu ý: Kết quả chuẩn đoán bên dưới dựa trên các triệu chứng của bạn và chỉ mang tính chất tham khảo!</h1>
   <div *ngIf="ketqua && ketqua.length > 0">
     <ul>
       <div *ngFor="let benh of ketqua; let i = index">
         <li class="kq">
           {{ benh.ten_benh }}
-          <a class="chitiet" (click)="selectBenh(benh)">Chi tiết</a>
-          <div *ngIf="selectedBenh && selectedBenh.ma_benh === benh.ma_benh">
-            <h3>Thông tin chi tiết về bệnh: {{ selectedBenh.ten_benh }}</h3>
-            <ul>
-              <li class="tc" *ngFor="let trieuChung of selectedBenh.trieu_Chung">
-                {{ trieuChung[1] }}
-              </li>
-            </ul>
+          <a class="chitiet" (click)="selectBenh(benh)">Giải thích</a>
+          <div class="show-symptoms">
+            <div *ngIf="selectedBenh && selectedBenh.ma_benh === benh.ma_benh">
+              <h3>Dự đoán về bệnh "{{ selectedBenh.ten_benh }}" sẽ có những triệu chứng sau:</h3>
+              <ul>
+                <li class="tc" *ngFor="let trieuChung of selectedBenh.trieu_Chung">
+                  {{ trieuChung[1] }}
+                </li>
+              </ul>
+            </div>
           </div>
         </li>
       </div>
@@ -59,31 +66,24 @@
       <div *ngFor="let benh of ketqua1; let i = index">
         <li class="kq">
           {{ benh.ten_benh }}
-          <a class="chitiet" (click)="selectBenh(benh)">Chi tiết</a>
-          <div *ngIf="selectedBenh && selectedBenh.ma_benh === benh.ma_benh">
-            <h3>Thông tin chi tiết về bệnh: {{ selectedBenh.ten_benh }}</h3>
-            <ul>
-              <li class="tc" *ngFor="let trieuChung of selectedBenh.trieu_Chung">
-                {{ trieuChung[1] }}
-              </li>
-            </ul>
+          <a class="chitiet" (click)="selectBenh(benh)">Giải thích</a>
+          <div class="show-symptoms">
+            <div *ngIf="selectedBenh && selectedBenh.ma_benh === benh.ma_benh">
+              <h3>Dự đoán về bệnh "{{ selectedBenh.ten_benh }}" sẽ có những triệu chứng sau:</h3>
+              <ul>
+                <li class="tc" *ngFor="let trieuChung of selectedBenh.trieu_Chung">
+                  {{ trieuChung[1] }}
+                </li>
+              </ul>
+            </div>
           </div>
         </li>
       </div>
     </ul>
   </div>
   <br>
-  <button class="reset-button"(click)="resetDiagnosis()">Chuẩn đoán lại</button>
+  <button class="reset-button" (click)="resetDiagnosis()">Quay Lại</button>
   <br>
   <br>
-  <button class="back-button"routerLink="">Trở về</button>
+  <button class="back-button" routerLink="">Trang Chủ</button>
 </div>
-
-
-
-
-    
- 
-  
-  
-  
