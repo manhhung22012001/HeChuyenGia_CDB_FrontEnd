@@ -130,6 +130,7 @@ this.showbasic=false;
     this.DiagnosticService.KQ_cdb(this.danh_sach_tc).subscribe(
       data => {
         this.ketqua = data;
+        console.log("lenght: "+this.ketqua.length);
         // Nếu không có bệnh nào được tìm thấy, hiển thị tất cả các bệnh có chứa ít nhất một triệu chứng đã chọn
         if (this.ketqua.length === 0) {
           this.DiagnosticService.KQ_cdb1(this.danh_sach_tc).subscribe(

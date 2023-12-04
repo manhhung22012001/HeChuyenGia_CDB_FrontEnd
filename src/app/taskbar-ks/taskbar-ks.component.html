@@ -131,13 +131,29 @@
                              TC{{ trieuchung[0] }}
                               <span *ngIf="!last"> + </span>
                           </ng-container>
-                          = B{{ selectBenhaddrule.ma_benh }}
+                          => B{{ selectBenhaddrule.ma_benh }}
                           <button (click)="saveruletype1()" [disabled]="saverule1">Lưu</button>
                       </h3>
                       <span>{{messageaddrule1}}</span>
                   </div>
                   
               </ng-container>
+              <ng-container *ngIf="ma_tc && ma_tc.length > 0">
+                <div class="additional-info">
+                    <h3>Luật loại 3: 
+                        
+                        <ng-container *ngFor="let trieuchung of ma_tc">
+                           <span *ngIf="trieuchung!=0">TC{{ trieuchung }}
+                           => B{{ selectBenhaddrule.ma_benh }}</span>
+                           <br>
+                        </ng-container>
+                        
+                        <button (click)="saveruletype3()" [disabled]="saverule3" >Lưu</button>
+                    </h3>
+                    <span>{{messageaddrule3}}</span>
+                </div>
+                
+            </ng-container>
               </div>
              
             </div>

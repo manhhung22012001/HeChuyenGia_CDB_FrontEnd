@@ -178,4 +178,15 @@ saveruletype1(userId:number,loai_luat:number,ma_benh:number,trieuChungList: { ma
 
   return this.http.put<any>(`${this.rootURL}/taskbar-ks/save-luat-loai-1/${userId}`, requestBody, httpOptions);
 }
+saveruletype3(userId:number,loai_luat:number,ma_benh:number,trieuChungList: { ma_trieu_chung: number }[]):Observable<any> {
+  const httpOptions = this.getHttpOptions();
+  const requestBody = {
+    ma_benh: ma_benh,
+    loai_luat: loai_luat,
+    ma_trieu_chung: trieuChungList,
+    
+  };
+
+  return this.http.put<any>(`${this.rootURL}/taskbar-ks/save-luat-loai-3/${userId}`, requestBody, httpOptions);
+}
 }

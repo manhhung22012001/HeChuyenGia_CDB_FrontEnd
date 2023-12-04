@@ -43,7 +43,10 @@ export class TaskbarKsComponent implements OnInit {
   selectBenhaddrule: any;
   trieuchungaddrule:any;
   saverule1: boolean = false;
-  messageaddrule1:string=''
+  messageaddrule1:string='';
+  ma_tc:any;
+  messageaddrule3:string='';
+  saverule3: boolean = false;
 
   constructor(private formBuilder: FormBuilder, private router: Router, private authService: AuthService, private dataService: DataService, private dialog: MatDialog) {
     const token = localStorage.getItem('token');
@@ -219,15 +222,32 @@ export class TaskbarKsComponent implements OnInit {
     console.log(MaArray)
     this.dataService.saveruletype1(this.authService.getID(),1,this.selectBenhaddrule.ma_benh,MaArray).subscribe(
       response =>{
-        console.log("done");
+        console.log(response);
         this.saverule1=true;
         this.messageaddrule1='Thêm luật loại 1 thành công'
+        this.ma_tc=response.nonNullMatchingBenhIdsList;
+        console.log(this.ma_tc);
+        
       }
     ),
     (error: HttpErrorResponse) => {
       console.error('Error loading data: ', error);
     }
 
+  }
+  saveruletype3(){
+    this.dataService.saveruletype3(this.authService.getID(),3,this.selectBenhaddrule.ma_benh,this.ma_tc).subscribe(
+      response =>{
+        console.log(response);
+        this.saverule3=true;
+        this.messageaddrule3='Thêm luật loại 3 thành công'
+        
+        
+      }
+    ),
+    (error: HttpErrorResponse) => {
+      console.error('Error loading data: ', error);
+    }
   }
 
   SaveNewBenh(benh:any) {
@@ -320,10 +340,11 @@ export class TaskbarKsComponent implements OnInit {
     this.addrule=true;
     this.selectBenhaddrule=benh;
     this.getTC(this.selectBenhaddrule);
+   
     
  
   }
-
+  
   // Phương thức này được gọi sau khi nhận được dữ liệu từ API
   xuLyDuLieuTuAPI(dataFromAPI: any[]) {
     // Lặp qua dữ liệu từ API và so sánh với dữ liệu có sẵn trong bảng

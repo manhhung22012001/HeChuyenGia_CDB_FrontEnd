@@ -442,7 +442,7 @@ button:hover {
   background-color: #0056b3;
 }
 .table-container {
-max-height: 100px; /* Đặt chiều cao tối đa cho bảng */
+max-height: 400px; /* Đặt chiều cao tối đa cho bảng */
 overflow-y: auto; /* Tự động thêm thanh cuộn khi nội dung vượt quá chiều cao */
 }
 
@@ -458,6 +458,7 @@ background-color: white; /* Màu nền phải khác màu nền của bảng */
 width: 100%; /* To fill the width of the container */
 display: flex;
 overflow-x: auto; /* Add horizontal scrollbar if content exceeds */
+
 }
 
 .flex-container {
@@ -468,7 +469,7 @@ overflow-x: auto; /* Add horizontal scrollbar if content exceeds */
 
 .tables-container {
 
-max-height: 500px;
+max-height: 1000px;
 flex: 1; /* Each container takes equal space */
 border: 1px solid #ccc; /* Optional: Add border for visualization */
 margin: 5px; /* Optional: Add margin between containers */
@@ -481,7 +482,8 @@ width: 100%; /* Ensure tables fill their containers */
 
 .tb {
 width: 100%; /* Ensure tables fill their containers */
-border-collapse: collapse; /* Optional: Collapse table borders */
+border-collapse: collapse;
+height:100% /* Optional: Collapse table borders */
 }
 
 /* Style for table headers */
