@@ -11,7 +11,7 @@
           {{ trieuChung[1] }}
         </label>
       </div>
-      <button (click)="loadDetailSymptoms()" *ngIf="!showStep2">Tiếp Theo</button>
+      <!-- <button (click)="loadDetailSymptoms()" *ngIf="!showStep2">Tiếp Theo</button> -->
     </div>
 
     <div class="symptom-section" *ngIf="showonly">
@@ -24,9 +24,9 @@
           {{ trieuChung[1] }}
         </label>
       </div>
-      <button (click)="diagnoseDiseaseonly()" *ngIf="!showStep3">Chuẩn Đoán Bệnh</button>
+     
     </div>
-
+    <button (click)="X()" *ngIf="!showStep3 && !showStep2 ">Tiếp Theo</button>
   </div>
 
   <div class="container" *ngIf="showStep2">
@@ -35,8 +35,9 @@
       <label *ngFor="let trieuChung of detailSymptoms1">
         <input type="checkbox" [(ngModel)]="trieuChung.isSelected"> {{ trieuChung.ten_trieu_chung }}</label>
     </div>
-    <button (click)="diagnoseDisease()" *ngIf="!showStep3">Chuẩn Đoán Bệnh</button>
+    <button (click)="Y()" *ngIf="!showStep3">Chuẩn Đoán Bệnh</button>
   </div>
+  
 </div>
 <div class="container" *ngIf="showStep3">
   <h2>Kết Quả Chuẩn Đoán</h2>

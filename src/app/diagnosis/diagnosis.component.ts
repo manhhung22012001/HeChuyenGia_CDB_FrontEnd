@@ -67,7 +67,7 @@ export class DiagnosisComponent implements OnInit {
       .filter(trieuChung => trieuChung.isSelected)
       .map(trieuChung => trieuChung[0]);
     this.disableBasicSymptoms = true;
-    this.showonly = false;
+    // this.showonly = false;
     this.DiagnosticService.searchDiagnosis(selectedSymptomCodes).subscribe(
       data => {
         this.detailSymptoms = data;
@@ -82,7 +82,7 @@ export class DiagnosisComponent implements OnInit {
 
   }
   diagnoseDiseaseonly() {
-    // lấy các mã tc đã chọn ở b1 cho vào mảng selectedSymptomCodes
+    // lấy các mã tc riêng biệt cho vào mảng selectedSymptomCodes
     const selectedSymptomCodes = this.trieuChungOnly
       .filter(trieuChung => trieuChung.isSelected)
       .map(trieuChung => trieuChung[0]);
@@ -230,8 +230,27 @@ export class DiagnosisComponent implements OnInit {
     }
   }
   X(){
+    // hàm này để gọi triệu chứng chi tiết theo các tc đã chọn ở bước 2
     this.loadDetailSymptoms();
   }
+  Y() {
+    // Kiểm tra xem có ít nhất một triệu chứng riêng biệt được chọn hay không
+    const anyOnlySymptomSelected = this.trieuChungOnly.some(trieuChung => trieuChung.isSelected);
+  
+    if (anyOnlySymptomSelected) {
+      // Thực hiện các hành động khi có triệu chứng riêng biệt được chọn
+       console.log('Có triệu chứng riêng biệt được chọn');
+      // Gọi hàm hoặc thực hiện các hành động khác ở đây
+      this.diagnoseDiseaseonly();
+
+    } else {
+      // Thực hiện các hành động khi không có triệu chứng riêng biệt được chọn
+      console.log('Không có triệu chứng riêng biệt nào được chọn');
+      // Hiển thị thông báo hoặc thực hiện các hành động khác ở đây
+      this.diagnoseDisease();
+    }
+  }
+  
 }
 
 
