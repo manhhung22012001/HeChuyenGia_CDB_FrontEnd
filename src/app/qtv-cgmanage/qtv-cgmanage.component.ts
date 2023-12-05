@@ -22,13 +22,15 @@ export class QtvCgmanageComponent {
   fullname: any;
   userId: any;
   userFiles: { name: string, url: string }[] = [];
-
+  message: string = '';
+  
   anhDaiDienData: string = '';
   bangTotNghiepYKhoaData: string = '';
   chungChiHanhNgheData: string = '';
   chungNhanChuyenKhoaData: string = '';
   hocham :String ='';
   hocvi: String ='';
+  status: string = '1';
   constructor(
     private route: ActivatedRoute,
     private dataService: DataService,
@@ -139,6 +141,18 @@ export class QtvCgmanageComponent {
       this.createAndDownloadFile(selectedFile.url, selectedFile.name);
     }
   }
-  
+  AcceptUser(){
+   this.dataService.UpdateSattusUser(this.userDetails.id_user,this.status).subscribe(
+    (response: any) => {
+      this.message = "Cập Nhật Thông Tin Thành Công.";
+     
+    },
+    error => {
+      this.message = "Cập Nhật Thông Tin Thất Bại.";
+      
+      // Xử lý lỗi, ví dụ: hiển thị thông báo lỗi cho người dùng
+    }
+   );
+  }
 
 }

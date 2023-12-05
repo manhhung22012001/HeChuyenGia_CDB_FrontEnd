@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
   successMessage: string | undefined;
   invalidLogin = false;
   loginSuccess = false;
-  
+  status : string = '0';
   userRole: number;
 
   loginForm: any = this.fb.group({
@@ -120,7 +120,7 @@ encryptText(text: string, key: string): string {
     else if (this.userRole == 1 && this.authService.status == 0) {
       this.router.navigate(['/taskbar-cg0'])
     }
-    else if (this.userRole == 1 && this.authService.status == null) {
+    else if (this.userRole == 1 && this.authService.status == 'null') {
       this.router.navigate(['/taskbar-cg0'])
     }
     else if (this.userRole == 2) {
@@ -137,11 +137,11 @@ encryptText(text: string, key: string): string {
     const username = this.registerForm.value.username;
     const password = this.registerForm.value.password;
     const role = this.registerForm.value.role;
-
+    
     if (fullname && email && phonenumber && username && password && role) {
       // Mã hóa mật khẩu trước khi gửi đến backend
       const hashedPassword = this.hashPassword(password);
-      console.log("mk: " + hashedPassword)
+      //console.log("mk: " + hashedPassword)
       this.authService.register(fullname, email, phonenumber, username, hashedPassword, role).subscribe(response => {
         var code = response.status;
         if (code === 201) {

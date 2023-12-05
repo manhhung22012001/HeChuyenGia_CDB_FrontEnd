@@ -8,25 +8,45 @@
 
     <nav id="navbar" class="navbar">
       <ul>
-        <li><a class="a" (click)="pheduyetUser()">Quản lý người dùng</a></li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown">
+            Quản lý người dùng <i class="bi bi-chevron-down"></i>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="acc" (click)="ListUsers()">Người dùng trong hệ thống</a></li>
+            <li><a class="ab" (click)="AcceptUsers()">Người dùng mới</a></li>
+          </ul>
+        </li>
+
         <li><a class="ab" (click)="pheduyetBenh()">Phê duyệt bệnh mới</a></li>
 
-        <li class="dropdown">
-
-          <a (click)="logout()"><span>Đăng xuất</span> <i class="bi bi-chevron-down"></i></a>
+        <li>
+          <a (click)="logout()">
+            <span>Đăng xuất</span> <i class="bi bi-chevron-down"></i>
+          </a>
         </li>
       </ul>
       <i class="bi bi-list mobile-nav-toggle"></i>
     </nav><!-- .navbar -->
+
   </header>
   <!-- ======= Hero Section ======= -->
   <br>
   <br>
-  <section *ngIf="pheDuyetUser" class="a">
+  <section *ngIf="listUser" class="a">
     <h2>Danh Sách Người Dùng</h2>
+
+    <div>
+      <label for="userType">Loại người dùng:</label>
+      <select [(ngModel)]="selectedRole" (change)="onRoleChange()" style="width: 200px;">
+        <option value="1">Chuyên Gia</option>
+        <option value="2">Kỹ Sư</option>
+        <option value="3">Quản Trị Viên</option>
+      </select>
+    </div>
     <div class="tables-container" [formGroup]="userForms"
       style="overflow-x: auto; overflow-y: auto; max-height: 400px;">
-
+      
       <table>
         <thead>
           <tr>
@@ -35,46 +55,37 @@
             <th>Quyền</th>
             <th>Số điện thoại</th>
             <th>Email</th>
-            <th>Trạng thái</th>
-            <th>Cập nhật thông tin</th>
-            <th>Thông tin chi tiết</th>
+            <th *ngIf="selectedRole === '1'">Thông tin bổ xung</th>
             <th>Hành động</th>
           </tr>
         </thead>
         <tbody>
-          <div formArrayName="users">
-            <div *ngFor="let user of usersFormArray.controls; let i = index" [formGroupName]="i">
-              <td>{{ user.value.id_user }}</td>
+          <ng-container *ngFor="let user of filteredUsers; let i = index">
+            
+            <tr [formGroup]="user">
+              <td>{{ user.get('id_user').value }}</td>
               <td><input type="text" (input)="onFullnameChange($event, user)" formControlName="fullname"></td>
-              <td>{{ user.value.role}}</td>
+              <td>{{ mapUserRole(user.get('role').value) }}</td>
+
               <td><input type="text" (input)="onPhoneNumberChange($event, user)" formControlName="phonenumber"></td>
               <td><input type="text" (input)="onEmailChange($event, user)" formControlName="email"></td>
-              <td>
-                <ng-container *ngIf="user.value.role === '1'; else blankCell">
-                  <select formControlName="status" (change)="onStatusChange(i, user)">
-                    <option value="0">Not Active</option>
-                    <option value="1">Active</option>
-                  </select>
-                </ng-container>
-                <ng-template #blankCell></ng-template>
-              </td>
+              <td *ngIf="selectedRole === '1' && user.get('role').value === '1' && user.get('status').value === '1'"
+              (click)="CheckIn4(user.get('id_user').value)">
+              <a class="detail-link">Xem thông tin bổ xung</a>
+            </td>
+            
 
-              <td>
-                {{updateMessages[i]}}
-              </td>
-              <td (click)="CheckIn4(user.value.id_user)">
-                <a class="detail-link">Xem thông tin chi tiết</a>
-              </td>
               <td>
                 <button (click)="deleteUser(user)">Xóa</button>
                 <button (click)="updateUser(i,user)">Sửa</button>
               </td>
-            </div>
-          </div>
+            </tr>
+          </ng-container>
         </tbody>
 
+
       </table>
-      <div class="message-text" *ngIf="isEditing">{{message}}</div>
+      <div class="message-text1" *ngIf="isEditing">{{message}}</div>
     </div>
 
 
@@ -102,7 +113,7 @@
         <label>Trạng Thái :
           <select [(ngModel)]="newUser.status" name="status" required>
             <option value="1">Active</option>
-            <option value="0">Not Active</option>
+            <option value="null">Not Active</option>
           </select>
         </label>
       </div>
@@ -172,10 +183,10 @@
                   <button (click)="saveEditedSymptom(benh)">Lưu</button>
                 </td>
               </tr>
-              <div class="message-text">{{Emessage}}</div>
+              <div class="message-text1">{{Emessage}}</div>
             </tbody>
           </table>
-          
+
         </div>
         <button (click)="savedone()">Hoàn tất</button>
       </div>
@@ -203,7 +214,56 @@
 
   </section>
 
+  <section *ngIf="pheDuyetUser" class="abc">
+    <h2>Danh sách chuyên gia đã cập nhật thông tin</h2>
+    <br>
+    <br>
+    <br>
+    <div class="tables-container1" [formGroup]="userForms"
+      style="overflow-x: auto; overflow-y: auto; max-height: 1000px;">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Họ tên</th>
+            
+            <th>Số điện thoại</th>
+            <th>Email</th>
+            <!-- <th>Trạng thái</th> -->
+            
+            <th>Thông tin chi tiết</th>
+            <th>Hành động</th>
+          </tr>
+        </thead>
+        <tbody formArrayName="users">
+          <ng-container *ngFor="let user of usersFormArray.controls; let i = index">
+            <tr [formGroupName]="i" *ngIf="user.value.role === '1' && user.value.status === '0'">
+              <td>{{ user.value.id_user }}</td>
+              <td><input type="text" (input)="onFullnameChange($event, user)" formControlName="fullname" ></td>
+              <td><input type="text" (input)="onPhoneNumberChange($event, user)" formControlName="phonenumber" ></td>
+              <td><input type="text" (input)="onEmailChange($event, user)" formControlName="email"></td>
+              <!-- <td>
+                <select formControlName="status" (change)="onStatusChange(i, user)" *ngIf="user.value.role === '1'" >
+                  <option value="0">Chưa Duyệt</option>
+                  <option value="1">Duyệt</option>
+                </select>
+              </td> -->
+              <td (click)="CheckIn4(user.value.id_user)">
+                <a class="detail-link1">Xem thông tin chi tiết</a>
+              </td>
+              <td>
+                <button (click)="deleteUser(user)">Xóa</button>
+                <button (click)="updateUser(i,user)">Sửa</button>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+      <div class="message-text1" *ngIf="isEditing">{{message}}</div>
+    </div>
 
+
+  </section>
 
 
 

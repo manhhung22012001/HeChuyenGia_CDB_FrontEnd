@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders,HttpEvent,HttpRequest, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpEvent, HttpRequest, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { AuthService } from './auth.service';
 
@@ -11,8 +11,8 @@ import { Observable } from 'rxjs';
 export class DataService {
   private rootURL = environment.baseUrl;
 
-  constructor(private http: HttpClient, private authService: AuthService) { 
-    this.http=http;
+  constructor(private http: HttpClient, private authService: AuthService) {
+    this.http = http;
   }
 
   // Hàm này trả về các options cho HTTP requests, bao gồm Authorization header chứa token JWT
@@ -69,7 +69,7 @@ export class DataService {
     const httpOptions = this.getHttpOptions();
     return this.http.get<any[]>(`${this.rootURL}/taskbar-qtv/getallTrieuChungCu`, httpOptions);
   }
-  getBenhbyhe(loai_he:number):Observable<any[]>{
+  getBenhbyhe(loai_he: number): Observable<any[]> {
     const httpOptions = this.getHttpOptions();
     return this.http.get<any[]>(`${this.rootURL}/taskbar-cg/getall12/${loai_he}`, httpOptions);
   }
@@ -77,22 +77,22 @@ export class DataService {
   getTrieuChungByMaBenh(maBenh: number): Observable<any[]> {
     return this.http.get<any[]>(`${this.rootURL}/diagnosis/trieuchung/${maBenh}`);
   }
-  getTrieuChungByMaBenhMoi(ma_benh_moi: number,id_user:number): Observable<any> {
+  getTrieuChungByMaBenhMoi(ma_benh_moi: number, id_user: number): Observable<any> {
     const httpOptions = this.getHttpOptions();
     const endpoint = `${this.rootURL}/taskbar-qtv/trieuchungmoi/${id_user}?ma_benh_moi=${ma_benh_moi}`;
     return this.http.get(endpoint, httpOptions);
-   
+
   }
-  addNewBenh(userId: number, ten_benh: string, loai_he: string, trieu_chung: string[],trang_thai:string,ghi_chu:string): Observable<any> {
+  addNewBenh(userId: number, ten_benh: string, loai_he: string, trieu_chung: string[], trang_thai: string, ghi_chu: string): Observable<any> {
     const httpOptions = this.getHttpOptions();
     const requestBody = {
       ten_benh: ten_benh,
       loai_he: loai_he,
       trieu_chung: trieu_chung,
-      trang_thai:trang_thai,
-      ghi_chu:ghi_chu
+      trang_thai: trang_thai,
+      ghi_chu: ghi_chu
     };
-  
+
     return this.http.post<any>(`${this.rootURL}/taskbar-cg/add-benh-va-trieu-chung/${userId}`, requestBody, httpOptions);
   }
   searchTrieuChung(keyword: string): Observable<string[]> {
@@ -103,21 +103,22 @@ export class DataService {
   }
   getUserInfo(userId: number): Observable<any> {
     const httpOptions = this.getHttpOptions();
-    
+
     return this.http.get<any>(`${this.rootURL}/taskbar-cg/getuserdetail/${userId}`, httpOptions);
   }
-  
-  uploadUserInfo(userId: number, formData: FormData,hoc_ham:string,hoc_vi:string): Observable<any> {
+
+  uploadUserInfo(userId: number, formData: FormData, hoc_ham: string, hoc_vi: string, status: string): Observable<any> {
     const httpOptions = this.getHttpOptions();
     formData.append('hoc_ham', hoc_ham);
     formData.append('hoc_vi', hoc_vi);
+    formData.append('status', status);
     return this.http.post<any>(`${this.rootURL}/taskbar-cg0/userinfo/${userId}`, formData, httpOptions);
   }
 
   getFile(userId: number, user_Id: number): Observable<any> {
     const httpOptions = this.getHttpOptions();
     const endpoint = `${this.rootURL}/taskbar-qtv/getFile/${userId}?user_Id=${user_Id}`;
-  
+
     return this.http.get(endpoint, httpOptions);
   }
   getFileContent(filePath: string): Observable<any> {
@@ -128,65 +129,73 @@ export class DataService {
     const httpOptions = this.getHttpOptions();
     return this.http.get<any[]>(`${this.rootURL}/taskbar-qtv/getallBenhMoi`, httpOptions);
   }
-// Trong data service của bạn
-savenewtrieuchung(userId: number, updatedTC: any): Observable<any> {
-  const httpOptions = this.getHttpOptions();
-  const url = `${this.rootURL}/taskbar-qtv/edit-benh-moi-va-trieu-chung-moi/${userId}`;
-  return this.http.put<any>(url, updatedTC, httpOptions);
-}
+  // Trong data service của bạn
+  savenewtrieuchung(userId: number, updatedTC: any): Observable<any> {
+    const httpOptions = this.getHttpOptions();
+    const url = `${this.rootURL}/taskbar-qtv/edit-benh-moi-va-trieu-chung-moi/${userId}`;
+    return this.http.put<any>(url, updatedTC, httpOptions);
+  }
 
-checkTrieuChung(userId: number, trieuChungTraVe: any[]): Observable<any> {
-  const httpOptions = this.getHttpOptions();
-  const url = `${this.rootURL}/taskbar-ks/checkTC/${userId}`;
+  checkTrieuChung(userId: number, trieuChungTraVe: any[]): Observable<any> {
+    const httpOptions = this.getHttpOptions();
+    const url = `${this.rootURL}/taskbar-ks/checkTC/${userId}`;
 
-  // Chuyển đổi mảng triệu chứng thành mảng tên triệu chứng
-  const tenTrieuChung = trieuChungTraVe.map(tc => tc[1]).join('');
+    // Chuyển đổi mảng triệu chứng thành mảng tên triệu chứng
+    const tenTrieuChung = trieuChungTraVe.map(tc => tc[1]).join('');
 
-  const params = new HttpParams().set('ten_trieu_chung', tenTrieuChung);
+    const params = new HttpParams().set('ten_trieu_chung', tenTrieuChung);
 
-  return this.http.get(url, { params, ...httpOptions });
-}
-// SaveNewBenh(userId: number, ten_benh: string, loai_he: string, trieuChungList: { trieu_chung: string }[],ghi_chu:String, ma_benh_moi:number): Observable<any> {
-  SaveNewBenh(userId: number, ten_benh: string, loai_he: string, trieuChungList: { trieu_chung: string }[],MaList:{ma_trieu_chung:number}[],ghi_chu:String): Observable<any> {
-  const httpOptions = this.getHttpOptions();
-  const requestBody = {
-    ten_benh: ten_benh,
-    loai_he: loai_he,
-    trieu_chung: trieuChungList,
-    ma_trieu_chung:MaList,
-    ghi_chu:ghi_chu
-  };
+    return this.http.get(url, { params, ...httpOptions });
+  }
+  // SaveNewBenh(userId: number, ten_benh: string, loai_he: string, trieuChungList: { trieu_chung: string }[],ghi_chu:String, ma_benh_moi:number): Observable<any> {
+  SaveNewBenh(userId: number, ten_benh: string, loai_he: string, trieuChungList: { trieu_chung: string }[], MaList: { ma_trieu_chung: number }[], ghi_chu: String): Observable<any> {
+    const httpOptions = this.getHttpOptions();
+    const requestBody = {
+      ten_benh: ten_benh,
+      loai_he: loai_he,
+      trieu_chung: trieuChungList,
+      ma_trieu_chung: MaList,
+      ghi_chu: ghi_chu
+    };
 
-  return this.http.post<any>(`${this.rootURL}/taskbar-ks/add-Benh-and_TC/${userId}`, requestBody, httpOptions);
-}
-postBenh(ten_benh:any[]):Observable<any> {
-  const httpOptions = this.getHttpOptions();
-  const requestBody = {
-    ten_benh: ten_benh  
-  };
+    return this.http.post<any>(`${this.rootURL}/taskbar-ks/add-Benh-and_TC/${userId}`, requestBody, httpOptions);
+  }
+  postBenh(ten_benh: any[]): Observable<any> {
+    const httpOptions = this.getHttpOptions();
+    const requestBody = {
+      ten_benh: ten_benh
+    };
 
-  return this.http.post<any>(`${this.rootURL}/taskbar-ks/lay-danh-sach-benh-da-co-luat`, requestBody, httpOptions);
-}
-saveruletype1(userId:number,loai_luat:number,ma_benh:number,trieuChungList: { ma_trieu_chung: number }[]):Observable<any> {
-  const httpOptions = this.getHttpOptions();
-  const requestBody = {
-    ma_benh: ma_benh,
-    loai_luat: loai_luat,
-    ma_trieu_chung: trieuChungList,
-    
-  };
+    return this.http.post<any>(`${this.rootURL}/taskbar-ks/lay-danh-sach-benh-da-co-luat`, requestBody, httpOptions);
+  }
+  saveruletype1(userId: number, loai_luat: number, ma_benh: number, trieuChungList: { ma_trieu_chung: number }[]): Observable<any> {
+    const httpOptions = this.getHttpOptions();
+    const requestBody = {
+      ma_benh: ma_benh,
+      loai_luat: loai_luat,
+      ma_trieu_chung: trieuChungList,
 
-  return this.http.put<any>(`${this.rootURL}/taskbar-ks/save-luat-loai-1/${userId}`, requestBody, httpOptions);
-}
-saveruletype3(userId:number,loai_luat:number,ma_benh:number,trieuChungList: { ma_trieu_chung: number }[]):Observable<any> {
-  const httpOptions = this.getHttpOptions();
-  const requestBody = {
-    ma_benh: ma_benh,
-    loai_luat: loai_luat,
-    ma_trieu_chung: trieuChungList,
-    
-  };
+    };
 
-  return this.http.put<any>(`${this.rootURL}/taskbar-ks/save-luat-loai-3/${userId}`, requestBody, httpOptions);
-}
+    return this.http.put<any>(`${this.rootURL}/taskbar-ks/save-luat-loai-1/${userId}`, requestBody, httpOptions);
+  }
+  saveruletype3(userId: number, loai_luat: number, ma_benh: number, trieuChungList: { ma_trieu_chung: number }[]): Observable<any> {
+    const httpOptions = this.getHttpOptions();
+    const requestBody = {
+      ma_benh: ma_benh,
+      loai_luat: loai_luat,
+      ma_trieu_chung: trieuChungList,
+
+    };
+
+    return this.http.put<any>(`${this.rootURL}/taskbar-ks/save-luat-loai-3/${userId}`, requestBody, httpOptions);
+  }
+
+  UpdateSattusUser(userId: number, status: string) {
+    const httpOptions = this.getHttpOptions();
+    const requestBody = {
+      status:status
+    };
+    return this.http.put<any>(`${this.rootURL}/taskbar-qtv/updateSatusUser/${userId}`, requestBody, httpOptions);
+  }
 }

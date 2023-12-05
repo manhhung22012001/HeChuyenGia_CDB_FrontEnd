@@ -1,13 +1,14 @@
 <body>
     <header id="header" class="d-flex align-items-center">
         <h1 class="logo"><a href="">
-            <img src="assets/apple-touch-icon.png" alt="Chuẩn Đoán Bệnh Logo" width="50" height="50">
-            <div class="welcome">
-                Xin chào,<label class="user">{{fullname}}</label><br />
-    
-            </div><span></span></a></h1>
-        
-       
+                <img src="assets/apple-touch-icon.png" alt="Chuẩn Đoán Bệnh Logo" width="50" height="50">
+                <div class="welcome">
+                    Xin chào,<label class="user">{{fullname}}</label><br />
+
+                </div><span></span>
+            </a></h1>
+
+
 
         <nav id="navbar" class="navbar">
             <ul>
@@ -36,25 +37,30 @@
                 <p>Số Điện Thoại: {{ userDetails.phoneNumber }}</p>
                 <p>Email: {{ userDetails.email }}</p>
                 <p>Học Hàm: {{hocham}}</p>
-                    <p>Học Vị: {{hocvi}}</p>
-                
+                <p>Học Vị: {{hocvi}}</p>
+
 
                 <div *ngFor="let file of userFiles">
                     <h3>{{ file.name }}</h3>
                     <ng-container *ngIf="file.url.endsWith('.jpeg') || file.url.endsWith('.png')">
-                      <img [src]="file.url" alt="{{ file.name }}" />
+                        <img [src]="file.url" alt="{{ file.name }}" />
                     </ng-container>
                     <ng-container *ngIf="file.url.endsWith('.pdf')">
-                      <iframe [src]="file.url" width="100%" height="500px"></iframe>
+                        <iframe [src]="file.url" width="100%" height="500px"></iframe>
                     </ng-container>
-                    <ng-container *ngIf="!file.url.endsWith('.jpeg') && !file.url.endsWith('.png') && !file.url.endsWith('.pdf')">
-                      <a [href]="file.url" target="_blank" rel="noopener">{{ file.name }}</a>
+                    <ng-container
+                        *ngIf="!file.url.endsWith('.jpeg') && !file.url.endsWith('.png') && !file.url.endsWith('.pdf')">
+                        <a [href]="file.url" target="_blank" rel="noopener">{{ file.name }}</a>
                     </ng-container>
-                    
+
                     <!-- <button (click)="downloadFile(file)">Download</button> -->
-                  </div>
-                  
+                </div>
+
             </div>
+            <button (click)="AcceptUser()">Duyệt Chuyên Gia</button>
+            <div class="message-text1"> {{message}}</div>
+            <br>
+            <button routerLink="/taskbar-qtv">Back</button>
         </div>
     </form>
 

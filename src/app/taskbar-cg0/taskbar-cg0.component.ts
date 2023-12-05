@@ -24,7 +24,7 @@ export class TaskbarCg0Component implements OnInit {
   ReactiveForm: any = FormGroup;
   errorMessage: string = '';
   isBangTotNghiepYKhoaSelected: boolean = false;
-
+  status : string ='0';
   selectedFiles: { file: File, fieldName: string }[] = [];
 
   constructor(private router: Router, private authService: AuthService, private dataService: DataService, private fb: FormBuilder) {
@@ -98,7 +98,7 @@ export class TaskbarCg0Component implements OnInit {
     }
   
     // Gửi FormData lên server
-    this.dataService.uploadUserInfo(this.userInformation.id_user, formData,this.userInformation.hoc_ham,this.userInformation.hoc_vi).subscribe((response: any) => {
+    this.dataService.uploadUserInfo(this.userInformation.id_user, formData,this.userInformation.hoc_ham,this.userInformation.hoc_vi,this.status).subscribe((response: any) => {
       if (response && response.message === 'Success') {
         this.errorMessage = 'Cập Nhật Thông Tin thành công! Hãy đợi chúng tôi kiểm tra thông tin của bạn.';
         // Sau khi lưu, đặt lại trạng thái

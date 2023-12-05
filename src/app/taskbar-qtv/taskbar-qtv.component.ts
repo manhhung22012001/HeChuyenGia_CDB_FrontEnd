@@ -5,13 +5,15 @@ import { DataService } from '../data.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmComponent } from '../confirm/confirm.component';
 import { HttpErrorResponse } from '@angular/common/http';
-import { FormGroup, FormBuilder,FormControl,FormArray } from '@angular/forms';
+import * as bcrypt from 'bcryptjs';
+import { FormGroup, FormBuilder, FormControl, FormArray } from '@angular/forms';
 @Component({
   selector: 'app-taskbar-qtv',
   templateUrl: './taskbar-qtv.component.html',
   styleUrls: ['./taskbar-qtv.component.css']
 })
 export class TaskbarQtvComponent implements OnInit {
+
   id: any;
   users: any[] = [];
   ShowTable: boolean = true;
@@ -21,8 +23,13 @@ export class TaskbarQtvComponent implements OnInit {
   message: string = '';
   Emessage: string = '';
   isEditing: boolean = false;
-  pheDuyetBenh: boolean=false;
-  pheDuyetUser :boolean=false;
+  pheDuyetBenh: boolean = false;
+  pheDuyetUser: boolean = false;
+  listUser: boolean = false;
+  acceptUser: boolean = false;
+  selectedRole: string = '0' // Giá trị mặc định là role 1
+  filteredUsers: any[] = [];
+
   loggedInUserId = this.authService.id_user;
   newUser: any = {
     fullname: '',
@@ -35,15 +42,15 @@ export class TaskbarQtvComponent implements OnInit {
   };
   userForms!: FormGroup;
   updateMessages: string[] = [];
-  PheduyetBenh:boolean=false;
+  PheduyetBenh: boolean = false;
   benhs: any[] = [];
   listTrieuChung: any[] = [];
-  selectedBenh: any; 
+  selectedBenh: any;
   hoveredBenh: any;
-  trieuchung:any[]=[];
+  trieuchung: any[] = [];
 
 
-  constructor(private formBuilder: FormBuilder,private router: Router, private authService: AuthService, private dataService: DataService, private dialog: MatDialog) {
+  constructor(private formBuilder: FormBuilder, private router: Router, private authService: AuthService, private dataService: DataService, private dialog: MatDialog) {
     const token = localStorage.getItem('token');
     if (!token) {
       this.router.navigate(['/login']);
@@ -51,11 +58,16 @@ export class TaskbarQtvComponent implements OnInit {
     this.fullname = localStorage.getItem('fullname');
   }
   ngOnInit() {
-    
+    this.userForms = this.formBuilder.group({
+      users: this.formBuilder.array([]) // Add your form controls as needed
+    });
+    this.ListUsers();
   }
-  pheduyetUser(){
-    this.pheDuyetBenh =false;
-    this.pheDuyetUser =true;
+  ListUsers() {
+    this.pheDuyetBenh = false;
+    this.pheDuyetUser = false;
+    this.listUser = true;
+    
     // Initialize your form group
     this.userForms = this.formBuilder.group({
       users: this.formBuilder.array([]) // Or initialize with default values
@@ -63,9 +75,9 @@ export class TaskbarQtvComponent implements OnInit {
 
     // Load data into the form (Assuming this.dataService.getUsers() returns the data)
     this.dataService.getUsers().subscribe((data: any[]) => {
-      data.forEach((user,index) => {
+      data.forEach((user, index) => {
         this.addUserForm(user);
-       this.checkupdate(user.id_user,index)
+        this.checkupdate(user.id_user, index)
       });
     });
   }
@@ -120,11 +132,11 @@ export class TaskbarQtvComponent implements OnInit {
     else {
       status = ' ';
     }
-
-    if (fullname && email && phonenumber && username && password && role && status) {
+    const hashedPassword = this.hashPassword(password);
+    if (fullname && email && phonenumber && username && hashedPassword && role && status) {
       console.log(fullname, email, phonenumber, username, password, role, status);
 
-      this.authService.qtvregister(fullname, email, phonenumber, username, password, role, status).subscribe(response => {
+      this.authService.qtvregister(fullname, email, phonenumber, username, hashedPassword, role, status).subscribe(response => {
         var code = response.status;
         if (code === 201) {
           this.message = "Đăng ký thành công";
@@ -145,7 +157,11 @@ export class TaskbarQtvComponent implements OnInit {
       this.message = "Vui lòng nhập đầy đủ thông tin.";
     }
   }
-
+  hashPassword(password: string): string {
+    // Thực hiện mã hóa mật khẩu ở phía frontend (Ví dụ: sử dụng bcryptjs)
+    const hashedPassword = bcrypt.hashSync(password, 10);
+    return hashedPassword;
+  }
   onRoleChange1() {
     if (this.newUser.role === '1') {
       this.showStatusDropdown = true;
@@ -175,10 +191,10 @@ export class TaskbarQtvComponent implements OnInit {
   onActiveChange(event: any, user: any) {
     user.status = event.target.value;
   }
-  onStatusChange(index:number,user: any) {
+  onStatusChange(index: number, user: any) {
     if (this.isEditing) {
       // Bạn có thể thêm xử lý khác nếu cần thiết trước khi gọi hàm updateUser
-      this.updateUser(index,user);
+      this.updateUser(index, user);
     }
   }
 
@@ -200,7 +216,7 @@ export class TaskbarQtvComponent implements OnInit {
     console.log(this.authService.id_user)
     console.log(this.authService.getID())
     if (user.value.id_user == this.authService.getID()) {
-      
+
       alert('Bạn không thể xóa tài khoản của chính mình.');
     }
     else {
@@ -230,7 +246,7 @@ export class TaskbarQtvComponent implements OnInit {
       });
     }
   }
-  updateUser(index: number,user: any) {
+  updateUser(index: number, user: any) {
     // Lấy ID người dùng cần cập nhật
     const userId = user.value.id_user;
     console.log(userId);
@@ -248,7 +264,7 @@ export class TaskbarQtvComponent implements OnInit {
     console.log(updatedUser);
 
     // Gọi hàm updateUser() trong dataService để gửi yêu cầu cập nhật
-    this.dataService.updateUser(userId,  updatedUser).subscribe(
+    this.dataService.updateUser(userId, updatedUser).subscribe(
       (response: any) => {
         this.message = "Cập Nhật Thông Tin Thành Công.";
         this.isEditing = true;
@@ -271,119 +287,149 @@ export class TaskbarQtvComponent implements OnInit {
   }
 
   // your-component.ts
-CheckIn4(id_user: any) {
-  this.dataService.getUserInfo(id_user).subscribe(
-    (data) => {
-      console.log('User Details:', data);
+  CheckIn4(id_user: any) {
+    this.dataService.getUserInfo(id_user).subscribe(
+      (data) => {
+        console.log('User Details:', data);
 
-      // Lưu trữ dữ liệu trong DataService
-      this.dataService.setUserDetails(data);
+        // Lưu trữ dữ liệu trong DataService
+        this.dataService.setUserDetails(data);
 
-      // Chuyển sang component khác
-      this.router.navigate(['/qtv-cgmanage']);
-    },
-    (error) => {
-      console.error('Error:', error);
-    }
-  );
-}
-
-checkupdate(id_user: any, index: number) {
-  this.dataService.getUserInfo(id_user).subscribe(
-    (data) => {
-      if (data.role == '1' && data.status=='0') {
-        if (data.bangTotNghiepYKhoa == null) {
-          this.updateMessages[index] = 'Chưa cập nhật thông tin';
-        } else {
-          this.updateMessages[index] = 'Đã cập nhật thông tin';
-        }
-      } else {
-        this.updateMessages[index] = '';
+        // Chuyển sang component khác
+        this.router.navigate(['/qtv-cgmanage']);
+      },
+      (error) => {
+        console.error('Error:', error);
       }
-    }
-  )
-}
-pheduyetBenh(){
-  this.pheDuyetBenh =true;
-    this.pheDuyetUser =false;
-this.PheduyetBenh=true;
-this.dataService.getnewbenh().subscribe(
-  response  => {
-    console.log(response);
-    this.benhs = response;
-  },
-  error => {
-    console.error('Error loading users data: ', error);
+    );
   }
-)
-this.dataService.gettrieuchungcu().subscribe(
-  response =>{
-    console.log(response);
-    this.trieuchung=response;
-  },
-  error => {
-    console.error('Error loading users data: ', error);
+
+  checkupdate(id_user: any, index: number) {
+    this.dataService.getUserInfo(id_user).subscribe(
+      (data) => {
+        if (data.role == '1' && data.status == '0') {
+          if (data.bangTotNghiepYKhoa == null) {
+
+          } else {
+
+          }
+        } else {
+
+        }
+      }
+    )
   }
-)
+  pheduyetBenh() {
+    this.pheDuyetBenh = true;
+    this.listUser = false;
+    this.pheDuyetUser = false;
+    this.PheduyetBenh = true;
+    this.dataService.getnewbenh().subscribe(
+      response => {
+        console.log(response);
+        this.benhs = response;
+      },
+      error => {
+        console.error('Error loading users data: ', error);
+      }
+    )
+    this.dataService.gettrieuchungcu().subscribe(
+      response => {
+        console.log(response);
+        this.trieuchung = response;
+      },
+      error => {
+        console.error('Error loading users data: ', error);
+      }
+    )
 
-}
-selectBenh(benh: any) {
-  this.selectedBenh = benh; // Lưu trữ thông tin bệnh được chọn
-  console.log(benh)
-  // Chuyển đổi giá trị ma_benh thành số nguyên
-  const maBenh = parseInt(benh.ma_benh_moi, 10);
-  // Gọi hàm lấy danh sách triệu chứng cho bệnh được chọn
-  this.dataService.getTrieuChungByMaBenhMoi(benh.ma_benh_moi,this.authService.getID()).subscribe(
-    (trieuChung: any[]) => {
-      // Xử lý dữ liệu triệu chứng trả về từ API (trieuChung)
-      console.log(trieuChung);
-      // Lưu trữ danh sách triệu chứng vào một thuộc tính trong component để hiển thị trong giao diện người dùng
-      this.listTrieuChung = trieuChung;
-    },
-    (error) => {
-      // Xử lý lỗi nếu có
-      console.error('Error fetching trieu chung:', error);
+  }
+  selectBenh(benh: any) {
+    this.selectedBenh = benh; // Lưu trữ thông tin bệnh được chọn
+    console.log(benh)
+    // Chuyển đổi giá trị ma_benh thành số nguyên
+    const maBenh = parseInt(benh.ma_benh_moi, 10);
+    // Gọi hàm lấy danh sách triệu chứng cho bệnh được chọn
+    this.dataService.getTrieuChungByMaBenhMoi(benh.ma_benh_moi, this.authService.getID()).subscribe(
+      (trieuChung: any[]) => {
+        // Xử lý dữ liệu triệu chứng trả về từ API (trieuChung)
+        console.log(trieuChung);
+        // Lưu trữ danh sách triệu chứng vào một thuộc tính trong component để hiển thị trong giao diện người dùng
+        this.listTrieuChung = trieuChung;
+      },
+      (error) => {
+        // Xử lý lỗi nếu có
+        console.error('Error fetching trieu chung:', error);
 
+      }
+    );
+
+  }
+  // Trong file TypeScript của bạn
+  editSymptom(benh: any) {
+    benh.isEditing = true;
+  }
+
+  saveEditedSymptom(benh: any) {
+    const updatedTC = {
+      ma_trieu_chung_moi: benh[0], // Chỉnh sửa cách truy cập thuộc tính tùy thuộc vào cấu trúc dữ liệu của bạn
+      ten_trieu_chung_moi: benh[1], // Chỉnh sửa cách truy cập thuộc tính tùy thuộc vào cấu trúc dữ liệu của bạn
+      ma_benh_moi: this.selectedBenh.ma_benh_moi,
+      trang_thai: '1'
+    };
+    console.log("DL gửi đi" + updatedTC.ma_benh_moi);
+    console.log("DL gửi đi" + updatedTC.trang_thai);
+    console.log("DL gửi đi" + updatedTC.ma_trieu_chung_moi);
+    console.log("DL gửi đi" + updatedTC.ten_trieu_chung_moi);
+    this.dataService.savenewtrieuchung(this.authService.getID(), updatedTC).subscribe(
+      (response: any) => {
+        console.log(response);
+        if (response.message == 'Success') {
+          this.Emessage = "Cập Nhật Thông Tin Thành Công.";
+        }
+
+      },
+      error => {
+        this.Emessage = "Cập Nhật Thông Tin Thất Bại.";
+        // Xử lý lỗi
+      }
+    );
+
+    benh.isEditing = false; // Đặt isEditing về false để kết thúc chỉnh sửa
+  }
+
+  savedone() {
+    this.pheduyetBenh();
+    this.selectBenh(this.benhs);
+  }
+  // hàm này để hiển thị bảng danh sách người dùng những user có role = 1 và có status =1
+  onRoleChange() {
+    this.filteredUsers = this.usersFormArray.controls.filter((user) => {
+      return user.value.role === this.selectedRole &&
+        (this.selectedRole.toString() !== '1' || (this.selectedRole.toString() === '1' && user.value.status === '1'));
+
+    });
+  }
+
+
+
+
+  AcceptUsers() {
+    this.pheDuyetBenh = false;
+    this.listUser = false;
+    this.pheDuyetUser = true;
+  }
+  mapUserRole(role: string): string {
+    switch (role) {
+      case '1':
+        return 'Chuyên Gia';
+      case '2':
+        return 'Kỹ Sư';
+      case '3':
+        return 'Quản Trị Viên';
+      default:
+        return 'Không xác định';
     }
-  );
-
+  }
+  
 }
-// Trong file TypeScript của bạn
-editSymptom(benh: any) {
-  benh.isEditing = true;
-}
-
-saveEditedSymptom(benh: any) {
-  const updatedTC = {
-    ma_trieu_chung_moi: benh[0], // Chỉnh sửa cách truy cập thuộc tính tùy thuộc vào cấu trúc dữ liệu của bạn
-    ten_trieu_chung_moi: benh[1], // Chỉnh sửa cách truy cập thuộc tính tùy thuộc vào cấu trúc dữ liệu của bạn
-    ma_benh_moi: this.selectedBenh.ma_benh_moi,
-    trang_thai: '1'
-  };
-  console.log("DL gửi đi"+ updatedTC. ma_benh_moi);
-  console.log("DL gửi đi"+ updatedTC.trang_thai);
-  console.log("DL gửi đi"+ updatedTC.ma_trieu_chung_moi);
-  console.log("DL gửi đi"+ updatedTC.ten_trieu_chung_moi);
-  this.dataService.savenewtrieuchung(this.authService.getID(), updatedTC).subscribe(
-    (response: any) => {
-      console.log(response);
-      if(response.message=='Success'){
-      this.Emessage = "Cập Nhật Thông Tin Thành Công.";}
-      
-    },
-    error => {
-      this.Emessage = "Cập Nhật Thông Tin Thất Bại.";
-      // Xử lý lỗi
-    }
-  );
-
-  benh.isEditing = false; // Đặt isEditing về false để kết thúc chỉnh sửa
-}
-
-savedone()
-{
-  this.pheduyetBenh();
-  this.selectBenh(this.benhs);
-}
-}
-
