@@ -47,7 +47,7 @@ export class TaskbarKsComponent implements OnInit {
   ma_tc:any;
   messageaddrule3:string='';
   saverule3: boolean = false;
-
+  status:any;
   constructor(private formBuilder: FormBuilder, private router: Router, private authService: AuthService, private dataService: DataService, private dialog: MatDialog) {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -56,7 +56,8 @@ export class TaskbarKsComponent implements OnInit {
     this.fullname = localStorage.getItem('fullname');
   }
   ngOnInit() {
-
+    
+    
   }
 
   logout() {

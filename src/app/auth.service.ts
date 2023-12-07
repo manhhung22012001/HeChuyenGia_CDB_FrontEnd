@@ -99,7 +99,7 @@ export class AuthService {
     const isExpired = helper.isTokenExpired(token);
     localStorage.setItem('fullname',this.fullname);
     localStorage.setItem('id_user', this.id_user);
-    
+    localStorage.setItem('status',decodedToken.status);
     
 
   }

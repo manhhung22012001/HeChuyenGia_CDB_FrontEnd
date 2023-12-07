@@ -101,6 +101,11 @@ export class DataService {
 
     return this.http.get<string[]>(`${this.rootURL}/taskbar-cg/suggest`, { headers: httpOptions.headers, params }).pipe();
   }
+  searchTenBenhByKey(keyword: string): Observable<string[]> {
+    const httpOptions = this.getHttpOptions();
+    const params = { keyword: '%' + keyword + '%' };
+    return this.http.get<string[]>(`${this.rootURL}/taskbar-cg/search`, { headers: httpOptions.headers, params }).pipe();
+  }
   getUserInfo(userId: number): Observable<any> {
     const httpOptions = this.getHttpOptions();
 
@@ -198,4 +203,9 @@ export class DataService {
     };
     return this.http.put<any>(`${this.rootURL}/taskbar-qtv/updateSatusUser/${userId}`, requestBody, httpOptions);
   }
+  getCountStatus(){
+    const httpOptions = this.getHttpOptions();
+    return this.http.get<any>(`${this.rootURL}/taskbar-qtv/getCountStatus`,  httpOptions);
+  }
+  
 }

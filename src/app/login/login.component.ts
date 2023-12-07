@@ -120,7 +120,7 @@ encryptText(text: string, key: string): string {
     else if (this.userRole == 1 && this.authService.status == 0) {
       this.router.navigate(['/taskbar-cg0'])
     }
-    else if (this.userRole == 1 && this.authService.status == 'null') {
+    else if (this.userRole == 1 && this.authService.status == null) {
       this.router.navigate(['/taskbar-cg0'])
     }
     else if (this.userRole == 2) {

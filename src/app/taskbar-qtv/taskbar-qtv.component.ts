@@ -29,7 +29,7 @@ export class TaskbarQtvComponent implements OnInit {
   acceptUser: boolean = false;
   selectedRole: string = '0' // Giá trị mặc định là role 1
   filteredUsers: any[] = [];
-
+  notification : any;
   loggedInUserId = this.authService.id_user;
   newUser: any = {
     fullname: '',
@@ -62,6 +62,20 @@ export class TaskbarQtvComponent implements OnInit {
       users: this.formBuilder.array([]) // Add your form controls as needed
     });
     this.ListUsers();
+    this.dataService.getCountStatus().subscribe(
+      (response) => {
+      console.log('count:', response);
+      this.notification=response.countByStatusEqualsZero;  
+      
+    },
+    (error) => {
+      console.error('Error:', error);
+    }
+  );
+     
+
+    
+
   }
   ListUsers() {
     this.pheDuyetBenh = false;

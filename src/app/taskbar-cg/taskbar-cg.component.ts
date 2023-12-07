@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
-import { ScrollingModule } from '@angular/cdk/scrolling';
-import { MatTableModule } from '@angular/material/table';
 import { DataService } from '../data.service';
 import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { FormBuilder, FormGroup, Validators,FormArray ,FormControl} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
-
+import { ConfirmComponent } from '../confirm/confirm.component';
+import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-taskbar-cg',
   templateUrl: './taskbar-cg.component.html',
@@ -27,8 +26,10 @@ export class TaskbarCgComponent implements OnInit {
   newBenh: FormGroup;
   suggestedTrieuChung: any[][] = [];
   searchControl = new FormControl();
+  suggestedTenBenh: string[] = [];
+  tenBenhControl = new FormControl();
 
-  constructor(private router: Router, private authService: AuthService, private dataService: DataService,private fb: FormBuilder) {
+  constructor(private router: Router, private authService: AuthService, private dataService: DataService, private fb: FormBuilder, private dialog: MatDialog) {
 
     const token = localStorage.getItem('token');
     if (!token) {
@@ -43,70 +44,102 @@ export class TaskbarCgComponent implements OnInit {
       trieu_chung: this.fb.array([this.createTrieuChungFormGroup()])
     });
 
-  }  
+  }
 
   ngOnInit() {
-    
+
     const trieuChungArray = this.newBenh.get('trieu_chung') as FormArray;
     for (let i = 0; i < trieuChungArray.length; i++) {
       this.suggestedTrieuChung.push([]); // Tạo một mảng rỗng cho mỗi trường nhập
     }
+    // hàm gợi ý khi viết tên bệnh 
+    this.tenBenhControl.valueChanges
+      .pipe(
+        debounceTime(300),// chờ 300ms khi ng dùng nhập xong mới gửi đến be
+        distinctUntilChanged(),//Đảm bảo chỉ gọi service khi giá trị mới khác với giá trị trước đó
+        switchMap(keyword => this.dataService.searchTenBenhByKey(keyword))// Khi giá trị thay đổi, sử dụng switchMap để chuyển đổi giá trị này thành một observable khác (this.dataService.searchTenBenhByKey(keyword)) và sử dụng nó thay thế. Điều này giúp hủy bỏ các yêu cầu trước đó nếu chúng chưa hoàn thành và chỉ lấy kết quả của yêu cầu mới nhất.
+      )
+      .subscribe(
+        (response) => {
+          this.suggestedTenBenh = response;
+        },
+        (error) => {
+          console.error('Lỗi:', error);
+        }
+      );
   }
- 
-    onKeyDown(event: KeyboardEvent, index: number) {
-      // Kiểm tra nếu phím ấn là phím cách (Space)
-      if (event.key === ' ') {
-        // Gọi API tìm kiếm với từ khoá là giá trị hiện tại trong ô input
-        this.searchControl.valueChanges.pipe(
-          debounceTime(300),
-          distinctUntilChanged(),
-          switchMap((keyword) => this.dataService.searchTrieuChung(keyword))
-        ).subscribe((suggestions) => {
-          this.suggestedTrieuChung[index] = suggestions;
-        });
-    
-        // event.preventDefault(); // Ngăn chặn hành vi mặc định của phím cách trong input
-      }
+  onTenBenhInput(event: any) {
+    const enteredText = event.target.value;
+    const capitalizedText = this.capitalizeFirstLetter(enteredText);
+
+    this.tenBenhControl.patchValue(capitalizedText);
+
+    this.dataService.searchTenBenhByKey(capitalizedText).subscribe((suggestions) => {
+      this.suggestedTenBenh = suggestions;
+    });
+  }
+
+  capitalizeFirstLetter(value: string): string {
+    if (!value) return '';
+    return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
+  }
+  onKeyDown(event: KeyboardEvent, index: number) {
+    // Kiểm tra nếu phím ấn là phím cách (Space)
+    if (event.key === ' ') {
+      // Gọi API tìm kiếm với từ khoá là giá trị hiện tại trong ô input
+      this.searchControl.valueChanges.pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        switchMap((keyword) => this.dataService.searchTrieuChung(keyword))
+      ).subscribe((suggestions) => {
+        this.suggestedTrieuChung[index] = suggestions;
+      });
+
+      // event.preventDefault(); // Ngăn chặn hành vi mặc định của phím cách trong input
     }
-    
+  }
+
   // Trong component của bạn
   createTrieuChungFormGroup(): FormGroup {
     const newTrieuChungGroup = this.fb.group({
       trieu_chung: ['', Validators.required]
     });
-  
+
     // Tạo một mảng gợi ý mới cho ô nhập triệu chứng vừa được thêm vào
     this.suggestedTrieuChung.push([]);
-  
+
     return newTrieuChungGroup;
   }
-  
+
   // Thêm phương thức displayFn để hiển thị gợi ý trong dropdown
-displayFn(value: string): string {
-  return value;
-}
-
-onTrieuChungInput(index: number) {
-  const trieuChungArray = this.newBenh.get('trieu_chung') as FormArray;
-  const trieuChungControl = trieuChungArray.controls[index].get('trieu_chung');
-
-  if (
-    trieuChungControl &&
-    trieuChungControl.value &&
-    typeof trieuChungControl.value === 'string'
-  ) {
-    this.dataService.searchTrieuChung(trieuChungControl.value).subscribe((suggestions) => {
-      this.suggestedTrieuChung[index] = suggestions;
-    });
+  displayFn(value: string): string {
+    return value;
   }
-}
+  onTrieuChungInput(event: any, index: number) {
+    const trieuChungArray = this.newBenh.get('trieu_chung') as FormArray;
+    const trieuChungControl = trieuChungArray.controls[index].get('trieu_chung');
+    // xử lý ghi chữ hoa
+    if (trieuChungControl) {
+      const enteredText = event.target.value;
+      const capitalizedText = enteredText.charAt(0).toUpperCase() + enteredText.slice(1).toLowerCase();
 
-onTrieuChungSelected(index: number, event: any) {
-  const selectedValue = event.option.viewValue;
-  this.searchControl.setValue(selectedValue);
+      trieuChungControl.patchValue(capitalizedText);
 
-  this.suggestedTrieuChung[index] = [selectedValue];
-}
+      // Gọi service để lấy gợi ý dựa trên chuỗi đã viết hoa
+      this.dataService.searchTrieuChung(capitalizedText).subscribe((suggestions) => {
+        this.suggestedTrieuChung[index] = suggestions;
+      });
+    }
+  }
+
+
+
+  onTrieuChungSelected(index: number, event: any) {
+    const selectedValue = event.option.viewValue;
+    this.searchControl.setValue(selectedValue);
+
+    this.suggestedTrieuChung[index] = [selectedValue];
+  }
 
   logout() {
     localStorage.removeItem('token');
@@ -141,7 +174,7 @@ onTrieuChungSelected(index: number, event: any) {
       this.dataService.getBenh().subscribe(
         data => {
           this.benhs = data;
-          
+
         },
         error => {
           console.error('Error loading users data: ', error);
@@ -151,7 +184,7 @@ onTrieuChungSelected(index: number, event: any) {
   }
   selectBenh(benh: any) {
     this.selectedBenh = benh; // Lưu trữ thông tin bệnh được chọn
-    
+
     // Chuyển đổi giá trị ma_benh thành số nguyên
     const maBenh = parseInt(benh.ma_benh, 10);
     // Gọi hàm lấy danh sách triệu chứng cho bệnh được chọn
@@ -189,7 +222,7 @@ onTrieuChungSelected(index: number, event: any) {
     if (index === trieuChungArray.length - 1) {
       trieuChungArray.push(this.createTrieuChungFormGroup());
     }
-    
+
     // Sau khi thêm mới, đảm bảo mảng suggestedTrieuChung có đúng số lượng ô nhập
     if (!this.suggestedTrieuChung[index + 1]) {
       this.suggestedTrieuChung.push([]);
@@ -199,49 +232,58 @@ onTrieuChungSelected(index: number, event: any) {
   removeTrieuChung(index: number): void {
     const trieuChungArray = this.newBenh.get('trieu_chung') as FormArray;
     trieuChungArray.removeAt(index);
-    
+
     // Sau khi xóa, cũng xóa phần tử tương ứng trong mảng suggestedTrieuChung
     this.suggestedTrieuChung.splice(index, 1);
   }
   get trieuChungControls() {
     return (this.newBenh.get('trieu_chung') as FormArray).controls;
   }
-  
 
-  
+
+
+
+
   saveNewBenh() {
-    //console.log('Đã lưu bệnh mới:', this.newBenh);
-    const status='0';
-    const ghi_chu='Chưa thêm vào CSDL';
-    this.dataService.addNewBenh(this.id, this.newBenh.value.ten_benh, this.newBenh.value.loai_he, this.newBenh.value.trieu_chung,status,ghi_chu).subscribe(
-      (response: any) => {
-        //console.log(response.status);
-        if (response && response.message === "Success") {
-          //var code = response.status;
-          //console.log(code);
+    const status = '0';
+    const ghi_chu = 'Chưa thêm vào CSDL';
   
-         
-            this.errorMessage = "Đăng ký thành công";
-            console.log('Đã lưu bệnh mới:', this.newBenh);
-  
-            // Sau khi lưu, đặt lại trạng thái
+    this.dataService.addNewBenh(this.id, this.newBenh.value.ten_benh, this.newBenh.value.loai_he, this.newBenh.value.trieu_chung, status, ghi_chu)
+      .subscribe(
+        (response: any) => {
+          if (response && response.message === 'Success') {
+            this.dialog.open(ConfirmComponent, {
+              width: '550px',
+              data: {
+                title: 'Thông báo: Thành Công',
+                message: 'Bệnh đã được gợi ý thêm vào CS Tri thức',
+                okButton: true
+              }
+            });
             this.isAddingNewBenh = false;
-           
-          
-        } else {
-          // Handle the case when response or response.status is null or undefined
-          console.error('');
+          } else {
+            
+  
+            // Hiển thị thông báo lỗi
+            this.dialog.open(ConfirmComponent, {
+              width: '550px',
+              data: {
+                title: 'Thông báo: Lỗi',
+                message: 'Vui lòng nhập đầy đủ thông tin.',
+                okButton: true
+              }
+            });
+          }
+        },
+        (error: HttpErrorResponse) => {
+          if (error.status === 400) {
+            this.errorMessage = 'Đã xảy ra lỗi. Vui lòng thử lại sau.';
+          } else {
+            this.errorMessage = 'Đã xảy ra lỗi. Vui lòng thử lại sau.';
+          }
         }
-      },
-      (error: HttpErrorResponse) => {
-        if (error.status === 400) {
-          this.errorMessage = "Đã xảy ra lỗi. Vui lòng thử lại sau.";
-        } else {
-          this.errorMessage = "Đã xảy ra lỗi. Vui lòng thử lại sau.";
-        }
-      }
-    );
+      );
   }
   
 
-}
+  }

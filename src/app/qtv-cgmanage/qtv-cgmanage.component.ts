@@ -23,13 +23,13 @@ export class QtvCgmanageComponent {
   userId: any;
   userFiles: { name: string, url: string }[] = [];
   message: string = '';
-  
+  statusInGetFile: string = '';
   anhDaiDienData: string = '';
   bangTotNghiepYKhoaData: string = '';
   chungChiHanhNgheData: string = '';
   chungNhanChuyenKhoaData: string = '';
-  hocham :String ='';
-  hocvi: String ='';
+  hocham: String = '';
+  hocvi: String = '';
   status: string = '1';
   constructor(
     private route: ActivatedRoute,
@@ -49,7 +49,7 @@ export class QtvCgmanageComponent {
 
   ngOnInit(): void {
     this.userDetails = this.dataService.getUserDetails();
-  
+
     this.dataService.getFile(this.userId, this.userDetails.id_user).subscribe(
       (response: any) => {
         if (response) {
@@ -59,8 +59,11 @@ export class QtvCgmanageComponent {
             { data: response.chungChiHanhNghe, name: 'Chứng Chỉ Hành Nghề' },
             { data: response.chungNhanChuyenKhoa, name: 'Chứng Nhận Chuyên Khoa' }
           ];
-          this.hocham=response.hoc_ham;
-          this.hocvi=response.hoc_vi;
+          this.hocham = response.hoc_ham;
+          this.hocvi = response.hoc_vi;
+          this.statusInGetFile = response.status;
+          console.log("status " + this.statusInGetFile);
+          console.log("id"+this.userDetails.id_user);
           files.forEach(file => {
             if (file.data) {
               const fileTypeIndex = file.data.lastIndexOf(':');
@@ -68,7 +71,7 @@ export class QtvCgmanageComponent {
               const fileType = file.data.substring(fileTypeIndex + 1);
               const fileName = `${file.name}.${this.getFileExtension(fileType)}`;
               const fileUrl = this.createFileUrl(base64Data, fileType);
-  
+
               this.userFiles.push({ name: fileName, url: fileUrl });
             } else {
               console.log(`Không có dữ liệu cho tệp ${file.name}.`);
@@ -103,21 +106,21 @@ export class QtvCgmanageComponent {
   createFileUrl(base64Data: string, fileType: string): string {
     const byteCharacters = atob(base64Data);
     const byteNumbers = new Array(byteCharacters.length);
-  
+
     for (let i = 0; i < byteCharacters.length; i++) {
       byteNumbers[i] = byteCharacters.charCodeAt(i);
     }
-  
+
     const byteArray = new Uint8Array(byteNumbers);
     const blob = new Blob([byteArray], { type: fileType });
-  
+
     // Sử dụng URL.createObjectURL để tạo URL trực tiếp cho file
     const fileUrl = URL.createObjectURL(blob);
     //console.log("URL của file:", fileUrl);
-  
+
     return fileUrl; // Trả về URL của file thay vì base64Data
-}
-  
+  }
+
   createAndDownloadFile(base64Data: string, fileName: string): void {
     const byteCharacters = atob(base64Data);
     const byteNumbers = new Array(byteCharacters.length);
@@ -141,18 +144,23 @@ export class QtvCgmanageComponent {
       this.createAndDownloadFile(selectedFile.url, selectedFile.name);
     }
   }
-  AcceptUser(){
-   this.dataService.UpdateSattusUser(this.userDetails.id_user,this.status).subscribe(
-    (response: any) => {
-      this.message = "Cập Nhật Thông Tin Thành Công.";
-     
-    },
-    error => {
-      this.message = "Cập Nhật Thông Tin Thất Bại.";
-      
-      // Xử lý lỗi, ví dụ: hiển thị thông báo lỗi cho người dùng
-    }
-   );
-  }
+  AcceptUser() {
+    if (this.statusInGetFile !== '1') {
+      this.dataService.UpdateSattusUser(this.userDetails.id_user, this.status).subscribe(
+        (response: any) => {
+          this.message = "Cập Nhật Thông Tin Thành Công.";
 
+        },
+        error => {
+          this.message = "Cập Nhật Thông Tin Thất Bại.";
+
+          // Xử lý lỗi, ví dụ: hiển thị thông báo lỗi cho người dùng
+        }
+      );
+    }
+    else {
+      this.message = "Bạn đã Duyệt chuyên gia này rồi";
+    }
+  }
+  
 }

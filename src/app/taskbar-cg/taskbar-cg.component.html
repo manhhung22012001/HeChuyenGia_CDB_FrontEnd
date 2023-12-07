@@ -24,12 +24,12 @@
   </header>
   <br>
   <br>
-</body>
-
-<!-- <div *ngIf="notactiveForm"> >Vui lòng đợi xác nhận người dùng</div> -->
 
 
-<div>
+  <!-- <div *ngIf="notactiveForm"> >Vui lòng đợi xác nhận người dùng</div> -->
+
+
+
   <label class="label1">
     Chọn loại hô hấp:
     <select class="he" [(ngModel)]="loai_he" name="loai_he" required (change)="onCheckboxChange()">
@@ -48,7 +48,7 @@
           <table>
             <thead>
               <tr>
-                <th>ID</th>
+
                 <th>Tên Bệnh</th>
 
               </tr>
@@ -57,7 +57,7 @@
               <tr *ngFor="let benh of benhs" (click)="selectBenh(benh)"
                 [ngClass]="{'selected-row': benh === selectedBenh, 'hover-row': benh === hoveredBenh}"
                 (mouseenter)="hoveredBenh = benh" (mouseleave)="hoveredBenh = null">
-                <td>{{benh.ma_benh}}</td>
+
                 <td>{{benh.ten_benh}}</td>
                 <!-- <td>{{benh[0]}}</td>
                 <td>{{benh[1]}}</td> -->
@@ -77,7 +77,7 @@
           <table>
             <thead>
               <tr>
-                <th>ID</th>
+
                 <th>Tên Triệu Chứng</th>
 
               </tr>
@@ -86,7 +86,7 @@
               <tr *ngFor="let benh of listTrieuChung"
                 [ngClass]="{'selected-row': benh === selectedBenh, 'hover-row': benh === hoveredBenh}"
                 (mouseenter)="hoveredBenh = benh" (mouseleave)="hoveredBenh = null">
-                <td>{{benh[0]}}</td>
+
                 <td>{{benh[1]}}</td>
               </tr>
 
@@ -97,11 +97,21 @@
 
     </div>
   </div>
+
   <div *ngIf="isAddingNewBenh">
     <form id="form_input" [formGroup]="newBenh" (ngSubmit)="saveNewBenh()">
-      <h2>Thêm Bệnh Mới</h2>
       <label class="label" for="tenBenh">Tên Bệnh:</label>
-      <input class="input" id="tenBenh" formControlName="ten_benh" required name="tenBenh" />
+      <input class="input" id="tenBenh" [formControl]="tenBenhControl" required name="tenBenh"
+        [matAutocomplete]="autoTenBenh" (keyup)="onTenBenhInput($event)" />
+
+      <mat-autocomplete #autoTenBenh="matAutocomplete">
+        <mat-option *ngFor="let suggestion of suggestedTenBenh" [value]="suggestion">
+          {{ suggestion }}
+        </mat-option>
+      </mat-autocomplete>
+
+
+
       <br>
       <label class="label" for="he">Loại Hệ:</label>
       <select class="select" id="he" formControlName="loai_he" name="he" required>
@@ -117,7 +127,8 @@
           <div [formGroupName]="i">
             <!-- Sử dụng formControlName để kết nối với từng control trong form -->
             <input class="input" id="trieuChung{{i}}" formControlName="trieu_chung" name="trieuChung{{i}}" required
-              (keydown)="onKeyDown($event, i)" [matAutocomplete]="auto" (input)="onTrieuChungInput(i)" />
+              (keydown)="onKeyDown($event, i)" [matAutocomplete]="auto" (input)="onTrieuChungInput($event, i)" />
+
             <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onTrieuChungSelected(i,$event)">
               <mat-option *ngFor="let suggestion of suggestedTrieuChung[i]" [value]="suggestion">
                 {{ suggestion }}
@@ -135,6 +146,11 @@
       <button class="save" type="submit">Lưu</button>
 
     </form>
-    
+
   </div>
-  <div class="message-text">{{errorMessage}}</div>
+  
+
+
+
+
+</body>

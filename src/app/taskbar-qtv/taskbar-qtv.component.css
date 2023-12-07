@@ -15,6 +15,16 @@
   /* Điều chỉnh khoảng cách từ các phần tử trên nó */
 }
 
+.notification {
+  display: inline-block;
+  position: relative;
+  color: white;
+  background-color: red;
+  border-radius: 40%;
+  padding: 4px;
+}
+
+
 
 .welcome {
   display: flex;
@@ -55,9 +65,11 @@
 .dropdown-toggle {
   position: relative;
   display: block;
-  padding: 10px 20px;
+  padding: 10px 0px;
   color: #ffffff;
   text-decoration: none;
+  top: -2px;
+  /* Di chuyển lên trên 1px */
 }
 
 .dropdown-menu {
@@ -95,8 +107,9 @@
 }
 
 #navbar .a,
-#navbar .ab {
-  margin-left: 10px;
+#navbar .ab,
+#navbar .acc {
+  margin-left: 5px;
   /* Để tạo khoảng cách giữa các phần tử */
 }
 
@@ -146,405 +159,9 @@
 
 /* CSS */
 /* Style cho bảng */
-.container {
-  margin-top: 50px;
-  display: flex;
-  justify-content: space-between;
-}
-
-.info-box1 {
-  background-color: #f8ccd6;
-  padding: 20px;
-  border: 1px solid #dee2e6;
-  border-radius: 5px;
-  text-align: center;
-  margin-bottom: 10px;
-  width: 400px;
-  height: 100px;
-}
-
-.info-box2 {
-  background-color: #ecf4be;
-  padding-left: 20px;
-  border: 1px solid #dee2e6;
-  border-radius: 5px;
-  text-align: center;
-  margin-bottom: 10px;
-  width: 400px;
-  height: 140px;
-
-}
-
-.info-box3 {
-  background-color: #bafad5;
-  padding-left: 20px;
-  border: 1px solid #dee2e6;
-  border-radius: 5px;
-  text-align: center;
-  margin-bottom: 10px;
-  width: 400px;
-  height: 140px;
-
-}
-
-.map-box {
-  background-color: #f8f9fa;
-  padding: 20px;
-  border: 1px solid #dee2e6;
-  border-radius: 5px;
-  text-align: center;
-  flex: 1;
-}
-
-.body {
-  width: 191px;
-  display: flex;
-}
-
-.taskbar {
-  position: relative;
-  background-color: var(--star-gold-color);
-  float: left;
-  width: 250px;
-  padding: 15px;
-  height: 100%;
-  margin-top: 51px;
-}
-
-.welcome {
-  font-size: 18px;
-  padding-top: 0px;
-  font-family: sans-serif;
-}
-
-.user {
-  color: var(--primary-color) !important;
-}
-
-.welcome button {
-  width: 70%;
-  height: 30px;
-  border: none;
-  background: #2691d9;
-  border-radius: 25px;
-  font-size: 1.6rem;
-  color: #e9f4fb;
-  font-weight: 700;
-  cursor: pointer;
-  outline: none;
-  font-family: sans-serif;
-  margin-top: 10px;
-  text-align: center;
-  position: relative;
-  /* left: 28px; */
-}
-
-.welcome button:hover {
-  background-color: #3c96d2;
-}
-
-.user {
-  color: floralwhite;
-  text-decoration: underline;
-  cursor: pointer;
-
-
-}
-
-.category {
-  display: flex;
-  text-align: center;
-  margin: 35px;
-  font-size: 10px;
-  cursor: pointer;
-  flex-direction: column;
-  float: left;
-}
-
-.category h1 {
-  text-align: left;
-  font-family: sans-serif;
-  font-size: 18px;
-}
-
-input[type="submit"] {
-  width: 100%;
-  height: 50px;
-  background: darkkhaki;
-  font-size: 18px;
-  color: black;
-  cursor: pointer;
-  outline: none;
-  border: none;
-  text-align: left;
-}
-
-input[type="submit"]:hover {
-  color: white;
-  transition: .1s;
-  font-size: 20px;
-}
-
-.income h1 {
-  color: blueviolet;
-}
-
-/* :host /deep/ p {
-  font-style: italic;
-} */
-
-.button {
-  background-color: var(--star-gold-color);
-  font-size: 2rem;
-  text-align: left;
-  text-decoration: none;
-  color: black;
-  width: 120px;
-  padding-left: 0px;
-  padding-bottom: 30px;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  right: 0;
-  transition: right linear .1s;
-}
-
-.button:hover {
-  color: var(--white-color);
-  right: -3px;
-  cursor: pointer;
-}
-
-.button-icon {
-  font-size: 1.8rem;
-  margin-right: 8px;
-}
-
-/* CSS */
-/* Style cho bảng */
-table {
-  width: 100%;
-  /* Thay đổi từ 99% thành 100% để bảng đầy toàn bộ chiều rộng của phần chứa */
-  border-collapse: collapse;
-  margin-left: 0px;
-  margin-right: 0px;
-  overflow-x: auto;
-  /* Thêm thuộc tính này để hiển thị thanh cuộn ngang khi bảng vượt quá chiều rộng */
-
-  /* overflow-y: auto; */
-  /* Bạn có thể tắt thuộc tính overflow-y để không hiển thị thanh cuộn dọc */
-}
-
-/* Trong file CSS hoặc style.scss của Angular */
-.selected-row {
-  background-color: #cce5ff;
-  /* Màu nền khi hàng được chọn */
-  transition: background-color 0.3s ease;
-  /* Hiệu ứng chuyển đổi màu nền trong 0.3 giây */
-}
-
-/* styles.css hoặc styles.scss */
-.hover-row:hover {
-  background-color: #ffffcc;
-  /* Màu nền khi chuột hover lên hàng */
-  transition: background-color 0.3s ease;
-  /* Hiệu ứng chuyển đổi màu nền trong 0.3 giây */
-}
-
-a.detail-link {
-  color: blue;
-  /* Màu chữ của liên kết */
-  text-decoration: underline;
-  /* Gạch chân cho liên kết */
-  cursor: pointer;
-  /* Con trỏ chuột thành dạng bấm vào */
-}
-
-a.detail-link:hover {
-  text-decoration: none;
-  /* Loại bỏ gạch chân khi hover */
-}
-
-th {
-  /* padding: 8px; */
-  text-align: center;
-  border: 1px solid #000;
-  width: 80px;
-  /* width: calc(100% / 8); */
-  background-color: rgb(250, 170, 170);
-}
-
-td {
-  /* padding: 8px; */
-  text-align: center;
-  border: 1px solid #000;
-  width: 80px;
-  /* width: calc(100% / 8);  */
-}
-
-/* table tr:nth-child(even){
-background-color: #B8E1FF;
-}
-table tr:nth-child(odd) {
-background-color: #ffffff;
-} */
-th:nth-child(1),
-td:nth-child(1) {
-  width: 5%;
-}
-
-th:nth-child(2),
-td:nth-child(2) {
-  width: 15%;
-}
-
-th:nth-child(3),
-td:nth-child(3) {
-  width: 5%;
-}
-
-th:nth-child(4),
-td:nth-child(4) {
-  width: 10%;
-}
-
-th:nth-child(5),
-td:nth-child(5) {
-  width: 15%;
-}
-
-th:nth-child(6),
-td:nth-child(6) {
-  width: 15%;
-}
-
-th:nth-child(7),
-td:nth-child(7) {
-  width: 15%;
-}
-
-th:nth-child(8),
-td:nth-child(8) {
-  width: 10%;
-}
-
-th:nth-child(9),
-td:nth-child(9) {
-  width: 10%;
-}
-
-tr:nth-child(even) {
-  background-color: #f2f2f2;
-}
-
-tr:nth-child(odd) {
-  background-color: #ffffff;
-}
-
-tr {
-  display: flex;
-  flex: 1;
-}
-
-button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  margin-right: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-button:hover {
-  background-color: #0056b3;
-}
-
-[contenteditable="true"] {
-  border: 1px solid #1e1c1c;
-  padding: 8px;
-}
-
-table input[type="text"] {
-  width: 80%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 1px;
-}
-
-
-/* Style cho tiêu đề của danh sách người dùng */
-h2 {
-  font-size: 24px;
-  margin-bottom: 10px;
-}
-
-/*style mới thêm*/
-form {
-  width: 300px;
-  margin: 0 auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  background-color: #ffffd8;
-}
-
-label {
-  display: block;
-  margin-bottom: 10px;
-}
-
-input,
-select {
-  width: 90%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-button {
-  width: 100%;
-  padding: 10px;
-  margin-top: 20px;
-  background-color: #007BFF;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #0056b3;
-}
-
-.table-container {
-  max-height: 400px;
-  /* Đặt chiều cao tối đa cho bảng */
-  overflow-y: auto;
-  /* Tự động thêm thanh cuộn khi nội dung vượt quá chiều cao */
-}
-
-thead {
-  /* Đặt chiều cao cố định cho phần tiêu đề */
-  display: block;
-  position: sticky;
-  top: 0;
-
-  background-color: white;
-  /* Màu nền phải khác màu nền của bảng */
-}
-
-.ab {
-  width: 100%;
-  /* To fill the width of the container */
-  display: flex;
-  overflow-x: auto;
-  /* Add horizontal scrollbar if content exceeds */
-
-}
-
+/* Phần danh sách người dùng */
 .a {
+
   max-width: 70%;
   margin: 0 auto;
   padding: 20px;
@@ -553,129 +170,250 @@ thead {
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
 }
 
-.flex-container {
-  display: flex;
-  flex: 1;
-  overflow-x: auto;
-  /* Add horizontal scrollbar if content exceeds */
-}
-
-.tables-container {
-
-  max-height: 100px;
-  flex: 1;
-  /* Each container takes equal space */
-  /* border: 1px solid #ccc; */
-  /* Optional: Add border for visualization */
-  margin: 5px;
-  /* Optional: Add margin between containers */
-  overflow-y: auto;
-  /* Add vertical scrollbar if content exceeds */
-}
-
-.table {
-  width: 100%;
-  /* Ensure tables fill their containers */
-}
-
-.tb {
-  width: 100%;
-  /* Ensure tables fill their containers */
-  border-collapse: collapse;
-  height: 100%
-    /* Optional: Collapse table borders */
-}
-
-/* Style for table headers */
-.tb th {
-  text-align: center;
-  /* Optional: Adjust header text alignment */
-  background-color: #f2f2f2;
-  /* Optional: Header background color */
-  width: calc(100%/2);
-}
-
-.tb td {
-  text-align: center;
-  /* Optional: Adjust header text alignment */
-  background-color: #f2f2f2;
-  /* Optional: Header background color */
-  width: calc(100%/2);
-}
-
-
-
-
-
-/* Các style khác bạn có thể thêm vào tùy ý */
-/* Căn chỉnh phần section chứa bảng */
-.abc {
-  margin: 20px auto;
-  padding: 20px;
-  max-width: 70%;
-  background-color: #f5f5f5;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-/* Định dạng cho tiêu đề */
-h2 {
-  text-align: center;
-  font-size: 24px;
+.a h2 {
   color: #333;
+  font-size: 24px;
 }
 
-/* Định dạng cho bảng */
-.tables-container1 {
-  overflow-x: auto;
-  overflow-y: auto;
-  max-height: 300px;
+/* CSS cho option trong select */
+.a select {
+  /* Tùy chỉnh kích thước font chữ */
+  font-size: 16px;
+  /* Thêm padding cho option */
+  padding: 8px;
+  /* Thêm một số đường viền */
+  border-radius: 5px solid #ccc;
+  /* Thay đổi màu nền khi hover */
+  background-color: #f8f8f8;
+  width: 90%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
-table {
+/* Tùy chỉnh màu chữ khi option được chọn */
+.a option:checked {
+  color: #fff;
+  background-color: #007bff;
+  /* Màu chọn */
+}
+
+.a label {
+  margin-right: 10px;
+}
+
+.a table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 20px;
-
 }
 
-table th,
-table td {
-  padding: 20px;
+.a th,
+.a td {
+  border: 1px solid #ccc;
+  padding: 8px;
   text-align: left;
 }
 
-table th {
+.a th {
   background-color: #f2f2f2;
 }
 
-table td {
-  border-bottom: 1px solid #ddd;
+.a .message-text1 {
+  color: red;
+  font-weight: bold;
+  margin-top: 10px;
 }
 
-/* Định dạng cho input và select */
-input[type="text"],
-select {
+.a button {
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  margin-top: 10px; /* Hoặc thử margin-bottom: 10px; */
+}
+.a form {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Chia form thành 2 cột bằng nhau */
+  gap: 10px; /* Khoảng cách giữa các trường nhập */
+  max-width: 400px; /* Độ rộng tối đa của form */
+}
+
+.a form label,
+.a form input,
+.a form select {
   width: 100%;
   padding: 8px;
+  box-sizing: border-box; /* Để padding không làm thay đổi kích thước của phần tử */
+}
+
+.a form button {
+  grid-column: span 2; 
+  width: 190px;
+}
+
+
+
+/* Phần chuyển động */
+.ab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ab .container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.ab h2 {
+  color: #333;
+  font-size: 24px;
+}
+
+.ab .tables-container {
+  width: 100%;
+}
+
+.ab .tb {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ab th,
+.ab td {
   border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-  font-size: 14px;
+  padding: 8px;
+  text-align: left;
 }
 
-/* Định dạng cho các action buttons */
-button {
-  padding: 8px 16px;
-  margin-right: 5px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-}
-
-button:hover {
+.ab th {
   background-color: #f2f2f2;
+}
+
+.ab .selected-row {
+  background-color: #d4edda;
+}
+
+.ab .hover-row:hover {
+  background-color: #f8d7da;
+}
+
+.ab button {
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  margin-top: 10px;
+  margin-left:0px;
+  margin-right: 0px;
+  width: 200px;
+}
+.ab .container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between; /* Các phần tử sẽ căn giữa và chia ra hai bên */
+  align-items: flex-start; 
+}
+
+.ab .tables-container {
+  flex: 0 0 48%; /* Chiếm không co giãn, chiếm 48% chiều rộng */
+  max-height: 500px;
+}
+
+.ab .tables-container:nth-child(2) {
+  order: 1; /* Đặt thứ tự của phần tử thứ hai là 1, để nó xuống dưới */
+  overflow-y: auto; /* Hiển thị thanh cuộn dọc khi nội dung vượt quá kích thước */
+   /* Đặt chiều cao tối đa của bảng */
+   margin-bottom: -100px;
+}
+
+.ab .tables-container:nth-child(3) {
+  order: 0; /* Đặt thứ tự của bảng "Bảng Trieu Chứng Cũ" là 0 */
+  overflow-y: auto; /* Hiển thị thanh cuộn dọc khi nội dung vượt quá kích thước */
+  height: 600px; /* Đặt chiều cao tối đa của bảng */
+}
+
+
+
+
+
+/* Phần danh sách chuyên gia */
+.abc {
+  max-width: 50%;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+
+
+}
+
+.abc h2 {
+  color: #333;
+  font-size: 24px;
+}
+
+.abc table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.abc th,
+.abc td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
+}
+
+.abc th {
+  background-color: #f2f2f2;
+}
+
+.abc .detail-link1 {
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.abc button {
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+/* Định dạng form */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 300px;
+  margin-top: 20px;
+}
+
+form label {
+  font-weight: bold;
+}
+
+form input,
+form select {
+  padding: 8px;
+  border: 1px solid #ccc;
+}
+
+form button {
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  margin-top: 10px;
 }
 
 /* Định dạng cho link chi tiết */

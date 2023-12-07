@@ -10,11 +10,16 @@
       <ul>
         <li class="dropdown">
           <a class="dropdown-toggle" data-toggle="dropdown">
-            Quản lý người dùng <i class="bi bi-chevron-down"></i>
+            Quản lý người dùng 
+            <span class="notification">{{ notification }}</span>
+            <i class="bi bi-chevron-down"></i>
           </a>
           <ul class="dropdown-menu">
             <li><a class="acc" (click)="ListUsers()">Người dùng trong hệ thống</a></li>
-            <li><a class="ab" (click)="AcceptUsers()">Người dùng mới</a></li>
+            <li><a class="abb" (click)="AcceptUsers()">
+              Chuyên Gia Mói <span class="notification">{{ notification }}</span>
+            </a></li>
+            
           </ul>
         </li>
 
@@ -44,6 +49,7 @@
         <option value="3">Quản Trị Viên</option>
       </select>
     </div>
+    <br>
     <div class="tables-container" [formGroup]="userForms"
       style="overflow-x: auto; overflow-y: auto; max-height: 400px;">
       
@@ -71,12 +77,13 @@
               <td><input type="text" (input)="onEmailChange($event, user)" formControlName="email"></td>
               <td *ngIf="selectedRole === '1' && user.get('role').value === '1' && user.get('status').value === '1'"
               (click)="CheckIn4(user.get('id_user').value)">
-              <a class="detail-link">Xem thông tin bổ xung</a>
+              <a class="detail-link1">Xem thông tin bổ xung</a>
             </td>
             
 
               <td>
                 <button (click)="deleteUser(user)">Xóa</button>
+                <br>
                 <button (click)="updateUser(i,user)">Sửa</button>
               </td>
             </tr>
@@ -259,6 +266,7 @@
           </ng-container>
         </tbody>
       </table>
+      
       <div class="message-text1" *ngIf="isEditing">{{message}}</div>
     </div>
 
