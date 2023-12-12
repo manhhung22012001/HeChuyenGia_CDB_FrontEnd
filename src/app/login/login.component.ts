@@ -123,6 +123,9 @@ encryptText(text: string, key: string): string {
     else if (this.userRole == 1 && this.authService.status == null) {
       this.router.navigate(['/taskbar-cg0'])
     }
+    else if (this.userRole == 1 && this.authService.status == 'null') {// null này là quản trị viên thêm user thì dùng cùng 1 hàm ở authService thì cần thêm 1 status nên để là null
+      this.router.navigate(['/taskbar-cg0'])
+    }
     else if (this.userRole == 2) {
       this.router.navigate(['/taskbar-ks'])
     }

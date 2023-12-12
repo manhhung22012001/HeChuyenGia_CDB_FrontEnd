@@ -7,13 +7,17 @@ import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@ang
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { ConfirmComponent } from '../confirm/confirm.component';
 import { MatDialog } from '@angular/material/dialog';
+import { Observable,of } from 'rxjs';
+import { map } from 'rxjs/operators';
+
+
 @Component({
   selector: 'app-taskbar-cg',
   templateUrl: './taskbar-cg.component.html',
   styleUrls: ['./taskbar-cg.component.css']
 })
 export class TaskbarCgComponent implements OnInit {
-  id: any;
+  id_user: any;
   benhs: any[] = [];
   listTrieuChung: any[] = [];
   trieuChungArray: any[] = [{ trieuChung: '' }];
@@ -28,7 +32,8 @@ export class TaskbarCgComponent implements OnInit {
   searchControl = new FormControl();
   suggestedTenBenh: string[] = [];
   tenBenhControl = new FormControl();
-
+  // biến để thêm tc mới
+  isAddNewTC: boolean = false;
   constructor(private router: Router, private authService: AuthService, private dataService: DataService, private fb: FormBuilder, private dialog: MatDialog) {
 
     const token = localStorage.getItem('token');
@@ -36,7 +41,7 @@ export class TaskbarCgComponent implements OnInit {
       this.router.navigate(['/login']);
     }
     this.fullname = localStorage.getItem('fullname');
-    this.id = localStorage.getItem('id_user');
+    this.id_user = localStorage.getItem('id_user');
 
     this.newBenh = this.fb.group({
       ten_benh: ['', Validators.required],
@@ -147,8 +152,8 @@ export class TaskbarCgComponent implements OnInit {
     this.router.navigate(['/login']);
   }
   tabChange(key: any) {
-    this.id = key;
-    this.router.navigate(['/' + this.id]);
+    this.id_user = key;
+    this.router.navigate(['/' + this.id_user]);
   }
   onCheckboxChange() {
     // Lọc danh sách bệnh theo loại hệ hô hấp là 1 nếu checkbox được chọn
@@ -206,6 +211,7 @@ export class TaskbarCgComponent implements OnInit {
 
   addNewBenh() {
     this.isAddingNewBenh = true;
+    this.isAddNewTC = false;
     this.newBenh = this.fb.group({
       ten_benh: ['', Validators.required],
       loai_he: ['', Validators.required],
@@ -247,8 +253,8 @@ export class TaskbarCgComponent implements OnInit {
   saveNewBenh() {
     const status = '0';
     const ghi_chu = 'Chưa thêm vào CSDL';
-  
-    this.dataService.addNewBenh(this.id, this.newBenh.value.ten_benh, this.newBenh.value.loai_he, this.newBenh.value.trieu_chung, status, ghi_chu)
+    
+    this.dataService.addNewBenh(this.id_user, this.tenBenhControl.value, this.newBenh.value.loai_he, this.newBenh.value.trieu_chung, status, ghi_chu)
       .subscribe(
         (response: any) => {
           if (response && response.message === 'Success') {
@@ -261,9 +267,10 @@ export class TaskbarCgComponent implements OnInit {
               }
             });
             this.isAddingNewBenh = false;
+            this.isAddNewTC=false;
           } else {
-            
-  
+
+
             // Hiển thị thông báo lỗi
             this.dialog.open(ConfirmComponent, {
               width: '550px',
@@ -284,6 +291,60 @@ export class TaskbarCgComponent implements OnInit {
         }
       );
   }
-  
-
+  addNewTC() {
+    this.isAddNewTC = true;
+    this.isAddingNewBenh = false;
   }
+
+
+  
+  
+  saveNewTC() {
+    const status = '0';
+    const ghi_chu = 'Chưa thêm vào CSDL';
+    
+    
+    const ma_benh = this.selectedBenh.ma_benh;
+    const ten_benh = this.selectedBenh.ten_benh;
+    const trang_thai = 0;
+    this.dataService.addSuggestTC(this.id_user, ma_benh, ten_benh,this.newBenh.value.trieu_chung,trang_thai)
+      .subscribe(
+        (response: any) => {
+          if (response && response.message === 'Success') {
+            this.dialog.open(ConfirmComponent, {
+              width: '550px',
+              data: {
+                title: 'Thông báo: Thành Công',
+                message: 'Bệnh đã được gợi ý thêm vào CS Tri thức',
+                okButton: true
+              }
+            });
+            this.isAddingNewBenh = false;
+          } else {
+
+
+            // Hiển thị thông báo lỗi
+            this.dialog.open(ConfirmComponent, {
+              width: '550px',
+              data: {
+                title: 'Thông báo: Lỗi',
+                message: 'Vui lòng nhập đầy đủ thông tin.',
+                okButton: true
+              }
+            });
+          }
+        },
+        (error: HttpErrorResponse) => {
+          if (error.status === 400) {
+            this.errorMessage = 'Đã xảy ra lỗi. Vui lòng thử lại sau.';
+          } else {
+            this.errorMessage = 'Đã xảy ra lỗi. Vui lòng thử lại sau.';
+          }
+        }
+      );
+  }
+  // updateSelectedBenhName(newValue: string) {
+  //   this.selectedBenh.ten_benh = newValue;
+  // }
+  
+}

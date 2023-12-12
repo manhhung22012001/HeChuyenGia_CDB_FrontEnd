@@ -83,6 +83,12 @@ export class DataService {
     return this.http.get(endpoint, httpOptions);
 
   }
+  getTrieuChungSuggestByMaBenhMoi(ma_benh_suggest: number, id_user: number): Observable<any> {
+    const httpOptions = this.getHttpOptions();
+    const endpoint = `${this.rootURL}/taskbar-ks/trieuChungSuggestMoi/${id_user}?ma_benh_suggest=${ma_benh_suggest}`;
+    return this.http.get(endpoint, httpOptions);
+
+  }
   addNewBenh(userId: number, ten_benh: string, loai_he: string, trieu_chung: string[], trang_thai: string, ghi_chu: string): Observable<any> {
     const httpOptions = this.getHttpOptions();
     const requestBody = {
@@ -184,6 +190,10 @@ export class DataService {
 
     return this.http.put<any>(`${this.rootURL}/taskbar-ks/save-luat-loai-1/${userId}`, requestBody, httpOptions);
   }
+  getBenhOfTrieuChungMoi(){
+    const httpOptions = this.getHttpOptions();
+    return this.http.get<any[]>(`${this.rootURL}/taskbar-ks/getallBenhOfTtrieuChungMoi`, httpOptions);
+  }
   saveruletype3(userId: number, loai_luat: number, ma_benh: number, trieuChungList: { ma_trieu_chung: number }[]): Observable<any> {
     const httpOptions = this.getHttpOptions();
     const requestBody = {
@@ -207,5 +217,25 @@ export class DataService {
     const httpOptions = this.getHttpOptions();
     return this.http.get<any>(`${this.rootURL}/taskbar-qtv/getCountStatus`,  httpOptions);
   }
-  
+  addSuggestTC(userId: number,ma_benh:number,ten_benh:string,trieu_chung: string[],trang_thai:number){
+    const httpOptions = this.getHttpOptions();
+    const requestBody = {
+      ma_benh:ma_benh,
+      ten_benh:ten_benh,
+      trieu_chung:trieu_chung,
+      trang_thai:trang_thai
+    };
+    return this.http.put<any>(`${this.rootURL}/taskbar-cg/suggest-add-new-TC/${userId}`, requestBody, httpOptions);
+  }
+  saveTrieuChungSuggest(trieu_chung: any[],ma_benh:number,trang_thai:number,ma_benh_suggest:number){
+    const httpOptions = this.getHttpOptions();
+    const requestBody = {
+      ma_benh:ma_benh,
+      trieu_chung:trieu_chung,
+      trang_thai:trang_thai,
+      ma_benh_suggest:ma_benh_suggest
+     
+    };
+    return this.http.put<any>(`${this.rootURL}/taskbar-ks/saveTrieuChungSuggestIntoTrieuChungBenh`, requestBody, httpOptions);
+  }
 }

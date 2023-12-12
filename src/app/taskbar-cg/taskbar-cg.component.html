@@ -12,7 +12,7 @@
       <ul>
         <li><a class="nav-link scrollto active" (click)="addNewBenh()">Thêm bệnh</a></li>
         <li><a class="nav-link scrollto active" routerLink="/diagnosis">Chuẩn đoán bệnh</a></li>
-
+        <li><a class="nav-link scrollto active" (click)="addNewTC()">Gợi ý Thêm TC mới</a></li>
         <li class="dropdown">
           <a (click)="logout()"><span>Đăng xuất</span> <i class="bi bi-chevron-down"></i></a>
 
@@ -72,7 +72,7 @@
     <div class="tables-container">
       <div class="table">
         <div *ngIf="listTrieuChung">
-          <h2>Danh Sách Trieu Chứng</h2>
+          <h2>Danh Sách Triệu Chứng Của Bệnh</h2>
 
           <table>
             <thead>
@@ -98,10 +98,10 @@
     </div>
   </div>
 
-  <div *ngIf="isAddingNewBenh">
+  <div *ngIf="isAddingNewBenh" class="a1">
     <form id="form_input" [formGroup]="newBenh" (ngSubmit)="saveNewBenh()">
       <label class="label" for="tenBenh">Tên Bệnh:</label>
-      <input class="input" id="tenBenh" [formControl]="tenBenhControl" required name="tenBenh"
+      <input class="input" id="tenBenh" formControlName="ten_benh" [formControl]="tenBenhControl" required name="tenBenh"
         [matAutocomplete]="autoTenBenh" (keyup)="onTenBenhInput($event)" />
 
       <mat-autocomplete #autoTenBenh="matAutocomplete">
@@ -148,7 +148,58 @@
     </form>
 
   </div>
-  
+
+  <div *ngIf="isAddNewTC" class="a2">
+    <form id="form_input" [formGroup]="newBenh" (ngSubmit)="saveNewTC()">
+      <label>Tên Bệnh:</label>
+      <span>{{ selectedBenh?.ten_benh }}</span><br />
+
+      <!-- Form input với giá trị mặc định là tên bệnh đã chọn -->
+      <input class="input" id="tenBenh" [formControl]="tenBenhControl" required name="tenBenh"
+        [matAutocomplete]="autoTenBenh" [ngModel]="selectedBenh?.ten_benh"
+        />
+
+      <mat-autocomplete #autoTenBenh="matAutocomplete">
+        <mat-option *ngFor="let suggestion of suggestedTenBenh" [value]="suggestion">
+          {{ suggestion }}
+        </mat-option>
+      </mat-autocomplete>
+
+
+
+      <br>
+
+
+      <!-- ... -->
+      <!-- Sửa lại cách kết nối form control cho mỗi ô nhập triệu chứng -->
+      <div formArrayName="trieu_chung">
+        <label>Triệu chứng:</label>
+        <div *ngFor="let trieuChungControl of trieuChungControls; let i = index">
+          <div [formGroupName]="i">
+            <!-- Sử dụng formControlName để kết nối với từng control trong form -->
+            <input class="input" id="trieuChung{{i}}" formControlName="trieu_chung" name="trieuChung{{i}}" required
+              (keydown)="onKeyDown($event, i)" [matAutocomplete]="auto" (input)="onTrieuChungInput($event, i)" />
+
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onTrieuChungSelected(i,$event)">
+              <mat-option *ngFor="let suggestion of suggestedTrieuChung[i]" [value]="suggestion">
+                {{ suggestion }}
+              </mat-option>
+            </mat-autocomplete>
+
+            <button class="add" (click)="addNewTrieuChungIfLast(i)"
+              *ngIf="i === trieuChungControls.length - 1">+</button>
+            <button class="sub" (click)="removeTrieuChung(i)" *ngIf="trieuChungControls.length > 1">-</button>
+
+          </div>
+        </div>
+      </div>
+
+      <button class="save" type="submit">Lưu</button>
+
+    </form>
+
+  </div>
+
 
 
 

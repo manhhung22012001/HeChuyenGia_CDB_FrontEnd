@@ -10,7 +10,8 @@
       <ul>
         <li><a class="a" (click)="themLuatMoi()">Thêm luật</a></li>
         <li><a class="ab" (click)="themBenhMoi()">Thêm Bệnh</a></li>
-
+        <li><a class="ab" (click)="addNewTCIntoBenh()">Thêm Triệu Chứng vào Bệnh</a></li>
+        <li><a class="ab" (click)="watchBenhInCSTT()">Xem Bệnh Trong Cơ Sở Chi Thức</a></li>
         <li class="dropdown">
 
           <a (click)="logout()"><span>Đăng xuất</span> <i class="bi bi-chevron-down"></i></a>
@@ -24,7 +25,7 @@
   <br>
   <section *ngIf="themLuat" class="a">
     <div class="flex-container">
-      <div  class="container" data-aos="zoom-out" data-aos-delay="100">
+      <div class="container" data-aos="zoom-out" data-aos-delay="100">
         <div class="tables-container">
           <div class="table">
             <div *ngIf="benhss">
@@ -43,125 +44,125 @@
                 <tbody>
                   <ng-container *ngFor="let benh of benhss">
                     <ng-container *ngIf="!benh.da_co_luat">
-                    <tr>
-                      <td>{{ benh.ma_benh }}</td>
-                      <td>{{ benh.ten_benh }}</td>
-                      <td>
-                        <ng-container *ngIf="benh.loai_he == 1; else otherType">{{ 'Hệ hô hấp trên' }}</ng-container>
-                        <ng-template #otherType>{{ 'Hệ hô hấp dưới' }}</ng-template>
-                      </td>
-                      <td>
-                        <!-- Hiển thị Trạng thái -->
-                        <span *ngIf="benh.da_co_luat; else chuaCoLuat">Đã có Luật</span>
-                        <ng-template #chuaCoLuat>Chưa có Luật</ng-template>
-                      </td>
-                      <td>
-                        <!-- Hiển thị button Thêm Luật dựa trên Trạng thái -->
-                        <button *ngIf="!benh.da_co_luat" (click)="themLuat123(benh)">Thêm Luật</button>
-                      </td>
-                    </tr>
+                      <tr>
+                        <td>{{ benh.ma_benh }}</td>
+                        <td>{{ benh.ten_benh }}</td>
+                        <td>
+                          <ng-container *ngIf="benh.loai_he == 1; else otherType">{{ 'Hệ hô hấp trên' }}</ng-container>
+                          <ng-template #otherType>{{ 'Hệ hô hấp dưới' }}</ng-template>
+                        </td>
+                        <td>
+                          <!-- Hiển thị Trạng thái -->
+                          <span *ngIf="benh.da_co_luat; else chuaCoLuat">Đã có Luật</span>
+                          <ng-template #chuaCoLuat>Chưa có Luật</ng-template>
+                        </td>
+                        <td>
+                          <!-- Hiển thị button Thêm Luật dựa trên Trạng thái -->
+                          <button *ngIf="!benh.da_co_luat" (click)="themLuat123(benh)">Thêm Luật</button>
+                        </td>
+                      </tr>
+                    </ng-container>
                   </ng-container>
-                </ng-container>
                 </tbody>
               </table>
-              
+
 
             </div>
           </div>
 
           <div class="tables-container" *ngIf="addrule">
             <div class="table">
-              
-                <h2>Bệnh đang thêm luật</h2>
-  
-                <table class="tb">
-                  <thead>
-                    <tr>
-                      <th>Mã bệnh</th>
-                      <th>Tên bệnh</th>
-                      <th>Loại hệ</th>
-                      
-  
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr >
-  
-                      <td>{{selectBenhaddrule.ma_benh}}</td>
-                      <td>
-                        {{selectBenhaddrule.ten_benh}}
-                      </td>
-                      <td>
-                        {{selectBenhaddrule.loai_he}}
-                      </td>
-                    
-                    </tr>
-  
-                  </tbody>
-                </table>
-  
-                <table class="tb">
-                  <thead>
-                    <tr>
-                      <th>Mã triệu chứng</th>
-                      <th>Tên triệu chứng</th>
-                      
-                      
-  
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let trieuchung of trieuchungaddrule">
-  
-                      <td>{{trieuchung[0]}}</td>
-                      <td>
-                        {{trieuchung[1]}}
-                      </td>
-                     
-                    
-                    </tr>
-  
-                  </tbody>
-                </table>
-                <ng-container *ngIf="trieuchungaddrule && trieuchungaddrule.length > 0">
-                  <div class="additional-info">
-                      <h3>Luật loại 1: 
-                          
-                          <ng-container *ngFor="let trieuchung of trieuchungaddrule; let last = last">
-                             TC{{ trieuchung[0] }}
-                              <span *ngIf="!last"> + </span>
-                          </ng-container>
-                          => B{{ selectBenhaddrule.ma_benh }}
-                          <button (click)="saveruletype1()" [disabled]="saverule1">Lưu</button>
-                      </h3>
-                      <span>{{messageaddrule1}}</span>
-                  </div>
-                  
+
+              <h2>Bệnh đang thêm luật</h2>
+
+              <table class="tb">
+                <thead>
+                  <tr>
+                    <th>Mã bệnh</th>
+                    <th>Tên bệnh</th>
+                    <th>Loại hệ</th>
+
+
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+
+                    <td>{{selectBenhaddrule.ma_benh}}</td>
+                    <td>
+                      {{selectBenhaddrule.ten_benh}}
+                    </td>
+                    <td>
+                      {{selectBenhaddrule.loai_he}}
+                    </td>
+
+                  </tr>
+
+                </tbody>
+              </table>
+
+              <table class="tb">
+                <thead>
+                  <tr>
+                    <th>Mã triệu chứng</th>
+                    <th>Tên triệu chứng</th>
+
+
+
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let trieuchung of trieuchungaddrule">
+
+                    <td>{{trieuchung[0]}}</td>
+                    <td>
+                      {{trieuchung[1]}}
+                    </td>
+
+
+                  </tr>
+
+                </tbody>
+              </table>
+              <ng-container *ngIf="trieuchungaddrule && trieuchungaddrule.length > 0">
+                <div class="additional-info">
+                  <h3>Luật loại 1:
+
+                    <ng-container *ngFor="let trieuchung of trieuchungaddrule; let last = last">
+                      TC{{ trieuchung[0] }}
+                      <span *ngIf="!last"> + </span>
+                    </ng-container>
+                    => B{{ selectBenhaddrule.ma_benh }}
+                    <button (click)="saveruletype1()" [disabled]="saverule1">Lưu</button>
+                  </h3>
+                  <span class="message-text1">{{messageaddrule1}}</span>
+                </div>
+
               </ng-container>
               <ng-container *ngIf="ma_tc && ma_tc.length > 0">
                 <div class="additional-info">
-                    <h3>Luật loại 3: 
-                        
-                        <ng-container *ngFor="let trieuchung of ma_tc">
-                           <span *ngIf="trieuchung!=0">TC{{ trieuchung }}
-                           => B{{ selectBenhaddrule.ma_benh }}</span>
-                           <br>
-                        </ng-container>
-                        
-                        <button (click)="saveruletype3()" [disabled]="saverule3" >Lưu</button>
-                    </h3>
-                    <span>{{messageaddrule3}}</span>
+                  <h3>Luật loại 3:
+
+                    <ng-container *ngFor="let trieuchung of ma_tc">
+                      <span *ngIf="trieuchung!=0">TC{{ trieuchung }}
+                        => B{{ selectBenhaddrule.ma_benh }}</span>
+                      <br>
+                    </ng-container>
+
+                    <button (click)="saveruletype3()" [disabled]="saverule3">Lưu</button>
+                  </h3>
+                  <span class="message-text1">{{messageaddrule3}}</span>
                 </div>
-                
-            </ng-container>
-              </div>
-             
+
+              </ng-container>
             </div>
+
+          </div>
 
         </div>
       </div>
     </div>
-    
+
   </section>
 
   <section *ngIf="themBenh " class="ab">
@@ -202,9 +203,11 @@
                       <td>{{ benh.userEntity.fullname }}</td>
                       <td>{{ benh.ghi_chu }}</td>
                       <td>
-                        <button *ngIf="selectedBenh && selectedBenh.ma_benh_moi === benh.ma_benh_moi && benh.ghi_chu === 'Chưa thêm vào CSDL'"
+                        <button
+                          *ngIf="selectedBenh && selectedBenh.ma_benh_moi === benh.ma_benh_moi && benh.ghi_chu === 'Chưa thêm vào CSDL'"
                           (click)="showNewBenhDetails(); isAddNewBenhClicked = true;">Thêm bệnh mới</button>
-                        <ng-container *ngIf="!selectedBenh || (selectedBenh && selectedBenh.ma_benh_moi !== benh.ma_benh_moi)">
+                        <ng-container
+                          *ngIf="!selectedBenh || (selectedBenh && selectedBenh.ma_benh_moi !== benh.ma_benh_moi)">
                           Có thể thêm
                         </ng-container>
                       </td>
@@ -212,7 +215,6 @@
                   </ng-container>
                 </tbody>
               </table>
-
             </div>
           </div>
 
@@ -221,7 +223,6 @@
           <div class="table">
             <div *ngIf="listTrieuChung">
               <h2>Danh Sách Trieu Chứng</h2>
-
               <table class="tb">
                 <thead>
                   <tr>
@@ -229,7 +230,6 @@
                     <th>Tên Triệu Chứng</th>
                     <th>Check</th>
                     <th>Thêm Triệu Chứng</th>
-
                   </tr>
                 </thead>
                 <tbody>
@@ -242,37 +242,25 @@
                     <td>
                       <span *ngIf="!trieuchung.isEditing">{{ trieuchung[1] }}</span>
                       <input *ngIf="trieuchung.isEditing" type="text" [(ngModel)]="trieuchung[1]">
-
                     </td>
                     <td>
                       <span>
                         {{ check[i] === null ? 'TC không tồn tại' : (check[i] != null ? 'Mã TC trong CSDL: '+check[i] :
                         'Other value') }}
-                        <!-- Điều chỉnh 'N/A', '7', 'Other value' theo nhu cầu -->
                       </span>
-                    </td>
-                    <!-- ... -->
+                    </td>                  
                     <td>
                       <span *ngIf="check[i] == null ||check[i] ">
-                        <button *ngIf="isAddNewBenhClicked && !trieuchung.isClicked" (click)="selectTrieuChung(trieuchung)">Chọn</button>
+                        <button *ngIf="isAddNewBenhClicked && !trieuchung.isClicked"
+                          (click)="selectTrieuChung(trieuchung)">Chọn</button>
                         <span *ngIf="trieuchung.isClicked">Đã Chọn</span> <!-- Nội dung "Đã Chọn" -->
                       </span>
-                    </td>
-                    <!-- ... -->
-
-
-
+                    </td>                  
                   </tr>
-
                 </tbody>
               </table>
-
             </div>
-
           </div>
-
-          <!-- <button (click)="showNewBenhDetails()" >Thêm bệnh mới</button> -->
-
 
           <div *ngIf="selectedBenh12">
             <div *ngIf="newBenh">
@@ -289,15 +277,9 @@
                   <tr *ngFor="let trieuChung of selectedTrieuChung">
                     <td>{{ trieuChung.tenBenh }}</td>
                     <td>{{trieuChung.tenTrieuChung}}</td>
-
                   </tr>
                 </tbody>
               </table>
-             
-              <!-- thêm phần hỏi xem có chắc chắn lưu không -->
-              <!-- Bảng bệnh mới thêm cột xem đã lưu vào csdl chính chưa -->
-              <!-- cg gửi bệnh mới đến thì thêm 1 trường gửi vào mặc định là chưa thêm vào csdl -->
-              <!-- khi nhấn button lưu ở trên thì gửi 1 trường mặc định vào bảng bệnh mới là đã lưu vào cơ sở dữ liệu -->
             </div>
           </div>
 
@@ -308,7 +290,197 @@
     </div>
   </section>
 
+  <section *ngIf="addNewTC" class="abc">
+    <div class="flex-container">
+      <div *ngIf="addNewTC" class="container" data-aos="zoom-out" data-aos-delay="100">
+        <div class="tables-container">
+          <div class="table">
+            <div *ngIf="benhDaco">
+              <h2>Danh Sách Các Bệnh Được Gợi Ý Thêm Triệu Chứng Mói</h2>
 
+              <table class="tb">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Tên Bệnh</th>                    
+                   
+                    <th>ID Chuyên Gia</th>
+                    <th>Tên Chuyên Gia</th>                  
+                    <th>Thêm Triệu Chứng</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <ng-container *ngFor="let benh of benhDaco">
+                    <tr *ngIf="benh.trang_thai === 0" (click)="selectBenh2(benh); selectBenh1(benh.ma_benh_trong_bang_benh)"
+                      [ngClass]="{'selected-row': benh === selectedBenh, 'hover-row': benh === hoveredBenh}"
+                      (mouseenter)="hoveredBenh = benh" (mouseleave)="hoveredBenh = null">
+                      <!-- Các ô dữ liệu -->
+                      <td>{{ benh.ma_benh_trong_bang_benh }}</td>
+                      <td>{{ benh.ten_benh_suggest }}</td>
+                      <td>{{ benh.userEntity.id_user }}</td>
+                      <td>{{ benh.userEntity.fullname }}</td>                     
+                      <td>
+                        <button
+                          *ngIf="selectedBenh && selectedBenh.ma_benh_trong_bang_benh === benh.ma_benh_trong_bang_benh "
+                          (click)="showNewBenhDetails(); isAddNewBenhClicked = true;">Xem triệu chứng mới</button>
+                        <ng-container
+                          *ngIf="!selectedBenh || (selectedBenh && selectedBenh.ma_benh_moi !== benh.ma_benh_moi)">
+                          Có thể thêm triệu chứng
+                        </ng-container>
+                      </td>
+                    </tr>
+                  </ng-container>
+                </tbody>
+              </table>
+
+            </div>
+          </div>
+
+        </div>
+        <div class="tables-container" *ngIf="selectedBenh1">
+          <div class="table">
+            <div *ngIf="listTrieuChung">
+              <h2>Danh Sách Các Triệu Chứng Được Thêm Mói</h2>
+              <table class="tb">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Tên Triệu Chứng</th>
+                    <th>Check</th>
+                    <th>Thêm Triệu Chứng</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let trieuchung of listTrieuChung, let i=index"
+                    [ngClass]="{'selected-row': trieuchung === selectedBenh, 'hover-row': trieuchung === hoveredBenh}"
+                    (mouseenter)="hoveredBenh = trieuchung" (mouseleave)="hoveredBenh = null"
+                    (click)="showTrieuChung && !trieuchung.isClicked && selectTrieuChungSuggestMoi(trieuchung)">
+                    <td>{{trieuchung[0]}}</td>
+                    <td>
+                      <span *ngIf="!trieuchung.isEditing">{{ trieuchung[1] }}</span>
+                      <input *ngIf="trieuchung.isEditing" type="text" [(ngModel)]="trieuchung[1]">
+                    </td>
+                    <td>
+                      <span>
+                        {{ check[i] === null ? 'TC không tồn tại' : (check[i] != null ? 'Mã TC trong CSDL: '+check[i] :
+                        'Other value') }}
+                        <!-- Điều chỉnh 'N/A', '7', 'Other value' theo nhu cầu -->
+                      </span>
+                    </td>
+                    <!-- ... -->
+                    <td>
+                      <span *ngIf="check[i] == null ||check[i] ">
+                        <button *ngIf="isAddNewBenhClicked && !trieuchung.isClicked"
+                          (click)="selectTrieuChungSuggestMoi(trieuchung)">Chọn</button>
+                        <span *ngIf="trieuchung.isClicked">Đã Chọn</span> <!-- Nội dung "Đã Chọn" -->
+                      </span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div *ngIf="selectedBenh12">
+            <div *ngIf="newBenh">
+              <h2>Thông tin</h2>
+              <table class="new-tb">
+                <thead>
+                  <tr>
+                    <th>Tên Bệnh</th>
+                    <td>Tên TC mới</td>
+                    <!-- cần thêm cột loại hệ ở đây -->
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let trieuChung of selectedTrieuChung">
+                    <td>{{ trieuChung.tenBenh }}</td>
+                    <td>{{trieuChung.tenTrieuChung}}</td>
+
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+      <button (click)="saveTrieuChungBenh(selectedBenh)">Lưu</button>
+      <span class="message-text1">{{message}}</span>
+    </div>
+
+  </section>
+  <section *ngIf="showBenhAndTC" class="abm">
+    <label class="label1">
+      Chọn loại hô hấp:
+      <select class="he" [(ngModel)]="loai_he" name="loai_he" required (change)="onCheckboxChange()">
+        <option value="1">Hô hấp trên</option>
+        <option value="2">Hô hấp dưới</option>
+        <option value="3">Tất cả</option>
+      </select>
+    </label>
+  
+    <div class="container" data-aos="zoom-out" data-aos-delay="100">
+      <div class="tables-container">
+        <div class="table">
+          <div *ngIf="benhs">
+            <h2>Danh Sách Bệnh</h2>
+  
+            <table>
+              <thead>
+                <tr>
+  
+                  <th>Tên Bệnh</th>
+  
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let benh of benhs" (click)="selectBenh22(benh)"
+                  [ngClass]="{'selected-row': benh === selectedBenh, 'hover-row': benh === hoveredBenh}"
+                  (mouseenter)="hoveredBenh = benh" (mouseleave)="hoveredBenh = null">
+  
+                  <td>{{benh.ten_benh}}</td>
+                  <!-- <td>{{benh[0]}}</td>
+                  <td>{{benh[1]}}</td> -->
+                </tr>
+  
+              </tbody>
+            </table>
+          </div>
+        </div>
+  
+      </div>
+      <div class="tables-container">
+        <div class="table">
+          <div *ngIf="listTrieuChung">
+            <h2>Danh Sách Triệu Chứng Của Bệnh</h2>
+  
+            <table>
+              <thead>
+                <tr>
+  
+                  <th>Tên Triệu Chứng</th>
+  
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let benh of listTrieuChung"
+                  [ngClass]="{'selected-row': benh === selectedBenh, 'hover-row': benh === hoveredBenh}"
+                  (mouseenter)="hoveredBenh = benh" (mouseleave)="hoveredBenh = null">
+  
+                  <td>{{benh[1]}}</td>
+                </tr>
+  
+              </tbody>
+            </table>
+          </div>
+        </div>
+  
+      </div>
+    </div>
+
+  </section>
 
 
 
