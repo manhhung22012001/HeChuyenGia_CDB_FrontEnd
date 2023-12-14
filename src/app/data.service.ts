@@ -238,4 +238,16 @@ export class DataService {
     };
     return this.http.put<any>(`${this.rootURL}/taskbar-ks/saveTrieuChungSuggestIntoTrieuChungBenh`, requestBody, httpOptions);
   }
+  // gọi API lưu luật từ tc gợi ý mới
+  saveLuatTrieuChungSuggest(userId: number, ma_benh:number,existedInDatabase:number[],notExistInDatabase:number[]){
+    const httpOptions = this.getHttpOptions();
+    const requestBody = {
+      ma_benh:ma_benh,
+      existedInDatabase:existedInDatabase,
+      notExistInDatabase:notExistInDatabase
+
+    };
+    return this.http.put<any>(`${this.rootURL}/taskbar-ks/saveLuatTrieuChungSuggestIntoTrieuChungBenh/${userId}`, requestBody, httpOptions);
+
+  }
 }

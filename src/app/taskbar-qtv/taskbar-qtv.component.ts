@@ -29,7 +29,7 @@ export class TaskbarQtvComponent implements OnInit {
   acceptUser: boolean = false;
   selectedRole: string = '0' // Giá trị mặc định là role 1
   filteredUsers: any[] = [];
-  notification : any;
+  notification: any;
   loggedInUserId = this.authService.id_user;
   newUser: any = {
     fullname: '',
@@ -48,7 +48,7 @@ export class TaskbarQtvComponent implements OnInit {
   selectedBenh: any;
   hoveredBenh: any;
   trieuchung: any[] = [];
-
+  statusZeroCount: number = 0; // Khởi tạo biến để lưu số hàng có trạng thái 0
 
   constructor(private formBuilder: FormBuilder, private router: Router, private authService: AuthService, private dataService: DataService, private dialog: MatDialog) {
     const token = localStorage.getItem('token');
@@ -64,24 +64,25 @@ export class TaskbarQtvComponent implements OnInit {
     this.ListUsers();
     this.dataService.getCountStatus().subscribe(
       (response) => {
-      console.log('count:', response);
-      this.notification=response.countByStatusEqualsZero;  
-      
-    },
-    (error) => {
-      console.error('Error:', error);
-    }
-  );
-     
+        console.log('count:', response);
+        this.notification = response.countByStatusEqualsZero;
 
-    
+      },
+      (error) => {
+        console.error('Error:', error);
+      }
+    );
+    this.countStatusZero();
+
+
+
 
   }
   ListUsers() {
     this.pheDuyetBenh = false;
     this.pheDuyetUser = false;
     this.listUser = true;
-    
+
     // Initialize your form group
     this.userForms = this.formBuilder.group({
       users: this.formBuilder.array([]) // Or initialize with default values
@@ -351,12 +352,26 @@ export class TaskbarQtvComponent implements OnInit {
       response => {
         console.log(response);
         this.trieuchung = response;
+        const countStatusZero = this.benhs.filter(item => item.trang_thai === '0').length;
+        console.log('Số hàng có trạng thái bằng 0:', countStatusZero);
       },
       error => {
         console.error('Error loading users data: ', error);
       }
     )
 
+  }
+  // hàm này để đếm xem có bệnh nào có trạng thái =0 tức là chưa phê duyệt để lấy thoonng báo
+  countStatusZero() {
+    this.dataService.getnewbenh().subscribe(
+      response => {
+        this.benhs = response;
+        this.statusZeroCount = this.benhs.filter(item => item.trang_thai === '0').length;
+      },
+      error => {
+        console.error('Error loading users data: ', error);
+      }
+    );
   }
   selectBenh(benh: any) {
     this.selectedBenh = benh; // Lưu trữ thông tin bệnh được chọn
@@ -445,5 +460,5 @@ export class TaskbarQtvComponent implements OnInit {
         return 'Không xác định';
     }
   }
-  
+
 }

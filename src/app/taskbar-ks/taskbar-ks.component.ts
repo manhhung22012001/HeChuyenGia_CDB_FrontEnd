@@ -51,9 +51,12 @@ export class TaskbarKsComponent implements OnInit {
   saverule3: boolean = false;
   status: any;
   addNewTC: boolean = false;
-  message:string='';
-  showBenhAndTC:boolean=false;
+  message: string = '';
+  showBenhAndTC: boolean = false;
   loai_he: String = '';
+  statusZeroCount: number = 0;// biến thông báo thêm bệnh
+  statusZeroCount1: number = 0;// biến thông báo thêm triệu trứng gợi ý vào bệnh
+  notificationOfRule: number = 0;//biến thông báo thêm luật
   constructor(private formBuilder: FormBuilder, private router: Router, private authService: AuthService, private dataService: DataService, private dialog: MatDialog) {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -62,8 +65,9 @@ export class TaskbarKsComponent implements OnInit {
     this.fullname = localStorage.getItem('fullname');
   }
   ngOnInit() {
-
-
+    this.countRowsWithStatusOne();
+    this.notification();
+    this.notificationOfLuat();
   }
 
   logout() {
@@ -75,10 +79,52 @@ export class TaskbarKsComponent implements OnInit {
     this.id = key;
     this.router.navigate(['/' + this.id]);
   }
+  // hàm thông báo của thêm luật
+  notificationOfLuat() {
+    this.dataService.getBenh().subscribe(
+      data => {
+        this.benhss = data;
+        //console.log(data);
+        const tenBenhArray = this.benhss.map(benh => benh.ten_benh);
+
+        // Gửi danh sách tên bệnh đi cùng một lúc thông qua postBenh
+        this.dataService.postBenh(tenBenhArray).subscribe(
+          response => {
+
+            this.notificationOfRule = response.total;
+            //console.log('Tổng số liệu: ', this.notificationOfRule);
+            // Gọi phương thức xử lý dữ liệu từ API
+            this.xuLyDuLieuTuAPI(response.data); // Giả sử response.data chứa dữ liệu từ API
+          },
+          error => {
+            console.error('Error posting data: ', error);
+          }
+        );
+      },
+      error => {
+        console.error('Error loading users data: ', error);
+      }
+    );
+  }
+
+  calculateTotal(data: any[]): number {
+    // Kiểm tra data có tồn tại và là mảng không
+    if (Array.isArray(data) && data.length > 0) {
+      // Tính tổng
+      return data.reduce((acc, obj) => {
+        // Đảm bảo trường số liệu tồn tại và là số
+        const value = parseFloat(obj.so_lieu);
+        return !isNaN(value) ? acc + value : acc;
+      }, 0);
+    } else {
+      return 0; // Trả về 0 nếu không có dữ liệu hoặc dữ liệu không hợp lệ
+    }
+  }
+  // thêm luật
   themLuatMoi() {
     this.themBenh = false;
     this.themLuat = true;
-    this.showBenhAndTC=false;
+    this.showBenhAndTC = false;
     this.dataService.getBenh().subscribe(
       data => {
         this.benhss = data;
@@ -106,12 +152,25 @@ export class TaskbarKsComponent implements OnInit {
   }
 
 
-
+  // HÀM Thông báo của thêm bệnh
+  countRowsWithStatusOne() {
+    this.dataService.getnewbenh().subscribe(
+      response => {
+        console.log(response);
+        this.benhs = response;
+        this.statusZeroCount = this.benhs.filter(item => item.trang_thai === '0').length;
+        console.log('Số hàng có trạng thái bằng 0:', this.statusZeroCount);
+      },
+      error => {
+        console.error('Error loading Benh data: ', error);
+      }
+    )
+  }
   themBenhMoi() {
     this.themBenh = true;
     this.themLuat = false;
     this.addNewTC = false;
-    this.showBenhAndTC=false;
+    this.showBenhAndTC = false;
     this.showTrieuChung = true;
     this.dataService.getnewbenh().subscribe(
       response => {
@@ -163,8 +222,8 @@ export class TaskbarKsComponent implements OnInit {
   }
   sendSelectedTrieuChungToAPI() {
     console.log(this.authService.getID())
-    
-    
+
+
     // Gọi API CheckTc và gửi danh sách triệu chứng đã chọn
     this.dataService.checkTrieuChung(this.authService.getID(), this.trieuChungTraVe).subscribe(
       (response: any) => {
@@ -364,7 +423,7 @@ export class TaskbarKsComponent implements OnInit {
     // Lặp qua dữ liệu từ API và so sánh với dữ liệu có sẵn trong bảng
     this.benhss.forEach((benh) => {
       const matchingData = dataFromAPI.find((item) => item.ma_benh == benh.ma_benh);
-
+      console.log("matching" + matchingData)
       // Nếu tìm thấy mã bệnh tương ứng
       if (matchingData) {
         // Kiểm tra và gán giá trị Trạng thái (đã có luật hay chưa)
@@ -402,8 +461,21 @@ export class TaskbarKsComponent implements OnInit {
     this.addNewTC = true;
     this.themBenh = false;
     this.themLuat = false;
-    this.showBenhAndTC=false;
+    this.showBenhAndTC = false;
     this.getBenhOfTrieuChungMoi();
+  }
+  // hàm thông báo thêm triệu chứng vào bệnh
+  notification() {
+    this.dataService.getBenhOfTrieuChungMoi().subscribe(
+      response => {
+        //console.log(response);
+        this.benhDaco = response;
+        this.statusZeroCount1 = this.benhDaco.filter(item => item.trang_thai === 0).length;
+      },
+      error => {
+        console.error('Error loading users data: ', error);
+      }
+    )
   }
   getBenhOfTrieuChungMoi() {
     this.dataService.getBenhOfTrieuChungMoi().subscribe(
@@ -469,8 +541,8 @@ export class TaskbarKsComponent implements OnInit {
   }
   saveTrieuChungBenh(benh: any) {
     //console.log("ma Benh " + benh.ma_benh_trong_bang_benh);
-    const ma_benh=benh.ma_benh_trong_bang_benh;
-    const ma_benh_suggest=benh.ma_benh_suggest;
+    const ma_benh = benh.ma_benh_trong_bang_benh;
+    const ma_benh_suggest = benh.ma_benh_suggest;
     // Lấy danh sách tên triệu chứng từ selectedTrieuChung và hiển thị trong console.log
     // chuyển thành dạng map<strong,object>
     const trieuChungList = this.selectedTrieuChung.map((item) => ({ tenTrieuChung: item.tenTrieuChung }));
@@ -481,32 +553,70 @@ export class TaskbarKsComponent implements OnInit {
     const MaList = this.selectedMaTC;
     //console.log("Danh sách mã triệu chứng:");
     console.log(MaList);
-    const trang_thai=1;// trạng thái =1 sẽ cho vào bảng bénhuggest là để thông báo rằng triệu trứng đã được thêm
-    this.dataService.saveTrieuChungSuggest(trieuChungList,ma_benh,trang_thai,ma_benh_suggest).subscribe(
+    const trang_thai = 1;// trạng thái =1 sẽ cho vào bảng bénhuggest là để thông báo rằng triệu trứng đã được thêm
+    this.dataService.saveTrieuChungSuggest(trieuChungList, ma_benh, trang_thai, ma_benh_suggest).subscribe(
       (response: any) => {
         if (response.message) {
-          //console.log('Yêu cầu đã được xử lý thành công.'); // Log thông báo khi yêu cầu thành công
-          this.message='Thêm thành công'
-          // Xử lý các thông tin khác nếu cần
+          this.message = 'Thêm thành công';
+          // Xử lý khi thêm thành công
+          console.log('Thêm thành công');
+          // Nếu bạn muốn sử dụng thông tin từ trieuChungMap
+          if (response.trieuChungMap) {
+            // Thực hiện xử lý với trieuChungMap ở đây// đây là chuỗi json báo triệu chứng nào đã có và chưa có trong csdl trước khi lưu để vào bước thêm luật
+            console.log("trieu chung map: " + response.trieuChungMap);
+
+            let jsonString: string = response.trieuChungMap;
+            // Chuyển đổi chuỗi JSON thành đối tượng TypeScript
+            let jsonObject: any = JSON.parse(jsonString);
+
+            let existedInDatabase: number[] = [];
+            let notExistInDatabase: number[] = [];
+
+            // Lặp qua các cặp key-value trong đối tượng JSON
+            for (let key in jsonObject) {
+              if (jsonObject.hasOwnProperty(key)) {
+                let value: number = jsonObject[key];
+                if (key.startsWith('TC đã có trong csdl')) {
+                  existedInDatabase.push(value);
+                } else if (key.startsWith('Chưa có trong csdl')) {
+                  notExistInDatabase.push(value);
+                }
+              }
+            }
+            console.log("Mảng giá trị của 'TC đã có trong csdl':", existedInDatabase);
+            console.log("Mảng giá trị của 'Chưa có trong csdl':", notExistInDatabase);
+            this.dataService.saveLuatTrieuChungSuggest( this.authService.getID(),ma_benh,existedInDatabase,notExistInDatabase).subscribe(
+              (response: any) => {
+
+              },
+              (error) => {
+                this.message = 'Lỗi server';
+                // Xử lý khi có lỗi từ phía client hoặc server
+                console.error('Error fetching trieu chung:', error);
+              }
+            );
+
+          }
         } else if (response.error) {
-          console.error(response.Error); // Log thông báo lỗi từ server
-          this.message='Thêm thất bại'
-          // Xử lý các thông báo lỗi từ server nếu cần
+          this.message = 'Thêm thất bại';
+          // Xử lý khi thêm thất bại
+          console.error(response.error);
         }
+
       },
       (error) => {
-        // Xử lý lỗi nếu có
+        this.message = 'Lỗi server';
+        // Xử lý khi có lỗi từ phía client hoặc server
         console.error('Error fetching trieu chung:', error);
-        this.message='Lỗi serve';
       }
     );
   }
   // chức năng xem bệnh trong cs tri thức
-  watchBenhInCSTT(){
-    this.showBenhAndTC=true;
-    this.addNewTC=false;
-    this.themBenh=false;
-    this.themLuat=false;
+  watchBenhInCSTT() {
+    this.showBenhAndTC = true;
+    this.addNewTC = false;
+    this.themBenh = false;
+    this.themLuat = false;
   }
   onCheckboxChange() {
     // Lọc danh sách bệnh theo loại hệ hô hấp là 1 nếu checkbox được chọn

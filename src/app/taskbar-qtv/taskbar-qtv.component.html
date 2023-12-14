@@ -23,7 +23,10 @@
           </ul>
         </li>
 
-        <li><a class="ab" (click)="pheduyetBenh()">Phê duyệt bệnh mới</a></li>
+        <li>
+          <a class="ab" (click)="pheduyetBenh()">Phê duyệt bệnh mới</a>
+          <span *ngIf="statusZeroCount !== 0" class="notification">{{ statusZeroCount }}</span>
+        </li>
 
         <li>
           <a (click)="logout()">
@@ -62,7 +65,7 @@
             <th>Số điện thoại</th>
             <th>Email</th>
             <th *ngIf="selectedRole === '1'">Thông tin bổ xung</th>
-            <th>Hành động</th>
+            <th>Thao Tác</th>
           </tr>
         </thead>
         <tbody>
@@ -174,7 +177,7 @@
               <tr>
                 <th>ID</th>
                 <th>Tên Triệu Chứng</th>
-                <th>Sửa</th>
+                <th>Thao Tác</th>
               </tr>
             </thead>
             <tbody>
@@ -239,7 +242,7 @@
             <!-- <th>Trạng thái</th> -->
             
             <th>Thông tin chi tiết</th>
-            <th>Hành động</th>
+            <th>Thao Tác</th>
           </tr>
         </thead>
         <tbody formArrayName="users">

@@ -8,9 +8,18 @@
 
     <nav id="navbar" class="navbar">
       <ul>
-        <li><a class="a" (click)="themLuatMoi()">Thêm luật</a></li>
-        <li><a class="ab" (click)="themBenhMoi()">Thêm Bệnh</a></li>
-        <li><a class="ab" (click)="addNewTCIntoBenh()">Thêm Triệu Chứng vào Bệnh</a></li>
+        <li>
+          <a class="a" (click)="themLuatMoi()">Thêm luật</a>
+          <span *ngIf="notificationOfRule !== 0" class="notification">{{ notificationOfRule }}</span>
+        </li>
+        <li>
+          <a class="ab" (click)="themBenhMoi()">Thêm Bệnh</a>
+          <span *ngIf="statusZeroCount !== 0" class="notification">{{ statusZeroCount }}</span>
+        </li>
+        <li>
+          <a class="ab" (click)="addNewTCIntoBenh()">Thêm Triệu Chứng vào Bệnh</a>
+          <span *ngIf="statusZeroCount1 !== 0" class="notification">{{ statusZeroCount1 }}</span>
+        </li>
         <li><a class="ab" (click)="watchBenhInCSTT()">Xem Bệnh Trong Cơ Sở Chi Thức</a></li>
         <li class="dropdown">
 
@@ -38,7 +47,7 @@
                     <th>Tên Bệnh</th>
                     <th>Loại Hệ</th>
                     <th>Trạng Thái</th>
-                    <th>Thêm Bệnh</th>
+                    <th>Thao Tác</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -183,7 +192,7 @@
                     <th>ID Chuyên Gia</th>
                     <th>Tên Chuyên Gia</th>
                     <th>Ghi chú</th>
-                    <th>Thêm Bệnh</th>
+                    <th>Thao Tác</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -306,7 +315,7 @@
                    
                     <th>ID Chuyên Gia</th>
                     <th>Tên Chuyên Gia</th>                  
-                    <th>Thêm Triệu Chứng</th>
+                    <th>Thao Tác</th>
                   </tr>
                 </thead>
                 <tbody>

@@ -310,3 +310,11 @@ td {
   grid-template-columns: 1fr 1fr;
   gap: 20px;
 }
+.notification {
+  display: inline-block;
+  position: relative;
+  color: white;
+  background-color: red;
+  border-radius: 40%;
+  padding: 4px;
+}

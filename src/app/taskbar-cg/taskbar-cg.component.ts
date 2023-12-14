@@ -307,41 +307,73 @@ export class TaskbarCgComponent implements OnInit {
     const ma_benh = this.selectedBenh.ma_benh;
     const ten_benh = this.selectedBenh.ten_benh;
     const trang_thai = 0;
-    this.dataService.addSuggestTC(this.id_user, ma_benh, ten_benh,this.newBenh.value.trieu_chung,trang_thai)
-      .subscribe(
-        (response: any) => {
-          if (response && response.message === 'Success') {
-            this.dialog.open(ConfirmComponent, {
-              width: '550px',
-              data: {
-                title: 'Thông báo: Thành Công',
-                message: 'Bệnh đã được gợi ý thêm vào CS Tri thức',
-                okButton: true
-              }
-            });
-            this.isAddingNewBenh = false;
-          } else {
-
-
-            // Hiển thị thông báo lỗi
-            this.dialog.open(ConfirmComponent, {
-              width: '550px',
-              data: {
-                title: 'Thông báo: Lỗi',
-                message: 'Vui lòng nhập đầy đủ thông tin.',
-                okButton: true
-              }
-            });
+    
+    this.dataService.addSuggestTC(this.id_user, ma_benh, ten_benh, this.newBenh.value.trieu_chung, trang_thai)
+  .subscribe(
+    (response: any) => {
+      console.log("Danh sach: "+response.duplicatedSymptoms);
+      console.log("response.message: "+response.message);
+      console.log("Response:"+response);
+      if (response && response.message === 'Success') {
+        this.dialog.open(ConfirmComponent, {
+          width: '550px',
+          data: {
+            title: 'Thông báo: Thành Công',
+            message: 'Bệnh đã được gợi ý thêm vào CS Tri thức',
+            okButton: true
           }
-        },
-        (error: HttpErrorResponse) => {
-          if (error.status === 400) {
-            this.errorMessage = 'Đã xảy ra lỗi. Vui lòng thử lại sau.';
-          } else {
-            this.errorMessage = 'Đã xảy ra lỗi. Vui lòng thử lại sau.';
-          }
+        });
+        this.isAddingNewBenh = false;
+      } else if (response && response.message === 'Error: Trung trieu chung') {
+        if (response.duplicatedSymptoms && response.duplicatedSymptoms.length > 0) {
+          this.dialog.open(ConfirmComponent, {
+            width: '550px',
+            data: {
+              title: 'Thông báo: Lỗi',
+              message: 'Triệu Chứng Thêm Đã Bị Trùng. Các triệu chứng: ' + response.duplicatedSymptoms.join(', '),
+              okButton: true
+            }
+          });
+        } else {
+          this.dialog.open(ConfirmComponent, {
+            width: '550px',
+            data: {
+              title: 'Thông báo: Lỗi',
+              message: 'Vui lòng nhập đầy đủ thông tin.',
+              okButton: true
+            }
+          });
         }
-      );
+      } else if (response && response.message === 'Thieu tham so ten_benh, loai_he hoac trieu_chung') {
+        this.dialog.open(ConfirmComponent, {
+          width: '550px',
+          data: {
+            title: 'Thông báo: Lỗi',
+            message: 'Thiếu thông tin tên bệnh hoặc triệu chứng.',
+            okButton: true
+          }
+        });
+      } else {
+        this.dialog.open(ConfirmComponent, {
+          width: '550px',
+          data: {
+            title: 'Thông báo: Lỗi',
+            message: 'Đã xảy ra lỗi không xác định.',
+            okButton: true
+          }
+        });
+      }
+    },
+    (error: HttpErrorResponse) => {
+      if (error.status === 400) {
+        this.errorMessage = 'Đã xảy ra lỗi. Vui lòng thử lại sau.';
+      } else {
+        this.errorMessage = 'Đã xảy ra lỗi. Vui lòng thử lại sau.';
+      }
+    }
+  );
+
+
   }
   // updateSelectedBenhName(newValue: string) {
   //   this.selectedBenh.ten_benh = newValue;
