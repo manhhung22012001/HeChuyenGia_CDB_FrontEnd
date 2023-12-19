@@ -324,6 +324,7 @@ export class TaskbarCgComponent implements OnInit {
           }
         });
         this.isAddingNewBenh = false;
+        this.isAddNewTC=false;
       } else if (response && response.message === 'Error: Trung trieu chung') {
         if (response.duplicatedSymptoms && response.duplicatedSymptoms.length > 0) {
           this.dialog.open(ConfirmComponent, {

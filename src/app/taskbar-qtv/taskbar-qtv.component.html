@@ -122,8 +122,8 @@
       <div [hidden]="!showStatusDropdown">
         <label>Trạng Thái :
           <select [(ngModel)]="newUser.status" name="status" required>
-            <option value="1">Active</option>
-            <option value="null">Not Active</option>
+            <option value="null">Chuyên gia mới</option>
+            <option value="1">Chuyên gia trong hệ thống</option>
           </select>
         </label>
       </div>
@@ -135,7 +135,7 @@
 
     <div *ngIf="PheduyetBenh" class="container" data-aos="zoom-out" data-aos-delay="100">
       <div class="tables-container">
-        <h2>Bảng Bệnh Mới</h2>
+        <h2>Bảng bệnh mới</h2>
         <div class="table-container">
           <table class="tb">
             <thead>
@@ -170,7 +170,7 @@
       </div>
 
       <div class="tables-container">
-        <h2>Bảng Trieu Chứng Mới</h2>
+        <h2>Bảng triệu chứng mới</h2>
         <div class="table-container">
           <table class="tb">
             <thead>
@@ -202,7 +202,7 @@
       </div>
 
       <div class="tables-container">
-        <h2>Bảng Trieu Chứng Cũ</h2>
+        <h2>Bảng triệu chứng đã có</h2>
         <div class="table-container">
           <table class="tb">
             <thead>

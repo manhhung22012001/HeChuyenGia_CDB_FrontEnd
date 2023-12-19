@@ -4,7 +4,7 @@
         <div class="box">
             <div class="form sign_in">
                 <h3>Đăng Nhập</h3>
-                <span>or use your account</span>
+                <span></span>
 
                 <form action="#" id="form_input" [formGroup]="loginForm" (ngSubmit)="login()" novalidate>
                     <div class="type">
@@ -54,7 +54,7 @@
 
                         <input type="text" formControlName="password" placeholder="Mật Khẩu" required>
                     </div>
-                    <label for="userType">Loại người dùng:</label>
+                    <!-- <label for="userType">Loại người dùng:</label>
                     <div class="type"> 
                        
                        
@@ -67,7 +67,7 @@
                            
 
                         </select>
-                    </div>
+                    </div> -->
                     
                     <button class="btn bkg">Đăng Ký</button>
                     <div class="message-text">{{message}}</div>
@@ -79,18 +79,28 @@
         <div class="overlay">
             <div class="page page_signIn">
                 <h3>Welcome Back!</h3>
-                <p>To keep with us please login with your personal info</p>
+                <p>Hãy đăng nhập để tiếp tục</p>
+                <br>
+                <br>
+                <br>
+                <br>
+                <p>---------------------------------------</p>
+                <p>Hoặc</p>
+                <p>Đăng ký nếu bạn là Chuyên Gia/Bác sĩ</p>
 
-                <button class="btn btnSign-in" (click)="onSignInClick()">Sign Up <i
+                <button class="btn btnSign-in" (click)="onSignInClick()">Đăng Ký <i
                         class="bi bi-arrow-right"></i></button>
             </div>
 
             <div class="page page_signUp">
                 <h3>Hello Friend!</h3>
-                <p>Enter your personal details and start journey with us</p>
-
+                <p>Nhập thông tin của bạn để tiếp tục</p>
+                <br>
+                <br>
+                <p>---------------------------------------</p>
+                <p>Hoặc</p>
                 <button class="btn btnSign-up" (click)="onSignUpClick()">
-                    <i class="bi bi-arrow-left"></i> Sign In
+                    <i class="bi bi-arrow-left"></i> Đăng Nhập
                 </button>
             </div>
         </div>

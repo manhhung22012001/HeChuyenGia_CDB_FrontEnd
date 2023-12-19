@@ -34,7 +34,7 @@ export class AuthService {
     return this.http.post<Response>(this.BASE_PATH + "/auth/login", body, { observe: 'response' });
   }
   
-  register(fullname: string,email:string, phonenumber: string, username: string, password: string, role: number) {
+  register(fullname: string,email:string, phonenumber: string, username: string, password: string, role: string) {
     return this.http.post<Response>(this.BASE_PATH + "/auth/register", { fullname: fullname, email:email, phonenumber: phonenumber, username:username,password:password,role: role  }, { observe: 'response' });
   }
   

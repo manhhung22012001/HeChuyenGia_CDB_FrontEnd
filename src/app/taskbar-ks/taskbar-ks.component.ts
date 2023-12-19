@@ -152,20 +152,23 @@ export class TaskbarKsComponent implements OnInit {
   }
 
 
-  // HÀM Thông báo của thêm bệnh
   countRowsWithStatusOne() {
     this.dataService.getnewbenh().subscribe(
       response => {
         console.log(response);
         this.benhs = response;
-        this.statusZeroCount = this.benhs.filter(item => item.trang_thai === '0').length;
-        console.log('Số hàng có trạng thái bằng 0:', this.statusZeroCount);
+        
+        // Lọc ra các bệnh có trạng thái là '1' và ghi_chu là 'Chưa thêm vào CSDL'
+        this.statusZeroCount = this.benhs.filter(item => item.trang_thai === '1' && item.ghi_chu === 'Chưa thêm vào CSDL').length;
+        
+        console.log('Số hàng có trạng thái bằng 0 và ghi_chu là Chưa thêm vào CSDL:', this.statusZeroCount);
       },
       error => {
         console.error('Error loading Benh data: ', error);
       }
     )
   }
+  
   themBenhMoi() {
     this.themBenh = true;
     this.themLuat = false;
@@ -557,7 +560,7 @@ export class TaskbarKsComponent implements OnInit {
     this.dataService.saveTrieuChungSuggest(trieuChungList, ma_benh, trang_thai, ma_benh_suggest).subscribe(
       (response: any) => {
         if (response.message) {
-          this.message = 'Thêm thành công';
+          this.message = 'Thêm thành công triệu chứng mới vào bệnh và luật mới';
           // Xử lý khi thêm thành công
           console.log('Thêm thành công');
           // Nếu bạn muốn sử dụng thông tin từ trieuChungMap

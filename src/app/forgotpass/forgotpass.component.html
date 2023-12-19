@@ -28,6 +28,7 @@
     <form [formGroup]="ForgotPassForm" (ngSubmit)="checkOTP()">
         <div>
             <label >Mã OTP</label>
+            <label >Lưu ý: Mã OTP chỉ tồn tại 2 phút.</label>
             <input type="text" formControlName="otp" placeholder="Mã OTP" required>
            
         </div>

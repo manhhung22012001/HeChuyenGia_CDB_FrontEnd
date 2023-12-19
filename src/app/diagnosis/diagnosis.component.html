@@ -16,6 +16,8 @@
 
     <div class="symptom-section" *ngIf="showonly">
       <h3>Triệu chứng riêng biệt</h3>
+      <br>
+      <h3>Lưu ý:Chỉ chọn khi chắc chắn có triệu chứng ở dưới</h3>
       <div class="checkbox-group">
         <label *ngFor="let trieuChung of trieuChungOnly">
           <!-- <input type="checkbox" [(ngModel)]="trieuChung.isSelected" [disabled]="disableSymptoms" -->
@@ -35,7 +37,7 @@
       <label *ngFor="let trieuChung of detailSymptoms1">
         <input type="checkbox" [(ngModel)]="trieuChung.isSelected"> {{ trieuChung.ten_trieu_chung }}</label>
     </div>
-    <button (click)="Y()" *ngIf="!showStep3">Chuẩn Đoán Bệnh</button>
+    <button (click)="Y()" *ngIf="!showStep3">Chẩn Đoán Bệnh</button>
   </div>
   
 </div>

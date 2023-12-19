@@ -139,12 +139,13 @@ encryptText(text: string, key: string): string {
     const phonenumber = this.registerForm.value.phonenumber;
     const username = this.registerForm.value.username;
     const password = this.registerForm.value.password;
-    const role = this.registerForm.value.role;
-    
+    //const role = this.registerForm.value.role;
+    const role ='1';
     if (fullname && email && phonenumber && username && password && role) {
       // Mã hóa mật khẩu trước khi gửi đến backend
       const hashedPassword = this.hashPassword(password);
       //console.log("mk: " + hashedPassword)
+
       this.authService.register(fullname, email, phonenumber, username, hashedPassword, role).subscribe(response => {
         var code = response.status;
         if (code === 201) {

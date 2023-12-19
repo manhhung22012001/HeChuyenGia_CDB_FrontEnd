@@ -26,7 +26,7 @@ export class TaskbarCg0Component implements OnInit {
   isBangTotNghiepYKhoaSelected: boolean = false;
   status : string ='0';
   selectedFiles: { file: File, fieldName: string }[] = [];
-
+  isUpdateButtonVisible: boolean = true; 
   constructor(private router: Router, private authService: AuthService, private dataService: DataService, private fb: FormBuilder) {
 
     const token = localStorage.getItem('token');
@@ -44,6 +44,7 @@ export class TaskbarCg0Component implements OnInit {
 
   updateUserInfo1() {
     //console.log(this.id);
+    this.isUpdateButtonVisible = false; 
     this.dataService.getUserInfo(this.id).subscribe(
       (userInfo: any) => {
         console.log(userInfo);
@@ -52,7 +53,9 @@ export class TaskbarCg0Component implements OnInit {
           // Show the update view
           this.showUpdateView = true;
 
-          this.userInformation = userInfo;}
+          this.userInformation = userInfo;
+          console.log("Thong tin: "+userInfo)
+        }
           else
           {
             this.showUpdateView = false;
@@ -114,5 +117,5 @@ export class TaskbarCg0Component implements OnInit {
       }
     });
   }}
-
+  
 }

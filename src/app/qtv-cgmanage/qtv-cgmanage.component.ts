@@ -146,7 +146,8 @@ export class QtvCgmanageComponent {
   }
   AcceptUser() {
     if (this.statusInGetFile !== '1') {
-      this.dataService.UpdateSattusUser(this.userDetails.id_user, this.status).subscribe(
+      const statusUser='1';
+      this.dataService.UpdateSattusUser(this.userDetails.id_user,  statusUser).subscribe(
         (response: any) => {
           this.message = "Cập Nhật Thông Tin Thành Công.";
 
