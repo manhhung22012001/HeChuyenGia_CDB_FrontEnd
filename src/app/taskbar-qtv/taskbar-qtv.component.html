@@ -11,13 +11,13 @@
         <li class="dropdown">
           <a class="dropdown-toggle" data-toggle="dropdown">
             Quản lý người dùng 
-            <span class="notification">{{ notification }}</span>
+            <span *ngIf="notification !== 0" class="notification">{{ notification }}</span>
             <i class="bi bi-chevron-down"></i>
           </a>
           <ul class="dropdown-menu">
             <li><a class="acc" (click)="ListUsers()">Người dùng trong hệ thống</a></li>
             <li><a class="abb" (click)="AcceptUsers()">
-              Chuyên Gia Mói <span class="notification">{{ notification }}</span>
+              Chuyên Gia Mói <span *ngIf="notification !== 0" class="notification">{{ notification }}</span>
             </a></li>
             
           </ul>

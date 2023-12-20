@@ -64,6 +64,7 @@ export class QtvCgmanageComponent {
           this.statusInGetFile = response.status;
           console.log("status " + this.statusInGetFile);
           console.log("id"+this.userDetails.id_user);
+          console.log("phone number"+this.userDetails.phonenumber);
           files.forEach(file => {
             if (file.data) {
               const fileTypeIndex = file.data.lastIndexOf(':');
@@ -149,11 +150,11 @@ export class QtvCgmanageComponent {
       const statusUser='1';
       this.dataService.UpdateSattusUser(this.userDetails.id_user,  statusUser).subscribe(
         (response: any) => {
-          this.message = "Cập Nhật Thông Tin Thành Công.";
+          this.message = "Duyệt Chuyên Gia Thành Công.";
 
         },
         error => {
-          this.message = "Cập Nhật Thông Tin Thất Bại.";
+          this.message = "Duyệt Chuyên Gia Thất Bại.";
 
           // Xử lý lỗi, ví dụ: hiển thị thông báo lỗi cho người dùng
         }

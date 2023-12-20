@@ -157,10 +157,10 @@ export class TaskbarKsComponent implements OnInit {
       response => {
         console.log(response);
         this.benhs = response;
-        
+
         // Lọc ra các bệnh có trạng thái là '1' và ghi_chu là 'Chưa thêm vào CSDL'
         this.statusZeroCount = this.benhs.filter(item => item.trang_thai === '1' && item.ghi_chu === 'Chưa thêm vào CSDL').length;
-        
+
         console.log('Số hàng có trạng thái bằng 0 và ghi_chu là Chưa thêm vào CSDL:', this.statusZeroCount);
       },
       error => {
@@ -168,7 +168,7 @@ export class TaskbarKsComponent implements OnInit {
       }
     )
   }
-  
+
   themBenhMoi() {
     this.themBenh = true;
     this.themLuat = false;
@@ -588,7 +588,7 @@ export class TaskbarKsComponent implements OnInit {
             }
             console.log("Mảng giá trị của 'TC đã có trong csdl':", existedInDatabase);
             console.log("Mảng giá trị của 'Chưa có trong csdl':", notExistInDatabase);
-            this.dataService.saveLuatTrieuChungSuggest( this.authService.getID(),ma_benh,existedInDatabase,notExistInDatabase).subscribe(
+            this.dataService.saveLuatTrieuChungSuggest(this.authService.getID(), ma_benh, existedInDatabase, notExistInDatabase).subscribe(
               (response: any) => {
 
               },
