@@ -246,7 +246,7 @@ export class TaskbarKsComponent implements OnInit {
   showNewBenhDetails() {
     // this.selectedBenh12 = true;
     // this.showTrieuChung = true;
-
+    this.ngOnInit();
     if (this.selectedBenh) {
       this.showAddNewButton = this.selectedBenh.ghi_chu === 'Chưa thêm vào CSDL';
       this.selectedBenh12 = true;
@@ -323,6 +323,7 @@ export class TaskbarKsComponent implements OnInit {
       (error: HttpErrorResponse) => {
         console.error('Error loading data: ', error);
       }
+      this.ngOnInit();
   }
 
   SaveNewBenh(benh: any) {
@@ -372,6 +373,7 @@ export class TaskbarKsComponent implements OnInit {
       )
       .subscribe(
         (response: any) => {
+          this.ngOnInit();
           this.dialog.open(ConfirmComponent, {
             width: '550px',
             data: {
@@ -383,6 +385,7 @@ export class TaskbarKsComponent implements OnInit {
           console.log(response)
           this.themBenhMoi();
           this.showAddNewButton = false;
+          this.selectedBenh12=false;
         },
         (error: HttpErrorResponse) => {
           this.dialog.open(ConfirmComponent, {
@@ -561,6 +564,7 @@ export class TaskbarKsComponent implements OnInit {
       (response: any) => {
         if (response.message) {
           this.message = 'Thêm thành công triệu chứng mới vào bệnh và luật mới';
+          this.ngOnInit();
           // Xử lý khi thêm thành công
           console.log('Thêm thành công');
           // Nếu bạn muốn sử dụng thông tin từ trieuChungMap

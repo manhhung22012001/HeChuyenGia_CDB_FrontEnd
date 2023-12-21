@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatAutocomplete } from '@angular/material/autocomplete';
+
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { DataService } from '../data.service';
@@ -7,7 +9,7 @@ import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@ang
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { ConfirmComponent } from '../confirm/confirm.component';
 import { MatDialog } from '@angular/material/dialog';
-import { Observable,of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 
@@ -32,6 +34,7 @@ export class TaskbarCgComponent implements OnInit {
   searchControl = new FormControl();
   suggestedTenBenh: string[] = [];
   tenBenhControl = new FormControl();
+  @ViewChild('autoTenBenh') autoTenBenh!: MatAutocomplete;
   // biến để thêm tc mới
   isAddNewTC: boolean = false;
   constructor(private router: Router, private authService: AuthService, private dataService: DataService, private fb: FormBuilder, private dialog: MatDialog) {
@@ -253,7 +256,7 @@ export class TaskbarCgComponent implements OnInit {
   saveNewBenh() {
     const status = '0';
     const ghi_chu = 'Chưa thêm vào CSDL';
-    
+
     this.dataService.addNewBenh(this.id_user, this.tenBenhControl.value, this.newBenh.value.loai_he, this.newBenh.value.trieu_chung, status, ghi_chu)
       .subscribe(
         (response: any) => {
@@ -265,9 +268,12 @@ export class TaskbarCgComponent implements OnInit {
                 message: 'Bệnh đã được gợi ý thêm vào CS Tri thức',
                 okButton: true
               }
+
             });
             this.isAddingNewBenh = false;
-            this.isAddNewTC=false;
+            this.isAddNewTC = false;
+            // this.ngOnInit();
+
           } else {
 
 
@@ -290,6 +296,8 @@ export class TaskbarCgComponent implements OnInit {
           }
         }
       );
+    // Sau khi lưu xong, reset form để làm rỗng các trường
+    this.newBenh.reset();
   }
   addNewTC() {
     this.isAddNewTC = true;
@@ -297,87 +305,89 @@ export class TaskbarCgComponent implements OnInit {
   }
 
 
-  
-  
+
+
   saveNewTC() {
     const status = '0';
     const ghi_chu = 'Chưa thêm vào CSDL';
-    
-    
+
+
     const ma_benh = this.selectedBenh.ma_benh;
     const ten_benh = this.selectedBenh.ten_benh;
     const trang_thai = 0;
-    
+
     this.dataService.addSuggestTC(this.id_user, ma_benh, ten_benh, this.newBenh.value.trieu_chung, trang_thai)
-  .subscribe(
-    (response: any) => {
-      console.log("Danh sach: "+response.duplicatedSymptoms);
-      console.log("response.message: "+response.message);
-      console.log("Response:"+response);
-      if (response && response.message === 'Success') {
-        this.dialog.open(ConfirmComponent, {
-          width: '550px',
-          data: {
-            title: 'Thông báo: Thành Công',
-            message: 'Bệnh đã được gợi ý thêm vào CS Tri thức',
-            okButton: true
+      .subscribe(
+        (response: any) => {
+          console.log("Danh sach: " + response.duplicatedSymptoms);
+          console.log("response.message: " + response.message);
+          console.log("Response:" + response);
+          if (response && response.message === 'Success') {
+            this.dialog.open(ConfirmComponent, {
+              width: '550px',
+              data: {
+                title: 'Thông báo: Thành Công',
+                message: 'Bệnh đã được gợi ý thêm vào CS Tri thức',
+                okButton: true
+              }
+            });
+            this.isAddingNewBenh = false;
+            this.isAddNewTC = false;
+            this.ngOnInit();
+          } else if (response && response.message === 'Error: Trung trieu chung') {
+            if (response.duplicatedSymptoms && response.duplicatedSymptoms.length > 0) {
+              this.dialog.open(ConfirmComponent, {
+                width: '550px',
+                data: {
+                  title: 'Thông báo: Lỗi',
+                  message: 'Triệu Chứng Thêm Đã Bị Trùng. Các triệu chứng: ' + response.duplicatedSymptoms.join(', '),
+                  okButton: true
+                }
+              });
+            } else {
+              this.dialog.open(ConfirmComponent, {
+                width: '550px',
+                data: {
+                  title: 'Thông báo: Lỗi',
+                  message: 'Vui lòng nhập đầy đủ thông tin.',
+                  okButton: true
+                }
+              });
+            }
+          } else if (response && response.message === 'Thieu tham so ten_benh, loai_he hoac trieu_chung') {
+            this.dialog.open(ConfirmComponent, {
+              width: '550px',
+              data: {
+                title: 'Thông báo: Lỗi',
+                message: 'Thiếu thông tin tên bệnh hoặc triệu chứng.',
+                okButton: true
+              }
+            });
+          } else {
+            this.dialog.open(ConfirmComponent, {
+              width: '550px',
+              data: {
+                title: 'Thông báo: Lỗi',
+                message: 'Đã xảy ra lỗi không xác định.',
+                okButton: true
+              }
+            });
           }
-        });
-        this.isAddingNewBenh = false;
-        this.isAddNewTC=false;
-      } else if (response && response.message === 'Error: Trung trieu chung') {
-        if (response.duplicatedSymptoms && response.duplicatedSymptoms.length > 0) {
-          this.dialog.open(ConfirmComponent, {
-            width: '550px',
-            data: {
-              title: 'Thông báo: Lỗi',
-              message: 'Triệu Chứng Thêm Đã Bị Trùng. Các triệu chứng: ' + response.duplicatedSymptoms.join(', '),
-              okButton: true
-            }
-          });
-        } else {
-          this.dialog.open(ConfirmComponent, {
-            width: '550px',
-            data: {
-              title: 'Thông báo: Lỗi',
-              message: 'Vui lòng nhập đầy đủ thông tin.',
-              okButton: true
-            }
-          });
+        },
+        (error: HttpErrorResponse) => {
+          if (error.status === 400) {
+            this.errorMessage = 'Đã xảy ra lỗi. Vui lòng thử lại sau.';
+          } else {
+            this.errorMessage = 'Đã xảy ra lỗi. Vui lòng thử lại sau.';
+          }
         }
-      } else if (response && response.message === 'Thieu tham so ten_benh, loai_he hoac trieu_chung') {
-        this.dialog.open(ConfirmComponent, {
-          width: '550px',
-          data: {
-            title: 'Thông báo: Lỗi',
-            message: 'Thiếu thông tin tên bệnh hoặc triệu chứng.',
-            okButton: true
-          }
-        });
-      } else {
-        this.dialog.open(ConfirmComponent, {
-          width: '550px',
-          data: {
-            title: 'Thông báo: Lỗi',
-            message: 'Đã xảy ra lỗi không xác định.',
-            okButton: true
-          }
-        });
-      }
-    },
-    (error: HttpErrorResponse) => {
-      if (error.status === 400) {
-        this.errorMessage = 'Đã xảy ra lỗi. Vui lòng thử lại sau.';
-      } else {
-        this.errorMessage = 'Đã xảy ra lỗi. Vui lòng thử lại sau.';
-      }
-    }
-  );
+      );
 
-
+    // Sau khi lưu xong, reset form để làm rỗng các trường
+    this.newBenh.reset();
   }
   // updateSelectedBenhName(newValue: string) {
   //   this.selectedBenh.ten_benh = newValue;
   // }
-  
+
 }

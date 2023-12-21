@@ -430,6 +430,10 @@ export class TaskbarQtvComponent implements OnInit {
   savedone() {
     this.pheduyetBenh();
     this.selectBenh(this.benhs);
+    this.ngOnInit();
+    // this.pheDuyetBenh=true;
+    // this.listUser=false;
+    // this.pheDuyetUser=false;
   }
   // hàm này để hiển thị bảng danh sách người dùng những user có role = 1 và có status =1
   onRoleChange() {

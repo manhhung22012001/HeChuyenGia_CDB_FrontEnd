@@ -101,8 +101,8 @@
   <div *ngIf="isAddingNewBenh" class="a1">
     <form id="form_input" [formGroup]="newBenh" (ngSubmit)="saveNewBenh()">
       <label class="label" for="tenBenh">Tên Bệnh:</label>
-      <input class="input" id="tenBenh" formControlName="ten_benh" [formControl]="tenBenhControl" required name="tenBenh"
-        [matAutocomplete]="autoTenBenh" (keyup)="onTenBenhInput($event)" />
+      <input class="input" id="tenBenh" formControlName="ten_benh" [formControl]="tenBenhControl" required
+        name="tenBenh" [matAutocomplete]="autoTenBenh" (keyup)="onTenBenhInput($event)" />
 
       <mat-autocomplete #autoTenBenh="matAutocomplete">
         <mat-option *ngFor="let suggestion of suggestedTenBenh" [value]="suggestion">
@@ -151,19 +151,17 @@
 
   <div *ngIf="isAddNewTC" class="a2">
     <form id="form_input" [formGroup]="newBenh" (ngSubmit)="saveNewTC()">
+      
+      <!-- <span>{{ selectedBenh?.ten_benh }}</span><br /> -->
+      <span>Vui lòng chọn tên bệnh trong danh sách ở trên để thêm triệu trứng mới.</span>
+      <br>
       <label>Tên Bệnh:</label>
-      <span>{{ selectedBenh?.ten_benh }}</span><br />
-
+      <br>
       <!-- Form input với giá trị mặc định là tên bệnh đã chọn -->
+      <!-- Chỉ hiển thị giá trị không cho nhập -->
       <input class="input" id="tenBenh" [formControl]="tenBenhControl" required name="tenBenh"
-        [matAutocomplete]="autoTenBenh" [ngModel]="selectedBenh?.ten_benh"
-        />
+        [matAutocomplete]="autoTenBenh" [ngModel]="selectedBenh?.ten_benh" readonly />
 
-      <mat-autocomplete #autoTenBenh="matAutocomplete">
-        <mat-option *ngFor="let suggestion of suggestedTenBenh" [value]="suggestion">
-          {{ suggestion }}
-        </mat-option>
-      </mat-autocomplete>
 
 
 
