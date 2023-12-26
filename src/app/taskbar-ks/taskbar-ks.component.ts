@@ -122,6 +122,7 @@ export class TaskbarKsComponent implements OnInit {
   }
   // thêm luật
   themLuatMoi() {
+    this.ngOnInit();
     this.themBenh = false;
     this.themLuat = true;
     this.showBenhAndTC = false;
@@ -170,9 +171,11 @@ export class TaskbarKsComponent implements OnInit {
   }
 
   themBenhMoi() {
+    this.ngOnInit();
     this.themBenh = true;
     this.themLuat = false;
     this.addNewTC = false;
+    this.selectedBenh1=false;
     this.showBenhAndTC = false;
     this.showTrieuChung = true;
     this.dataService.getnewbenh().subscribe(
@@ -464,9 +467,11 @@ export class TaskbarKsComponent implements OnInit {
   }
   // phần thêm triệu chứng mới cho bệnh cũ
   addNewTCIntoBenh() {
+    this.ngOnInit();
     this.addNewTC = true;
     this.themBenh = false;
     this.themLuat = false;
+    this.selectedBenh1=false;
     this.showBenhAndTC = false;
     this.getBenhOfTrieuChungMoi();
   }
@@ -620,6 +625,7 @@ export class TaskbarKsComponent implements OnInit {
   }
   // chức năng xem bệnh trong cs tri thức
   watchBenhInCSTT() {
+    this.ngOnInit();
     this.showBenhAndTC = true;
     this.addNewTC = false;
     this.themBenh = false;

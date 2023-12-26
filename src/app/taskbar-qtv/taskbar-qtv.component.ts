@@ -49,7 +49,7 @@ export class TaskbarQtvComponent implements OnInit {
   hoveredBenh: any;
   trieuchung: any[] = [];
   statusZeroCount: number = 0; // Khởi tạo biến để lưu số hàng có trạng thái 0
-
+  showTCFromPheduyetBenh: boolean=false;
   constructor(private formBuilder: FormBuilder, private router: Router, private authService: AuthService, private dataService: DataService, private dialog: MatDialog) {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -375,6 +375,7 @@ export class TaskbarQtvComponent implements OnInit {
   }
   selectBenh(benh: any) {
     this.selectedBenh = benh; // Lưu trữ thông tin bệnh được chọn
+    this.showTCFromPheduyetBenh=true;
     console.log(benh)
     // Chuyển đổi giá trị ma_benh thành số nguyên
     const maBenh = parseInt(benh.ma_benh_moi, 10);
@@ -428,9 +429,12 @@ export class TaskbarQtvComponent implements OnInit {
   }
 
   savedone() {
-    this.pheduyetBenh();
-    this.selectBenh(this.benhs);
+    // this.pheduyetBenh();
+    // this.selectBenh(this.benhs);
     this.ngOnInit();
+    this.pheDuyetBenh=true;
+    this.showTCFromPheduyetBenh=false;
+    this.listUser=false;
     // this.pheDuyetBenh=true;
     // this.listUser=false;
     // this.pheDuyetUser=false;

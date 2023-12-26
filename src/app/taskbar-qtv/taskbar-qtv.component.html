@@ -169,8 +169,9 @@
         </div>
       </div>
 
-      <div class="tables-container">
+      <div *ngIf="showTCFromPheduyetBenh" class="tables-container">
         <h2>Bảng triệu chứng mới</h2>
+        <h2>(Lưu ý) Chọn tất cả các nút Lưu trước khi nhấn Hoàn Tất</h2>
         <div class="table-container">
           <table class="tb">
             <thead>
@@ -241,7 +242,7 @@
             <th>Email</th>
             <!-- <th>Trạng thái</th> -->
             
-            <th>Thông tin chi tiết</th>
+            <th>Thông tin bổ xung</th>
             <th>Thao Tác</th>
           </tr>
         </thead>
@@ -259,7 +260,7 @@
                 </select>
               </td> -->
               <td (click)="CheckIn4(user.value.id_user)">
-                <a class="detail-link1">Xem thông tin chi tiết</a>
+                <a class="detail-link1">Xem thông bổ xung</a>
               </td>
               <td>
                 <button (click)="deleteUser(user)">Xóa</button>

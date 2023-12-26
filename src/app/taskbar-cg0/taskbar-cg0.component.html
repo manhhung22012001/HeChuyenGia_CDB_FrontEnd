@@ -24,7 +24,7 @@
   <form enctype="multipart/form-data">
 
     <div class="user-info">
-      <div><strong>Cập Nhật Thông Tin Để Thêm Bệnh</strong></div>
+      <div><strong>Cập Nhật Thông Tin Bổ Xung Để Thêm Bệnh</strong></div>
       <button *ngIf="isUpdateButtonVisible" (click)="updateUserInfo1()">Cập Nhật Ngay</button>
       <div class="message-text">{{errorMessage}}</div>
       <div *ngIf="userInformation">
@@ -87,7 +87,7 @@
 
 
         <br>
-        <button type="submit" (click)="saveForm()" id="saveButton"> Lưu Thông Tin Cập nhật</button>
+        <button type="submit" (click)="saveForm()" id="saveButton"> Lưu Thông Tin Bổ Xung</button>
         <div class="message-text">{{errorMessage}}</div>
       </div>
     </div>

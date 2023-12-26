@@ -6,8 +6,7 @@
       <div class="checkbox-group">
         <label *ngFor="let trieuChung of trieuChungList">
           <!-- <input type="checkbox" [(ngModel)]="trieuChung.isSelected" [disabled]="disableBasicSymptoms" -->
-          <input type="checkbox" [(ngModel)]="trieuChung.isSelected" 
-            (change)="toggleSymptomsSelection(true)">
+          <input type="checkbox" [(ngModel)]="trieuChung.isSelected" (change)="toggleSymptomsSelection(true)">
           {{ trieuChung[1] }}
         </label>
       </div>
@@ -21,12 +20,11 @@
       <div class="checkbox-group">
         <label *ngFor="let trieuChung of trieuChungOnly">
           <!-- <input type="checkbox" [(ngModel)]="trieuChung.isSelected" [disabled]="disableSymptoms" -->
-          <input type="checkbox" [(ngModel)]="trieuChung.isSelected"
-            (change)="toggleSymptomsSelection(false)">
+          <input type="checkbox" [(ngModel)]="trieuChung.isSelected" (change)="toggleSymptomsSelection(false)">
           {{ trieuChung[1] }}
         </label>
       </div>
-     
+
     </div>
     <button (click)="X()" *ngIf="!showStep3 && !showStep2 ">Tiếp Theo</button>
   </div>
@@ -39,7 +37,7 @@
     </div>
     <button (click)="Y()" *ngIf="!showStep3">Chẩn Đoán Bệnh</button>
   </div>
-  
+
 </div>
 <div class="container" *ngIf="showStep3">
   <h2>Kết Quả Chuẩn Đoán</h2>

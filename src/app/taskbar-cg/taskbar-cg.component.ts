@@ -256,10 +256,15 @@ export class TaskbarCgComponent implements OnInit {
   saveNewBenh() {
     const status = '0';
     const ghi_chu = 'Chưa thêm vào CSDL';
-
+    if (!this.tenBenhControl.value || !this.newBenh.value.loai_he || !this.newBenh.value.trieu_chung) {
+      // Kiểm tra nếu có trường nào đó bị rỗng hoặc null, thông báo lỗi hoặc xử lý phù hợp
+      this.errorMessage = 'Vui lòng điền đầy đủ thông tin.';
+      return;
+    }
     this.dataService.addNewBenh(this.id_user, this.tenBenhControl.value, this.newBenh.value.loai_he, this.newBenh.value.trieu_chung, status, ghi_chu)
       .subscribe(
         (response: any) => {
+          console.log(response);
           if (response && response.message === 'Success') {
             this.dialog.open(ConfirmComponent, {
               width: '550px',
@@ -273,8 +278,19 @@ export class TaskbarCgComponent implements OnInit {
             this.isAddingNewBenh = false;
             this.isAddNewTC = false;
             // this.ngOnInit();
+            // Sau khi lưu xong, reset form để làm rỗng các trường
+            this.newBenh.reset();
 
-          } else {
+          } else if (response && response.message === 'Ten benh, loai he hoac trieu chung rong') {
+
+            // Hiển thị thông báo lỗi
+            this.errorMessage = response.message;
+          } else if (response && response.message === 'Ten benh da ton tai') {
+            this.errorMessage = "Tên bệnh đã tồn tại, vui lòng thêm bệnh mới";
+
+          }
+
+          else if (response && response.message === 'Error') {
 
 
             // Hiển thị thông báo lỗi
@@ -282,7 +298,7 @@ export class TaskbarCgComponent implements OnInit {
               width: '550px',
               data: {
                 title: 'Thông báo: Lỗi',
-                message: 'Vui lòng nhập đầy đủ thông tin.',
+                message: 'Đã xảy ra lỗi. Vui lòng thử lại sau.',
                 okButton: true
               }
             });
@@ -296,8 +312,7 @@ export class TaskbarCgComponent implements OnInit {
           }
         }
       );
-    // Sau khi lưu xong, reset form để làm rỗng các trường
-    this.newBenh.reset();
+
   }
   addNewTC() {
     this.isAddNewTC = true;
