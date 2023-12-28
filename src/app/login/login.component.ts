@@ -146,20 +146,37 @@ encryptText(text: string, key: string): string {
       const hashedPassword = this.hashPassword(password);
       //console.log("mk: " + hashedPassword)
 
-      this.authService.register(fullname, email, phonenumber, username, hashedPassword, role).subscribe(response => {
-        var code = response.status;
-        if (code === 201) {
-          this.message = "Đăng ký thành công";
-        }
-      },
+      this.authService.register(fullname, email, phonenumber, username, hashedPassword, role).subscribe(
+        (response: any) => {
+          //this.message = response.message; // Lấy thông điệp từ phản hồi
+          console.log(response.body.message)
+          if (response.body.message === "Đăng ký thành công.") {
+            this.message=response.body.message;
+            this.ngOnInit();
+            
+          }
+          else if(response.body.message === "Số điện thoại đăng ký đã tồn tại."){
+            this.message=response.body.message;
+          }
+          else if(response.body.message === "Email đã tồn tại."){
+            
+            this.message=response.body.message;
+          }
+          else if(response.body.message === "Email và số điện thoại đã tồn tại."){
+            
+            this.message=response.body.message;
+          }
+        },
         (error: HttpErrorResponse) => {
           if (error.status === 400) {
-            this.message = "Email hoặc Số điện thoại đăng ký đã tồn tại.";
-          } else {
+            
             this.message = "Đã xảy ra lỗi. Vui lòng thử lại sau.";
           }
         }
       );
+      
+      
+      
     } else {
       this.message = "Vui lòng nhập đầy đủ thông tin.";
     }
